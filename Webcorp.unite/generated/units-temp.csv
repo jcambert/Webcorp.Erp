@@ -1,0 +1,28 @@
+﻿// This list of quantity types and units is converted to c# code by the CodeGenerator T4 template
+
+// http://en.wikipedia.org/wiki/Units_of_measurement
+// http://en.wikipedia.org/wiki/Conversion_of_units
+// http://en.wikipedia.org/wiki/Quantity
+// http://en.wikipedia.org/wiki/Physical_quantities
+// http://en.wikipedia.org/wiki/Phenomenon
+// http://en.wikipedia.org/wiki/Unit_prefix
+
+// Length
+Length,Metre,m,1
+Length,Decimetre,dm,1e-1
+Length,Centimetre,cm,1e-2
+Length,Millimetre,mm,1e-3
+Length,Kilometre,km,1e3
+Length,Yard,yd,0.9144
+Length,Foot,ft,0.3048
+Length,Inch,in,0.0254
+Length,HundredthInch,,2.54e-4
+Length,Mile,mi,1609.344
+Length,NauticalMile,nmi,1852
+Length,Ångström,Å,1e-10
+Length,AstronomicalUnit,AU,149597871464
+Length,LightYear,ly,9.4607304725808e15
+
+// Currency (special case)
+Currency,Euro,euro,1
+Currency,FrancSuisse,chf,1

@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A221492-33FB-4EC2-92BF-6AB0D2CE9AB9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Webcorp.unite</RootNamespace>
+    <AssemblyName>Webcorp.unite</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson, Version=2.1.0.140, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.1.0-rc1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="generated\Acceleration.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Action.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\AmountOfSubstance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Angle.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\AngularFrequency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Area.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\AreaCurrency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Capacitance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Currency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Curvature.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Density.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\DynamicViscosity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricCharge.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricConductance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricConductivity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricCurrent.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricDipole.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricResistance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\ElectricVoltage.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Energy.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\FirstMomentOfArea.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Flow.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Force.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Fraction.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Frequency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\FuelConsumption.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\FuelEconomy.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\HeatCapacity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Illuminance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Inductance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\InformationEntropy.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\KinematicViscosity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Length.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\LinearMomentum.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Luminance.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\LuminousFlux.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\LuminousIntensity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MagneticFlux.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MagneticFluxDensity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Mass.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MassConcentration.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MassConcentrationInWater.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MassCurrency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MassMomentOfInertia.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Power.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\PrecipitationIntensity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Pressure.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Radiation.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\RadiationAbsorbedDose.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\RadiationEquivalentDose.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\RadiationExposure.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\RotationalStiffness.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\SecondMomentOfArea.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\SectionModulus.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\SolidAngle.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Stiffness.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TauxHorraire.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TemperatureChange.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TemperatureDifference.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Time.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TimeSquared.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Torque.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TypographicLength.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TypographicResolution.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Velocity.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\VelocitySquared.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Volume.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\VolumetricWaterContent.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\_CodeGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\_MultiOutput.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_MultiOutput.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\_QuantityTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_QuantityTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers.cs" />
+    <Compile Include="IUnit.cs" />
+    <Compile Include="IUnitProvider.cs" />
+    <Compile Include="operators\Acceleration.cs" />
+    <Compile Include="operators\Angle.cs" />
+    <Compile Include="operators\Area.cs" />
+    <Compile Include="operators\Capacitance.cs" />
+    <Compile Include="operators\Currency.cs" />
+    <Compile Include="operators\Density.cs" />
+    <Compile Include="operators\ElectricCharge.cs" />
+    <Compile Include="operators\ElectricConductance.cs" />
+    <Compile Include="operators\ElectricCurrent.cs" />
+    <Compile Include="operators\ElectricResistance.cs" />
+    <Compile Include="operators\ElectricVoltage.cs" />
+    <Compile Include="operators\Energy.cs" />
+    <Compile Include="operators\Force.cs" />
+    <Compile Include="operators\Fraction.cs" />
+    <Compile Include="operators\Length.cs" />
+    <Compile Include="operators\LinearMomentum.cs" />
+    <Compile Include="operators\Mass.cs" />
+    <Compile Include="operators\MassConcentration.cs" />
+    <Compile Include="operators\MassConcentrationInWater.cs" />
+    <Compile Include="operators\MassCurrency.cs" />
+    <Compile Include="operators\MassMomentOfInertia.cs" />
+    <Compile Include="operators\Power.cs" />
+    <Compile Include="operators\Pressure.cs" />
+    <Compile Include="operators\TauxHorraire.cs" />
+    <Compile Include="operators\Temperature.cs" />
+    <Compile Include="operators\Time.cs" />
+    <Compile Include="operators\Torque.cs" />
+    <Compile Include="operators\TypographicLength.cs" />
+    <Compile Include="operators\TypographicResolution.cs" />
+    <Compile Include="operators\Velocity.cs" />
+    <Compile Include="operators\Volume.cs" />
+    <Compile Include="operators\VolumetricWaterContent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitAttribute.cs" />
+    <Compile Include="unites\Temperature.cs" />
+    <Compile Include="UnitProvider.cs" />
+    <Compile Include="UnitProviderExtensions.cs" />
+    <Compile Include="UnitTypeConverter.cs" />
+    <Compile Include="Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="generated\units-temp.csv" />
+    <None Include="generated\units.csv" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="generated\_CodeGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_CodeGenerator.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\_MultiOutput.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_MultiOutput.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\_QuantityTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_QuantityTemplate.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

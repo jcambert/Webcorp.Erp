@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2CC26D73-283E-4849-8CF9-2727DC88223C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Webcorp.Model</RootNamespace>
+    <AssemblyName>Webcorp.model</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson, Version=2.1.0.140, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.1.0-rc1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.1.0.140, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.1.0-rc1\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.1.0.140, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.1.0-rc1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Article\Article.cs" />
+    <Compile Include="generated\Delai.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Delai.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\Difficulte.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Difficulte.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MaterialPriceInitializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPriceInitializer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\VitesseDecoupeLaserInitializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VitesseDecoupeLaserInitializer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\PosteChargeInitializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PosteChargeInitializer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\TraitementSurface.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraitementSurface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Quotation\CalculPrestation.cs" />
+    <Compile Include="Quotation\CalculTranche.cs" />
+    <Compile Include="Quotation\Format.cs" />
+    <Compile Include="Quotation\Fournisseur.cs" />
+    <Compile Include="Quotation\ICalculPrestation.cs" />
+    <Compile Include="Quotation\ICalculTranche.cs" />
+    <Compile Include="Quotation\IOperation.cs" />
+    <Compile Include="Quotation\Prestataire.cs" />
+    <Compile Include="Quotation\VitesseDecoupeLaser.cs" />
+    <Compile Include="Quotation\Configuration.cs" />
+    <Compile Include="Quotation\EntityQuotation.cs" />
+    <Compile Include="Quotation\VitesseDecoupeLaserProvider.cs" />
+    <Compile Include="Quotation\MaterialPrice.cs" />
+    <Compile Include="Quotation\Operation.cs" />
+    <Compile Include="Quotation\OperationLaser.cs" />
+    <Compile Include="Quotation\PosteCharge.cs" />
+    <Compile Include="Quotation\TarifPrestation.cs" />
+    <Compile Include="Quotation\Quotation.cs" />
+    <Compile Include="generated\MaterialInitializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialInitializer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quotation\Tarif.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
+      <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
+      <Name>Webcorp.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
+      <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
+      <Name>Webcorp.lib.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
+      <Project>{3a221492-33fb-4ec2-92bf-6ab0d2ce9ab9}</Project>
+      <Name>Webcorp.unite</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="generated\delai.csv" />
+    <None Include="generated\MaterialPrice.csv" />
+    <None Include="generated\VitesseDecoupeLaser.csv" />
+    <None Include="generated\Material.csv" />
+    <None Include="generated\PosteCharge.csv" />
+    <None Include="generated\Traitements.csv" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="generated\Delai.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Delai.cs</LastGenOutput>
+    </Content>
+    <None Include="generated\Difficulte.csv" />
+    <Content Include="generated\Difficulte.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Difficulte.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\MaterialPriceInitializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaterialPriceInitializer.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\VitesseDecoupeLaserInitializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VitesseDecoupeLaserInitializer.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\MaterialInitializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaterialInitializer.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\PosteChargeInitializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PosteChargeInitializer.cs</LastGenOutput>
+    </Content>
+    <Content Include="generated\TraitementSurface.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TraitementSurface.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

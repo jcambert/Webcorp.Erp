@@ -1,0 +1,90 @@
+﻿using Prism.Ninject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Ninject;
+using Webcorp.Dal;
+using System.Windows;
+using Prism.Modularity;
+using Prism.Regions;
+
+using Prism.Events;
+using System.Windows.Controls.Ribbon;
+using Webcorp.erp.Utilities;
+using Microsoft.Practices.ServiceLocation;
+#if DEBUG
+using Webcorp.erp.quotation;
+#endif
+namespace Webcorp.erp
+{
+    public class ErpApplicationBootstrapper : NinjectBootstrapper
+    {
+        public IModuleManager ModuleManager { get; private set; }
+
+        protected override DependencyObject CreateShell() => Kernel.Get<MainWindow>();
+        protected override void InitializeModules()
+        {
+            base.InitializeModules();
+            
+           
+           
+
+        }
+
+        protected override void InitializeShell()
+        {
+            base.InitializeShell();
+            Application.Current.MainWindow = (Window)this.Shell;
+            Application.Current.MainWindow.Show();
+        }
+
+        protected override IModuleCatalog CreateModuleCatalog() => new AggregateModuleCatalog();// new DirectoryModuleCatalog() {ModulePath= @".\modules" };
+       
+        
+        protected override void ConfigureModuleCatalog()
+        {
+            base.ConfigureModuleCatalog();
+
+            
+
+
+           //Configuration Modules Declaration
+            ConfigurationModuleCatalog configurationCatalog = new ConfigurationModuleCatalog();
+            ((AggregateModuleCatalog)ModuleCatalog).AddCatalog(configurationCatalog);
+
+            var erpmodtype = typeof(ErpApplicationModule);
+            ModuleCatalog.AddModule(new ModuleInfo(erpmodtype.Name,erpmodtype.AssemblyQualifiedName) );
+#if DEBUG
+
+            Type quotmodType = typeof(QuotationModule);
+            ModuleCatalog.AddModule(new ModuleInfo(quotmodType.Name, quotmodType.AssemblyQualifiedName));
+#else
+            //Directory Modules dll 
+            DirectoryModuleCatalog directoryCatalog = new DirectoryModuleCatalog() { ModulePath = @".\modules" };
+            ((AggregateModuleCatalog)ModuleCatalog).AddCatalog(directoryCatalog);
+#endif
+            //this.ModuleManager= ServiceLocator.Current.GetInstance<IModuleManager>();
+        }
+
+        protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
+        {
+            var mappings = base.ConfigureRegionAdapterMappings();
+            if (mappings == null) return null;
+
+            // Add custom mappings
+            mappings.RegisterMapping(typeof(Ribbon), ServiceLocator.Current.GetInstance<RibbonRegionAdapter>());
+
+            return mappings;
+        }
+
+        protected override void ConfigureKernel()
+        {
+            base.ConfigureKernel();
+            Kernel.Load("*.dll");
+        }
+
+
+    }
+}

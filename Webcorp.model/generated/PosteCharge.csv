@@ -1,0 +1,61 @@
+﻿//Operations
+//Designation,Taux Horraire Prep, Taux Horraire Op,Tps Prep,Aide,Tps Base,Type Decoupe
+Decoupe,215,Laser bystronic,70,110,0.3,Calcul,0.0,Laser
+Decoupe,205,T500R-2,80,95,0.5,Calcul,0.0,Poinconnage
+Decoupe,100,Cisaillage,70,70,0.3,Coupe/piece,0.00300
+Decoupe,101,Cisaillage 2OPS,70,125,0.4,Coupe/piece,	0.00500
+Pliage,300,Pliage<200,70,75,0.3,Nbr de Plis,0.00400
+Pliage,301,Pliage>200,70,80,0.4,Nbr de Plis,0.00600
+Pliage,302,Pliage_2OPS,90,125,0.5,Nbr de Plis,0.0080
+
+*EXIT*
+------------------	0	0	0	0	0	0,00000
+Débit	70	70	0,3	L mm Hmax 50		0,00050
+Cintrage	70	70	0,5	Pour 1 Rayon		0,017
+Cintrage-rouleuse	70	70	0,5	Pour 1 passage		0,020
+Gueule loup	70	70	0,2	Pour 1 gueule 		0,00300
+Planeuse	70	70	0,3	Pour 1 passage		0,00300
+------------------	70	0	0	0	0	0,00000
+KST	70	70	0,3	1 coup d'outil		0,00500
+KST L>1500	70	70	0,3	1 coup d'outil		0,00800
+Grugoire 	70	70	0,3	1 coup d'outil		0,00400
+Grugoire L>1500	70	70	0,3	1 coup d'outil		0,01000
+------------------	70	70	0	0	0	0,00000
+Ebavurage	70	70	0,2	L mm		0,00002
+Ebavurage L>1500	70	70	0,2	L mm		0,00004
+------------------	70	70	0	0	0	0,00000
+Sertiss_PEM	70	70	0,3	Nbr d'insert		0,00300
+Sertissage PEM>1000	70	70	0,3	Nbr d'insert		0,00500
+Sertissage PEM_2OPS	70	70	0,3	Nbr d'insert		0,00900
+Sertissage pneu.	70	70	0,3	Nbr d'insert		0,00500
+------------------	70	70	0	0	0	0,00000
+Percage	70	70	0,2	Nbre de trous		0,00300
+Alesage	70	70	0,2	Nbre de trous	0	0,00800
+Filletage	70	70	0,2	L en mm filletee		0,00170
+Taraudage	70	70	0,2	Nbr de taraudage		0,00150
+Fraisurage	70	70	0,2	Nbr de fraisurage		0,00800
+Soudure KSM	70	70	0,3	Nbr d'insert		0,00500
+Soudure KSM_2ops	70	70	0,3	Nbr d'insert		0,00700
+------------------	70	70	0	0	0	0,00000
+Roulage Mannuel 	70	70	0,3	diam mini 34		0,01500
+Roulage Electrique	70	70	0,3	diam mini 79		0,02000
+------------------	70	70	0	0	0	0,00000
+Soudure Point	70	70	0,3	Nbr de point		0,00300
+Soudure MIG	70	80	0,3	L soud en mm		0,00030
+Soudure MIG>2000	100	80	0,3	L soud en mm		0,00040
+Soudure TIG	70	90	0,3	L soud en mm		0,00050
+Soudure Alu	70	90	0,3	L soud en mm		0,00055
+Ragréage	70	70	0,15	L ragréée mm		0,00025
+------------------	70	70	0	0	0	0,00000
+Montage	70	70	0,3	tps minute		0,01700
+Trowal	70	70	0,2	tps piece 		0,00400
+Microbillage_verni	70	70	0,15	m2		0,55000
+divers	70	70	0,2	tps minute		0,01700
+Sablage	70	70	0,2	m2		0,30000
+Etamage	70	70	0,2	tps minute		0,01700
+------------------	70	70	0	0	0	0,00000
+Peinture Ht° klute	60	11	0,2	Metre carre		0,34
+Pei Noir Ht° 450	60	11	0,2	Metre carre		0,82
+Pei Gris Ht° 650	60	11	0,2	Metre carre		1,8
+Peinture Liquide	60	11	0,2	Metre carre		1,64
+

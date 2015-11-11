@@ -1,0 +1,23 @@
+﻿<RibbonTab x:Class="Webcorp.erp.quotation.Views.QuotationMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Webcorp.erp.quotation.Views"
+            xmlns:properties="clr-namespace:Webcorp.erp.quotation.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+            Header="Chiffrage">
+    <RibbonGroup Header="Chiffrage" x:Name="QuotationTab"  >
+        <RibbonButton Command="{Binding AddCommand}" LargeImageSource="..\Assets\Images\new-file.png" ToolTip="Ajouter un Chiffrage" Label="Nouveau" />
+        <RibbonButton Command="{Binding SaveCommand}" LargeImageSource="..\Assets\Images\printer.png" ToolTip="Imprimer (CTRL+P)" />
+        <RibbonButton  SmallImageSource="..\Assets\Images\delete.png" ToolTip="Supprimer (SUPPR)" />
+        <!--<RibbonButton Label="Button A4" />-->
+    </RibbonGroup>
+    <RibbonGroup Header="Presse-papiers" x:Name="ClipboardTab"  >
+        <RibbonButton  LargeImageSource="..\Assets\Images\paste.png" Label="Coller" />
+        <RibbonButton  SmallImageSource="..\Assets\Images\cut.png" ToolTip="Couper (CTRL+X)" />
+        <RibbonButton SmallImageSource="..\Assets\Images\copy.png" ToolTip="Coller (CTRL+C)" />
+        <!--<RibbonButton Label="Button A4" />-->
+    </RibbonGroup>
+</RibbonTab>

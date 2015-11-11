@@ -1,0 +1,37 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+using System.ComponentModel;
+namespace Webcorp.Model.Quotation{
+	public enum Delai{
+		
+			 
+<# 
+	
+	var lines1=File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Host.TemplateFile),"delai.csv"));
+
+	var generated = new Dictionary<string,int>();
+	foreach (var line in lines1) {
+  		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
+		      continue;
+		  }
+		    
+		  var values=line.Split(',');
+		  var name = values[0];
+		  if (generated.ContainsKey(name)) {
+			  continue;
+		  }
+		  var description=values[1];
+		  
+		  #>		[Description("<#= description #>")]
+		<#= name #>,
+<#
+          
+		  generated.Add(name,0);
+	}
+#>
+		
+	}
+}

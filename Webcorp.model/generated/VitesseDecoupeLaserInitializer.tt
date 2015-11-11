@@ -1,0 +1,47 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+using System.ComponentModel;
+using Webcorp.unite;
+namespace Webcorp.Model.Quotation{
+	public class VitesseDecoupeLaserInitializer : IEntityProviderInitializable<VitesseDecoupeLaser, string>{
+		public void InitializeProvider(EntityProvider<VitesseDecoupeLaser, string> entityProvider)
+        {
+            
+        
+					 
+<# 
+	
+	var lines1=File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Host.TemplateFile),"VitesseDecoupeLaser.csv"));
+	
+
+	
+
+	var generated = new Dictionary<string,int>();
+	foreach (var line in lines1) {
+  		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
+		      continue;
+		  }
+		  if(line=="*EXIT*")break;
+		    
+		  
+		  var name = line;
+		  if (generated.ContainsKey(name)) { 
+			  continue; 
+		  }
+		  var values=line.Split(',');
+		   
+		  #>			entityProvider.Register(new VitesseDecoupeLaser(){Code=<#=values[0]#>,GroupeMatiere=MaterialGroup.<#=values[1]#>,Epaisseur=<#=values[2]#>,Gaz=GazDecoupe.<#=values[3]#>,GrandeVitesse=<#=values[4]#>*Velocity.MillimetrePerMinute,PetiteVitesse=<#=values[5]#>*Velocity.MillimetrePerMinute});		
+<#
+          
+		  generated.Add(name,0);
+	}
+#>
+		}
+		
+	}
+}

@@ -1,0 +1,4 @@
+﻿//Parametres Laser
+//Poste Charge,Matiere CMC,epaisseur,Gaz(0=>O2,1=>Na),Vitesse Ext,Vitesse int
+215,P,1,Oxygene,8650,7100
+215,P,1.5,Oxygene,7400,6100

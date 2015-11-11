@@ -1,0 +1,31 @@
+﻿<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ include file="_MultiOutput.tt" #>
+<#@ include file="_QuantityTemplate.tt" #>
+ 
+<# 
+	var lines1=File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Host.TemplateFile),"units.csv"));
+	
+	var generated = new Dictionary<string,int>(); 
+	foreach (var line in lines1) {
+  		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
+		      continue;
+		  } 
+
+		  var values=line.Split(',');
+		  var name = values[0];
+		  if (generated.ContainsKey(name)) {
+			  continue;
+		  } 
+		  Console.WriteLine(values.Length);
+		  if(values.Length!=4){
+			Console.WriteLine(line + " do not have 4 elements separated by ','");
+			continue;
+		  }
+
+          ProcessTemplate("_QuantityTemplate.tt", name+".cs", name);  
+		  generated.Add(name,0);
+	} 
+	DeleteOldOutputs();
+#>
