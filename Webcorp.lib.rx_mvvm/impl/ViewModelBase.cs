@@ -41,12 +41,25 @@ namespace Webcorp.rx_mvvm
         private IPropertySubject<bool> _canDelete;
         private IPropertySubject<bool> _canClose;
 
+        IObservable<bool> __canSave;
+
+        private readonly Guid _serial = Guid.NewGuid();
 
         #region ctor
         public ViewModelBase()
         {
             _myName = GetType().Name;
+#if DEBUG
+            PropertyChanged += ViewModelBase_PropertyChanged;
+#endif
         }
+#if DEBUG
+        private void ViewModelBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug(e.PropertyName + "has changed");
+        }
+#endif
+
         public ViewModelBase(T entity) : this()
         {
             Model = entity;
@@ -84,6 +97,8 @@ namespace Webcorp.rx_mvvm
 
         #region ICloseable
         public IObservable<bool> Close => _closeSubject.AsObservable();
+
+
         #endregion
 
         #region IStandardCommand
@@ -99,32 +114,32 @@ namespace Webcorp.rx_mvvm
 
         public virtual bool CanSave
         {
-            get;
-            set;
+            get { return _canSave?.Value ?? false; }
+            set { _canSave.Value = value; }
         }
 
         public bool CanAdd
         {
-            get;
-            set;
+            get { return _canAdd?.Value ?? false; }
+            set { _canAdd.Value = value; }
         }
 
         public bool CanEdit
         {
-            get;
-            set;
+            get { return _canEdit?.Value ?? false; }
+            set { _canEdit.Value = value; }
         }
 
         public bool CanDelete
         {
-            get;
-            set;
+            get { return _canDelete?.Value ?? false; }
+            set { _canDelete.Value = value; }
         }
 
         public bool CanClose
         {
-            get;
-            set;
+            get { return _canClose?.Value ?? false; }
+            set { _canClose.Value = value; }
         }
         #endregion
 
@@ -140,30 +155,33 @@ namespace Webcorp.rx_mvvm
             ObservingCommands();
             Debug("End Initialize");*/
 
-            Link<ViewModelBase<T>>(i => i.CanAdd, i => i.AddCommand,  CanAdd, ref _canAdd, ref _addCommand,AddModel);
-            Link<ViewModelBase<T>>(i => i.CanEdit, i => i.EditCommand,  CanEdit, ref _canEdit, ref _editCommand, EditModel);
-            Link<ViewModelBase<T>>(i => i.CanSave, i => i.SaveCommand,  CanSave, ref _canSave, ref _saveCommand, SaveModel);
-            Link<ViewModelBase<T>>(i => i.CanDelete, i => i.DeleteCommand,  CanDelete, ref _canDelete, ref _deleteCommand, DeleteModel);
-            Link<ViewModelBase<T>>(i => i.CanClose, i => i.CloseCommand,  CanClose, ref _canClose, ref _closeCommand, CloseView);
-            
+            Link<ViewModelBase<T>>(i => i.CanAdd, i => i.AddCommand, CanAdd, ref _canAdd, ref _addCommand, AddModel);
+            Link<ViewModelBase<T>>(i => i.CanEdit, i => i.EditCommand, CanEdit, ref _canEdit, ref _editCommand, EditModel);
+            Link<ViewModelBase<T>>(i => i.CanSave, i => i.SaveCommand, CanSave, ref _canSave, ref _saveCommand, SaveModel);
+            Link<ViewModelBase<T>>(i => i.CanDelete, i => i.DeleteCommand, CanDelete, ref _canDelete, ref _deleteCommand, DeleteModel);
+            Link<ViewModelBase<T>>(i => i.CanClose, i => i.CloseCommand, CanClose, ref _canClose, ref _closeCommand, CloseView);
 
-          /*  _canSave = Get<ViewModelBase<T>>().CreateProperty(i => i.CanSave, CanSave);
-            _saveCommand = CreateCommand<ViewModelBase<T>>(i => i.SaveCommand, CanSave);
-            ShouldDispose(_canSave.Subscribe(
-                _saveCommand.SetCanExecute
-            ));
-            ShouldDispose(_saveCommand.OnExecute.Subscribe(_ => SaveModel()));*/
+
+            /*  _canSave = Get<ViewModelBase<T>>().CreateProperty(i => i.CanSave, CanSave);
+              _saveCommand = CreateCommand<ViewModelBase<T>>(i => i.SaveCommand, CanSave);
+              ShouldDispose(_canSave.Subscribe(
+                  _saveCommand.SetCanExecute
+              ));
+              ShouldDispose(_saveCommand.OnExecute.Subscribe(_ => SaveModel()));*/
+
         }
 
-        private void Link<W>(Expression<Func<W, bool>> property, Expression<Func<W, ICommand>> cmd,  bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : IEntityViewModel<T>
+        private void Link<W>(Expression<Func<W, bool>> property, Expression<Func<W, ICommand>> cmd, bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : IEntityViewModel<T>
         {
             _canSubject = Get<W>().CreateProperty(property, canCmd);
-            _canCommand = CreateCommand<W>(cmd);
+            _canCommand = CreateCommand<W>(cmd, canCmd);
             ShouldDispose(_canSubject.Subscribe(_canCommand.SetCanExecute));
-            ShouldDispose(_canSubject.Subscribe(_=> {
-                Debugger.Break();
+            ShouldDispose(_canSubject.Subscribe(_ =>
+            {
+                //Debugger.Break();
             }));
             ShouldDispose(_canCommand.OnExecute.Subscribe(_ => action()));
+            //   _canSubject.Value = false;
         }
 
         private IDeleteViewModelMessage<T> createDeleteViewModelMessage()
@@ -173,9 +191,9 @@ namespace Webcorp.rx_mvvm
             return result;
         }
 
-      protected virtual void CreateProperties<W>() where W : IEntityViewModel<T>
+        protected virtual void CreateProperties<W>() where W : IEntityViewModel<T>
         {
-            
+
             _canAdd = Get<W>().CreateProperty(i => i.CanAdd, CanAdd);
             _canEdit = Get<W>().CreateProperty(i => i.CanEdit, CanEdit);
             _canSave = Get<W>().CreateProperty(i => i.CanSave, CanSave);
@@ -220,19 +238,19 @@ namespace Webcorp.rx_mvvm
 
         public void Debug(string message)
         {
-            Logger.Log(MyName + "-" + message, Category.Debug, Priority.Low);
+            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Debug, Priority.Low);
         }
         public void Info(string message)
         {
-            Logger.Log(MyName + "-" + message, Category.Info, Priority.Low);
+            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Info, Priority.Low);
         }
         public void Warn(string message)
         {
-            Logger.Log(MyName + "-" + message, Category.Warn, Priority.Medium);
+            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Warn, Priority.Medium);
         }
         public void Exception(string message)
         {
-            Logger.Log(MyName + "-" + message, Category.Exception, Priority.High);
+            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Exception, Priority.High);
         }
 
         #region action command executing
@@ -275,9 +293,9 @@ namespace Webcorp.rx_mvvm
 #if DEBUG
             if (Debugger.IsAttached) Debugger.Break();
 #endif
-            
+
             CanSave = false;
-           // Controller.Repository.Upsert(Model);
+            // Controller.Repository.Upsert(Model);
         }
 
         /// <summary>

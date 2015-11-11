@@ -24,8 +24,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         public override void Initialize()
         {
             base.Initialize();
-            //CanSave = true;
-            CanSave = false;
+            CanSave = true;
 
         }
 

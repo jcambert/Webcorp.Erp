@@ -36,6 +36,7 @@ namespace Webcorp.erp.quotation.DesignData
             }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Dispose()

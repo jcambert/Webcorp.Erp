@@ -10,7 +10,8 @@
             Header="Chiffrage">
     <RibbonGroup Header="Chiffrage" x:Name="QuotationTab"  >
         <RibbonButton Command="{Binding AddCommand}" LargeImageSource="..\Assets\Images\new-file.png" ToolTip="Ajouter un Chiffrage" Label="Nouveau" />
-        <RibbonButton Command="{Binding SaveCommand}" LargeImageSource="..\Assets\Images\printer.png" ToolTip="Imprimer (CTRL+P)" />
+        <RibbonButton Command="{Binding SaveCommand,Mode=TwoWay}" LargeImageSource="..\Assets\Images\save.png" ToolTip="Sauver (CTRL+S)" />
+        <RibbonButton Command="{Binding PrintCommand}" LargeImageSource="..\Assets\Images\printer.png" ToolTip="Imprimer (CTRL+P)" />
         <RibbonButton  SmallImageSource="..\Assets\Images\delete.png" ToolTip="Supprimer (SUPPR)" />
         <!--<RibbonButton Label="Button A4" />-->
     </RibbonGroup>

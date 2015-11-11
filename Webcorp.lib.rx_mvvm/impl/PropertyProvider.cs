@@ -15,7 +15,7 @@ namespace Webcorp.rx_mvvm
     public class PropertyProvider<T,E> : IPropertyProvider<T,E> where T :IEntityViewModel<E> where E :IEntity
     {
         private  T _viewModel;
-        private readonly ISchedulers _schedulers;
+        
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         public T ViewModel
