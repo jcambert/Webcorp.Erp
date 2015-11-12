@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using Prism.Regions;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -13,7 +14,7 @@ namespace Webcorp.rx_mvvm
 
     }
 
-    public interface IEntityViewModel<T> : INotifyPropertyChanged, IDisposable, ICloseable, IInitializable, IStandardCommand where T : IEntity
+    public interface IEntityViewModel<T> : INotifyPropertyChanged, IDisposable, ICloseable,IViewModel where T : IEntity
     {
 
         T Model { get; set; }
@@ -25,5 +26,8 @@ namespace Webcorp.rx_mvvm
         void OnPropertyChanged(string propertyName);
     }
 
+    public interface IViewModel : IInitializable, IStandardCommand, IRegionMemberLifetime
+    {
 
+    }
 }

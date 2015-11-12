@@ -27,7 +27,7 @@ namespace Webcorp.erp.quotation
 
         public QuotationModule():base()
         {
-           
+          
         }
         
 
@@ -35,6 +35,7 @@ namespace Webcorp.erp.quotation
         {
             base.RegisterViewsWithRegion();
             RegisterViewWithRegion<QuotationSummaryView>(Regions.Client);
+            
         }
 
         protected override void RegisterViewsWithModels()

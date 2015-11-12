@@ -9,10 +9,9 @@ using Webcorp.Model;
 
 namespace Webcorp.rx_mvvm
 {
-    public interface IPropertyProvider<T,E> : IDisposable where T : IEntityViewModel<E> where E : IEntity
-    {
-        T ViewModel { get;  }
 
+    public interface IPropertyProvider<T> : IDisposable
+    {
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression);
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression, K value);
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression, IObservable<K> values);
@@ -20,6 +19,12 @@ namespace Webcorp.rx_mvvm
         ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression);
         ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression, bool isEnabled);
         ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression, IObservable<bool> isEnabled);
+    }
+    public interface IPropertyProvider<T,E> :IPropertyProvider<T> ,IDisposable where T : IEntityViewModel<E> where E : IEntity
+    {
+        T ViewModel { get;  }
+
+        
     }
 }
  

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Webcorp.Controller;
 using Webcorp.erp.common;
+using Webcorp.erp.Views;
 using Webcorp.Model;
 using Webcorp.Model.Quotation;
 using Webcorp.rx_mvvm;
@@ -38,7 +39,16 @@ namespace Webcorp.erp
             Kernel.Bind(typeof(IEntityProviderInitializable<MaterialPrice, string>)).To(typeof(MaterialPriceInitializer));
             Kernel.Bind(typeof(IEntityProviderInitializable<Material, string>)).To(typeof(MaterialInitializer));
         }
+        protected override void RegisterViewsWithRegion()
+        {
+            base.RegisterViewsWithRegion();
+            RegisterViewWithRegion<home>(Regions.Client);
+        }
 
-        
+        protected override void RegisterMenus()
+        {
+            base.RegisterMenus();
+            RegisterMenu<ApplicationMenu>("fichier", Regions.Ribbon);
+        }
     }
 }

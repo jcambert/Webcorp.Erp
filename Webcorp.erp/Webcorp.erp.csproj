@@ -94,7 +94,21 @@
     <Compile Include="ErpApplicationBootstrapper.cs" />
     <Compile Include="ErpApplicationModule.cs" />
     <Compile Include="Utilities\RibbonRegionAdapter.cs" />
+    <Compile Include="Views\ApplicationMenu.xaml.cs">
+      <DependentUpon>ApplicationMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\home.xaml.cs">
+      <DependentUpon>home.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ApplicationMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,8 +192,10 @@
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
     <Folder Include="Windows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\folder-open-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

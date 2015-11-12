@@ -178,6 +178,7 @@ namespace Webcorp.erp.quotation.DesignData
             }
         }
 
+        public bool KeepAlive => false;
         #endregion
     }
 }
