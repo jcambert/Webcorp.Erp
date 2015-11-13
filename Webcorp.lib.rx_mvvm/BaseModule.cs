@@ -101,7 +101,7 @@ namespace Webcorp.rx_mvvm
 
             RegionManager.Regions[ribbonRegion].Add(Kernel.Get<TMENU>());
         }
-        protected void RegisterMenu<TMENU, TVIEWMODEL, TENTITY>(string menuName, string ribbonRegion) where TMENU : FrameworkElement where TVIEWMODEL : IEntityViewModel<TENTITY> where TENTITY : IEntity
+        protected void RegisterMenu<TMENU, TVIEWMODEL, TENTITY>(string menuName, string ribbonRegion) where TMENU : FrameworkElement where TVIEWMODEL : IViewModel
         {
             Kernel.Bind<TMENU>().ToSelf().InSingletonScope().Named(menuName);
 

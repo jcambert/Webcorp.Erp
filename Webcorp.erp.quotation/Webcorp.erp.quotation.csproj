@@ -109,6 +109,7 @@
     <Compile Include="DesignData\DQuotationViewModel.cs" />
     <Compile Include="QuotationModule.cs" />
     <Compile Include="Services\ViewService.cs" />
+    <Compile Include="ViewModel\impl\QuotationMenuViewModel.cs" />
     <Compile Include="ViewModel\impl\QuotationViewModel.cs" />
     <Compile Include="ViewModel\IQuotationViewModel.cs" />
     <Compile Include="Views\QuotationMenu.xaml.cs">

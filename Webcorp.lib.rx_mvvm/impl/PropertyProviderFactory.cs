@@ -41,10 +41,10 @@ namespace Webcorp.rx_mvvm
             return result;
         }*/
 
-        public IPropertyProvider<T,E> Create<T,E>(T viewModelBase) where T : IEntityViewModel<E> where E : IEntity
+        public IPropertyProvider<T> Create<T>(T viewModelBase) where T : IViewModel// IEntityViewModel<E> where E : IEntity
 
         {
-            IPropertyProvider<T,E> result = _kernel.Resolve<IPropertyProvider<T,E>>(viewModelBase);
+            IPropertyProvider<T> result = _kernel.Resolve<IPropertyProvider<T>>(viewModelBase);
             
             return result;
         }

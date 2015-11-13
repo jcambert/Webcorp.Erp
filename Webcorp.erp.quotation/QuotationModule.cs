@@ -47,7 +47,7 @@ namespace Webcorp.erp.quotation
         protected override void RegisterMenus()
         {
             base.RegisterMenus();
-            RegisterMenu<QuotationMenu, QuotationViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
+            RegisterMenu<QuotationMenu, QuotationMenuViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
         }
     }
 }

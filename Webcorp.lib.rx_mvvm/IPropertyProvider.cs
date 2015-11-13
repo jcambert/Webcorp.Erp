@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -10,21 +11,23 @@ using Webcorp.Model;
 namespace Webcorp.rx_mvvm
 {
 
-    public interface IPropertyProvider<T> : IDisposable
+    public interface IPropertyProvider<T>  where T : IViewModel
     {
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression);
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression, K value);
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression, IObservable<K> values);
 
-        ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression);
-        ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression, bool isEnabled);
-        ICommandObserver<K> CreateCommand<K>(Expression<Func<T, ICommand>> expression, IObservable<bool> isEnabled);
+        ICommandObserver<K> CreateCommand<K>();
+        ICommandObserver<K> CreateCommand<K>( bool isEnabled);
+        ICommandObserver<K> CreateCommand<K>(IObservable<bool> isEnabled);
     }
-    public interface IPropertyProvider<T,E> :IPropertyProvider<T> ,IDisposable where T : IEntityViewModel<E> where E : IEntity
+    public interface IPropertyProvider<T,E> : IPropertyProvider<T>  where T : IViewModel
     {
-        T ViewModel { get;  }
-
-        
+      
     }
+
+    
+
+    
 }
  

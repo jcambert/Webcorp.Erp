@@ -11,7 +11,8 @@ namespace Webcorp.rx_mvvm
     {
         public override void Load()
         {
-            Bind(typeof(IPropertyProvider<,>)).To(typeof(PropertyProvider<,>)).InSingletonScope().WithMetadata("type",typeof(PropertyProvider<,>));
+            Bind(typeof(IPropertyProvider<>)).To(typeof(PropertyProvider<>)).InSingletonScope().WithMetadata("type", typeof(PropertyProvider<>));
+            //Bind(typeof(IPropertyProvider<,>)).To(typeof(PropertyProvider<,>)).InSingletonScope().WithMetadata("type",typeof(PropertyProvider<,>));
             Bind<IPropertyProviderFactory>().To<PropertyProviderFactory>().InSingletonScope();
             Bind<ISchedulers>().To<Schedulers>().InSingletonScope();
             Bind<IMessageBus>().To<MessageBus>().InSingletonScope();

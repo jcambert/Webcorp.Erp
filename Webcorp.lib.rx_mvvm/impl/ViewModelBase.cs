@@ -15,6 +15,7 @@ using Webcorp.Controller;
 using Webcorp.Model;
 using System.Linq.Expressions;
 using Prism.Regions;
+using System.Runtime.CompilerServices;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -23,7 +24,7 @@ namespace Webcorp.rx_mvvm
 {
 
 
-    public abstract class MenuViewModel
+    public  class ViewModelBase:IViewModel
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly Guid _serial = Guid.NewGuid();
@@ -34,19 +35,40 @@ namespace Webcorp.rx_mvvm
         private ICommandObserver<Unit> _editCommand;
         private ICommandObserver<Unit> _saveCommand;
         private ICommandObserver<Unit> _deleteCommand;
-
+        private ICommandObserver<Unit> _closeCommand;
 
         private IPropertySubject<bool> _canAdd;
         private IPropertySubject<bool> _canEdit;
         private IPropertySubject<bool> _canSave;
         private IPropertySubject<bool> _canDelete;
+        private IPropertySubject<bool> _canClose;
 
+        private readonly ISubject<bool> _closeSubject = new Subject<bool>();
 
+    
+        
 
-        public MenuViewModel()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ViewModelBase()
         {
             _myName = GetType().Name;
+#if DEBUG
+            PropertyChanged += ViewModelBase_PropertyChanged;
+#endif
         }
+#if DEBUG
+        private void ViewModelBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug(e.PropertyName + "has changed");
+        }
+#endif
+
+        public ViewModelBase( object model):base()
+        {
+            this.Model = model;
+        }
+
 
 
         #region Properties
@@ -70,6 +92,8 @@ namespace Webcorp.rx_mvvm
         public ICommand EditCommand => _editCommand;
 
         public ICommand SaveCommand => _saveCommand;
+
+        public virtual ICommand CloseCommand => _closeCommand;
 
         public virtual bool CanSave
         {
@@ -95,6 +119,27 @@ namespace Webcorp.rx_mvvm
             set { _canDelete.Value = value; }
         }
 
+        public bool CanClose
+        {
+            get { return _canClose?.Value ?? false; }
+            set { _canClose.Value = value; }
+        }
+
+        public object Model
+        {
+            get;
+
+            set;
+        }
+
+        
+
+        public IObservable<bool> Close => _closeSubject.AsObservable();
+
+
+        public virtual bool KeepAlive => false;
+        
+
 
         #endregion
 
@@ -103,29 +148,30 @@ namespace Webcorp.rx_mvvm
         {
             Debug("Start Initialize");
             Debug("creating properties");
-            CreateProperties<MenuViewModel>();
+            CreateProperties<ViewModelBase>();
             Debug("End Initialize");
         }
         #endregion
 
         #region protected function
 
-        protected IPropertyProvider<W> Get<W>() => Container.Resolve<IPropertyProvider<W>>(this);
+        protected IPropertyProvider<W> Get<W>() where W:IViewModel => Container.Resolve<IPropertyProvider<W>>(this);
 
-        protected virtual void CreateProperties<W>() where W : MenuViewModel
+        protected virtual void CreateProperties<W>() where W : ViewModelBase
         {
 
-            CreateProperty<W>(i => i.CanAdd, i => i.AddCommand, CanAdd, ref _canAdd, ref _addCommand, OnAdd);
-            CreateProperty<W>(i => i.CanEdit, i => i.EditCommand, CanEdit, ref _canEdit, ref _editCommand, OnEdit);
-            CreateProperty<W>(i => i.CanSave, i => i.SaveCommand, CanSave, ref _canSave, ref _saveCommand, OnSave);
-            CreateProperty<W>(i => i.CanDelete, i => i.DeleteCommand, CanDelete, ref _canDelete, ref _deleteCommand, OnDelete);
+            CreateProperty<W>(i => i.CanAdd,  CanAdd, ref _canAdd, ref _addCommand, OnAdd);
+            CreateProperty<W>(i => i.CanEdit,  CanEdit, ref _canEdit, ref _editCommand, OnEdit);
+            CreateProperty<W>(i => i.CanSave, CanSave, ref _canSave, ref _saveCommand, OnSave);
+            CreateProperty<W>(i => i.CanDelete, CanDelete, ref _canDelete, ref _deleteCommand, OnDelete);
+            CreateProperty<W>(i => i.CanClose, CanClose, ref _canClose, ref _closeCommand, CloseView);
 
         }
 
-        protected virtual void CreateProperty<W>(Expression<Func<W, bool>> property, Expression<Func<W, ICommand>> cmd, bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : MenuViewModel
+        protected virtual void CreateProperty<W>(Expression<Func<W, bool>> property,  bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : ViewModelBase
         {
             _canSubject = Get<W>().CreateProperty(property, canCmd);
-            _canCommand = CreateCommand<W>(cmd, canCmd);
+            _canCommand = CreateCommand<W>( canCmd);
             ShouldDispose(_canSubject.Subscribe(_canCommand.SetCanExecute));
             ShouldDispose(_canSubject.Subscribe(_ =>
             {
@@ -135,9 +181,9 @@ namespace Webcorp.rx_mvvm
             //   _canSubject.Value = false;
         }
 
-        protected ICommandObserver<Unit> CreateCommand<W>(Expression<Func<W, ICommand>> e, bool IsEnabled = true) where W : MenuViewModel
+        protected ICommandObserver<Unit> CreateCommand<W>(bool IsEnabled = true) where W : ViewModelBase
         {
-            return Get<W>().CreateCommand<Unit>(e, IsEnabled);
+            return Get<W>().CreateCommand<Unit>( IsEnabled);
         }
         #endregion
 
@@ -160,9 +206,8 @@ namespace Webcorp.rx_mvvm
 
         public virtual void OnSave()
         {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
+            Debug("Save");
+
         }
 
         public virtual void OnDelete()
@@ -171,6 +216,13 @@ namespace Webcorp.rx_mvvm
             if (Debugger.IsAttached) Debugger.Break();
 #endif
 
+        }
+
+        public virtual void CloseView()
+        {
+#if DEBUG
+            if (Debugger.IsAttached) Debugger.Break();
+#endif
         }
 
 
@@ -203,34 +255,28 @@ namespace Webcorp.rx_mvvm
         {
             Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Exception, Priority.High);
         }
+
+        public virtual void OnPropertyChanged(string propertyName, [CallerMemberName]  string memberName="")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
 
     }
-    public abstract class ViewModelBase<T> : MenuViewModel, IEntityViewModel<T>, INavigationAware where T : IEntity
+    public abstract class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private readonly ISubject<bool> _closeSubject = new Subject<bool>();
 
-        private ICommandObserver<Unit> _closeCommand;
-        private IPropertySubject<bool> _canClose;
 
         #region ctor
         public ViewModelBase() : base()
         {
-
-#if DEBUG
-            PropertyChanged += ViewModelBase_PropertyChanged;
-#endif
         }
-#if DEBUG
-        private void ViewModelBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Debug(e.PropertyName + "has changed");
-        }
-#endif
 
-        public ViewModelBase(T entity) : this()
+
+        public ViewModelBase(T entity) : base(entity)
         {
             Model = entity;
         }
@@ -239,10 +285,9 @@ namespace Webcorp.rx_mvvm
         #region properties
 
 
-        public T Model { get; set; }
+        public new T Model { get { return (T)base.Model; } set { base.Model = value; } }
 
-        public ICommand CloseCommand => _closeCommand;
-
+      
         [Inject]
         public IEntityController<T> Controller
         {
@@ -252,25 +297,10 @@ namespace Webcorp.rx_mvvm
         }
 
 
-        public bool CanClose
-        {
-            get { return _canClose?.Value ?? false; }
-            set { _canClose.Value = value; }
-        }
+       
 
         #endregion
 
-        protected override void CreateProperties<W>()
-        {
-            base.CreateProperties<W>();
-            CreateProperty<ViewModelBase<T>>(i => i.CanClose, i => i.CloseCommand, CanClose, ref _canClose, ref _closeCommand, CloseView);
-        }
-
-
-        #region ICloseable
-        public IObservable<bool> Close => _closeSubject.AsObservable();
-
-        #endregion
 
         public IDoFluidCommand<T> For(ICommandObserver<T> cmd)
         {
@@ -280,34 +310,10 @@ namespace Webcorp.rx_mvvm
             return fluidCommand;
         }
 
-        #region Ninject
-        #endregion
-
-        #region action command executing
+       
 
 
-        /// <summary>
-        /// Close the view
-        /// </summary>
-        protected virtual void CloseView()
-        {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
-        }
-
-        
-
-
-        #endregion
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+       
 
         #region INavigationAware
 
@@ -327,9 +333,5 @@ namespace Webcorp.rx_mvvm
         }
         #endregion
 
-
-        #region   IRegionMemberLifetime
-        public virtual bool KeepAlive => true;
-        #endregion
     }
 }

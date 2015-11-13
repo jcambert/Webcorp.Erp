@@ -14,7 +14,8 @@ namespace Webcorp.rx_mvvm
     public interface IPropertyProviderFactory
     {
 
-        IPropertyProvider<T,E> Create<T,E>(T viewModelBase) where T : IEntityViewModel<E> where E : IEntity;
-        
+       // IPropertyProvider<T,E> Create<T,E>(T viewModelBase) where T : IEntityViewModel<E> where E : IEntity;
+        IPropertyProvider<T> Create<T>(T viewModelBase) where T : IViewModel;
+
     }
 }

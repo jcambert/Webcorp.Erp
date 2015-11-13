@@ -26,6 +26,24 @@ namespace Webcorp.erp.Utilities
                     case NotifyCollectionChangedAction.Add:
                         foreach (FrameworkElement element in e.NewItems)
                         {
+                            
+                            if(element is RibbonApplicationMenu)
+                            {
+                                List<object> items = new List<object>();
+                                foreach (var item in ((RibbonApplicationMenu)element).Items)
+                                {
+                                    items.Add(item);
+                                    
+                                }
+                                foreach (var item in items)
+                                {
+                                   
+                                    ((RibbonApplicationMenu)element).Items. Remove(item);
+                                    //regionTarget.ApplicationMenu.Items.Add(item);
+                                }
+                                items.ForEach(item => regionTarget.ApplicationMenu.Items.Add(item));
+                            }
+                            else
                             regionTarget.Items.Add(element);
                         }
                         break;

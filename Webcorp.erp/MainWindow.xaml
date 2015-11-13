@@ -18,14 +18,7 @@
                 Grid.Row="0"  
                 Background="Transparent"  
                 prism:RegionManager.RegionName="{x:Static common:Regions.Ribbon}">
-            <RibbonTab x:Name="HomeTab"  Header="Home">
-                <RibbonGroup Header="Group S1">
-                    <RibbonButton  Label="Button S1" />
-                    <RibbonButton  Label="Button S2" />
-                    <RibbonButton  Label="Button S3" />
-                    <RibbonButton  Label="Button S4" />
-                </RibbonGroup>
-            </RibbonTab>
+            
         </Ribbon>
         <Grid x:Name="WorkspaceArea" Grid.Row="1">
             <Grid.ColumnDefinitions>
