@@ -17,7 +17,7 @@
         <Ribbon x:Name="RibbonArea" 
                 Grid.Row="0"  
                 Background="Transparent"  
-                prism:RegionManager.RegionName="{x:Static common:Regions.Ribbon}">
+                prism:RegionManager.RegionName="{x:Static common:Regions.Ribbon}" >
             
         </Ribbon>
         <Grid x:Name="WorkspaceArea" Grid.Row="1">
@@ -31,7 +31,7 @@
             <ContentControl x:Name="NavigatorRegion" Grid.Row="0" prism:RegionManager.RegionName="{x:Static common:Regions.Navigation}" />
             
             <!-- Client Region -->
-            <ItemsControl Grid.Column="1" Grid.Row="1" x:Name="ClientArea" prism:RegionManager.RegionName="{x:Static common:Regions.Client}"/>
+            <ContentControl Grid.Column="1" Grid.Row="1" x:Name="ClientArea" prism:RegionManager.RegionName="{x:Static common:Regions.Client}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         </Grid>
 
 

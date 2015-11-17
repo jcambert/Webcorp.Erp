@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D6B905CB-4420-4C33-9D9B-2BB56803CA0E}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{30ABF1DE-713D-4E8B-A6F5-00B5254C797D}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Webcorp.erp</RootNamespace>
-    <AssemblyName>Webcorp.erp</AssemblyName>
+    <RootNamespace>Webcorp.lib.ui</RootNamespace>
+    <AssemblyName>Webcorp.lib.ui</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,10 +35,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -56,13 +59,37 @@
       <HintPath>..\packages\Prism.Wpf.6.1.0\lib\net45\Prism.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="system.windows.controls.ribbon" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Splat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.0.0\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,50 +99,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="AggregateModuleCatalog.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ErpApplicationBootstrapper.cs" />
-    <Compile Include="ErpApplicationModule.cs" />
-    <Compile Include="Utilities\RibbonRegionAdapter.cs" />
-    <Compile Include="Views\ApplicationMenu.xaml.cs">
-      <DependentUpon>ApplicationMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\home.xaml.cs">
-      <DependentUpon>home.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ApplicationMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\home.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -131,6 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="WindowBase.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -146,60 +133,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Webcorp.business\Webcorp.business.csproj">
-      <Project>{610639b7-3f8a-4f01-bf9c-c3cc0d4b2fc7}</Project>
-      <Name>Webcorp.business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
       <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
       <Name>Webcorp.common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.controller\Webcorp.controller.csproj">
-      <Project>{ff1a34a3-a99b-46ae-89f8-4683ae44032c}</Project>
-      <Name>Webcorp.controller</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.erp.common\Webcorp.erp.common.csproj">
-      <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>
-      <Name>Webcorp.erp.common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.erp.quotation\Webcorp.erp.quotation.csproj">
-      <Project>{0df555e2-16c7-43f0-8197-af9a60f8a31d}</Project>
-      <Name>Webcorp.erp.quotation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.controller\Webcorp.lib.controller.csproj">
-      <Project>{390401e8-4bca-46f2-8189-873be56e8f09}</Project>
-      <Name>Webcorp.lib.controller</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.Dal\Webcorp.lib.dal.csproj">
-      <Project>{62bfa003-894b-44f5-bf51-16efd93b521d}</Project>
-      <Name>Webcorp.lib.dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
-      <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
-      <Name>Webcorp.lib.model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Webcorp.lib.rx_mvvm\Webcorp.lib.rx_mvvm.csproj">
       <Project>{56158907-3988-45fd-8fe4-4ca299881d26}</Project>
       <Name>Webcorp.lib.rx_mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
-      <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
-      <Name>Webcorp.model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
-      <Project>{3a221492-33fb-4ec2-92bf-6ab0d2ce9ab9}</Project>
-      <Name>Webcorp.unite</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DesignData\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Windows\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\folder-open-icon.png" />
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

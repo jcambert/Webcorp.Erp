@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=designData:DQuotationViewModel,IsDesignTimeCreatable=True}"
              
-             d:DesignHeight="55" d:DesignWidth="500" BorderBrush="DarkGray" BorderThickness="1" Background="#33FFFFFF">
-    <Grid Margin="5">
+             d:DesignHeight="55" d:DesignWidth="500" BorderBrush="DarkGray" BorderThickness="5" Background="#33FFFFFF">
+    
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <TextBlock Text="{Binding Model.Numero}" FontSize="13" FontWeight="Bold"/>
             <TextBlock Text=" " FontSize="13" FontWeight="Bold"/>
@@ -17,5 +17,4 @@
             <Button Content="Save" Command="{Binding SaveCommand}" Grid.Column="1" Grid.Row="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,0" />
         </StackPanel>
 
-    </Grid>
 </UserControl>

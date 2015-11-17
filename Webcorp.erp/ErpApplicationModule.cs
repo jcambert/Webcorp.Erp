@@ -28,7 +28,7 @@ namespace Webcorp.erp
         {
             base.Initialize();
 
-          
+            
 
             Kernel.Bind(typeof(IEntityController<>)).To(typeof(BusinessEntityController<>));
             Kernel.Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
@@ -43,12 +43,19 @@ namespace Webcorp.erp
         {
             base.RegisterViewsWithRegion();
             RegisterViewWithRegion<home>(Regions.Client);
+            
         }
 
         protected override void RegisterMenus()
         {
             base.RegisterMenus();
             RegisterMenu<ApplicationMenu>("fichier", Regions.Ribbon);
+        }
+
+        protected override void RegisterRegionNavigationEvents()
+        {
+            base.RegisterRegionNavigationEvents();
+            RegisterRegionNavigationEvent(Regions.Client);
         }
     }
 }

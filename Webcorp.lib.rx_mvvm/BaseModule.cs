@@ -7,6 +7,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,8 +16,10 @@ using Webcorp.Model;
 
 namespace Webcorp.rx_mvvm
 {
-    public class BaseModule : IModule, ILogger
+    public class BaseModule : IModule, ILoggable
     {
+        public event EventHandler<RegionNavigationFailedEventArgs> OnNavigationFailed = delegate { };
+        public event EventHandler<RegionNavigationEventArgs> OnNavigating = delegate { };
 
         private readonly string _myName;
         public BaseModule()
@@ -35,15 +38,13 @@ namespace Webcorp.rx_mvvm
 
         [Inject]
         public IKernel Kernel { get; set; }
-
+        [Inject]
+        IServiceLocator ServiceLocator{get;set;}
         [Inject]
         public IEventAggregator EventAggregator { get; set; }
-
         [Inject]
         public IRegionManager RegionManager { get; set; }
-
-        [Inject]
-        public IRegionNavigationService RegionNavigationService { get; set; }
+        
 
         public virtual void Initialize()
         {
@@ -57,10 +58,25 @@ namespace Webcorp.rx_mvvm
             Debug("BaseModule Start RegisterMenus");
             RegisterMenus();
             Debug("BaseModule End RegisterMenus");
+            Debug("BaseModule Start RegisterRegionNavigationEvents");
+            RegisterRegionNavigationEvents();
+            Debug("BaseModule End RegisterRegionNavigationEvents");
+
             Debug("BaseModule End initialize");
         }
 
+        protected virtual void Navigating(object sender, RegionNavigationEventArgs e)
+        {
+            Debug("Navigating to " + e.Uri.ToString());
+            OnNavigating(sender, e);
+        }
 
+        protected virtual void NavigationFailed(object sender, RegionNavigationFailedEventArgs e)
+        {
+            Exception("Navigation Failed:"+e.Error.ToString());
+            OnNavigationFailed(sender, e);
+            
+        }
 
         protected virtual void RegisterViewsWithRegion()
         {
@@ -77,18 +93,38 @@ namespace Webcorp.rx_mvvm
 
         }
 
-        protected void RegisterViewWithRegion(string viewName, Type type)
+        protected virtual void RegisterRegionNavigationEvents()
         {
-            RegionManager.RegisterViewWithRegion(viewName, type);
+
         }
 
-        protected void RegisterViewWithRegion<T>(string viewName)
+        protected void RegisterViewWithRegion(string regionName, Type type)
         {
-            RegisterViewWithRegion(viewName, typeof(T));
+            RegionManager.RegisterViewWithRegion(regionName, type);
+            
         }
+
+        protected void RegisterViewWithRegion<T>(string regionName)
+        {
+            RegisterViewWithRegion(regionName, typeof(T));
+            
+
+        }
+
+        protected void RegisterRegionNavigationEvent(string regionName)
+        {
+            RegionManager.Regions[regionName].NavigationService.NavigationFailed += NavigationFailed;
+            RegionManager.Regions[regionName].NavigationService.Navigating += Navigating;
+            //RegionManager.Regions[regionName].NavigationService.Navigated += Navigated;
+
+        }
+
+
         protected void RegisterViewWithModel<TVIEW, TIVIEWMODEL, TVIEWMODEL, TENTITY>() where TVIEW : FrameworkElement, new() where TIVIEWMODEL : IEntityViewModel<TENTITY> where TENTITY : IEntity where TVIEWMODEL : TIVIEWMODEL
         {
-            Kernel.Bind(typeof(TIVIEWMODEL)).To(typeof(TVIEWMODEL));
+            if(!Kernel.GetBindings(typeof(TIVIEWMODEL)).Any())
+                Kernel.Bind(typeof(TIVIEWMODEL)).To(typeof(TVIEWMODEL)).InSingletonScope();
+            
             var t = new TVIEW();
             t.DataContext = Kernel.Get<TIVIEWMODEL>();
 
@@ -113,24 +149,39 @@ namespace Webcorp.rx_mvvm
 
         public string MyName => _myName;
         [Inject]
-        public ILoggerFacade Logger { get; set; }
-        public void Debug(string message)
+        public ILogger Logger { get; set; }
+        public void Debug(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Log(MyName + "-" + message, Category.Debug, Priority.Low);
+            Logger.Debug(message,caller);
         }
-        public void Info(string message)
+        public void Debug([CallerMemberName] string message="")
         {
-            Logger.Log(MyName + "-" + message, Category.Info, Priority.Low);
+            Logger.Debug(message);
         }
-        public void Warn(string message)
+        public void Info(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Log(MyName + "-" + message, Category.Warn, Priority.Medium);
+            Logger.Info(message, caller);
         }
-        public void Exception(string message)
+        public void Info([CallerMemberName] string message = "")
         {
-            Logger.Log(MyName + "-" + message, Category.Exception, Priority.High);
+            Logger.Info(message);
         }
-
+        public void Warn(string message, [CallerMemberName] string caller = "")
+        {
+            Logger.Warn(message, caller);
+        }
+        public void Warn([CallerMemberName] string message = "")
+        {
+            Logger.Warn(message);
+        }
+        public void Exception(string message, [CallerMemberName] string caller = "")
+        {
+            Logger.Exception(message, caller);
+        }
+        public void Exception([CallerMemberName] string message = "")
+        {
+            Logger.Exception(message);
+        }
         #endregion
     }
 }

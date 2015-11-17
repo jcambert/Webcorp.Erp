@@ -50,7 +50,7 @@ namespace Webcorp.erp.quotation.DesignData
             throw new NotImplementedException();
         }
 
-        public void OnPropertyChanged(string propertyName,[CallerMemberName] string memberName="")
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             throw new NotImplementedException();
         }

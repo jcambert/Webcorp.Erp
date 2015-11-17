@@ -14,6 +14,7 @@ using Prism.Events;
 using System.Windows.Controls.Ribbon;
 using Webcorp.erp.Utilities;
 using Microsoft.Practices.ServiceLocation;
+using Ninject.Modules;
 #if DEBUG
 using Webcorp.erp.quotation;
 #endif
@@ -21,17 +22,34 @@ namespace Webcorp.erp
 {
     public class ErpApplicationBootstrapper : NinjectBootstrapper
     {
+
+        private Func<INinjectModule[]> NinjectModules;
+
+
+        private INinjectModule[] InternalNinjectModules()
+        {
+            List<INinjectModule> modules = new List<INinjectModule>();
+            modules.Add(new InternalNinjectModule());
+
+            return modules.ToArray();
+        }
+
+        public override void Run(bool runWithDefaultConfiguration)
+        {
+            NinjectModules = InternalNinjectModules;
+            base.Run(runWithDefaultConfiguration);
+        }
+
         public IModuleManager ModuleManager { get; private set; }
 
         protected override DependencyObject CreateShell() => Kernel.Get<MainWindow>();
-        protected override void InitializeModules()
-        {
-            base.InitializeModules();
-            
-           
-           
 
-        }
+       /* protected override IKernel CreateKernel()
+        {
+
+            IKernel kernel = new StandardKernel(NinjectModules());
+            return kernel;
+        }*/
 
         protected override void InitializeShell()
         {
@@ -82,9 +100,18 @@ namespace Webcorp.erp
         protected override void ConfigureKernel()
         {
             base.ConfigureKernel();
+            
             Kernel.Load("*.dll");
         }
 
 
+    }
+
+    public class InternalNinjectModule : NinjectModule
+    {
+        public override void Load()
+        {
+            
+        }
     }
 }

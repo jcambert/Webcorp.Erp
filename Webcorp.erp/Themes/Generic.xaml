@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Webcorp.erp.Themes">
+    <Setter Property="shell:WindowChrome.WindowChrome">
+        <Setter.Value>
+            <shell:WindowChrome CornerRadius="0" GlassFrameThickness="1"/>
+        </Setter.Value>
+    </Setter>
+    
+</ResourceDictionary>

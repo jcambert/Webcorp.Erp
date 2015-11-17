@@ -106,6 +106,7 @@
     <Compile Include="impl\FluidCommand.cs" />
     <Compile Include="ICommandObserver.cs" />
     <Compile Include="IDoFluidCommand.cs" />
+    <Compile Include="impl\Logger.cs" />
     <Compile Include="IPropertyProvider.cs" />
     <Compile Include="IPropertyProviderFactory.cs" />
     <Compile Include="IPropertySubject.cs" />

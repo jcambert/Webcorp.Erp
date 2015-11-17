@@ -2,20 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Webcorp.rx_mvvm
 {
-    public interface ILogger
+    public interface ILoggable
     {
-        ILoggerFacade Logger { get; set; }
+        void Debug([CallerMemberName] string message = "");
+        void Debug(string message, [CallerMemberName] string caller = "");
+        void Info([CallerMemberName] string message = "");
+        void Info(string message, [CallerMemberName] string caller = "");
+        void Warn([CallerMemberName] string message = "");
+        void Warn(string message, [CallerMemberName] string caller = "");
+        void Exception([CallerMemberName] string message = "");
+        void Exception(string message, [CallerMemberName] string caller = "");
+    }
+    public interface ILogger:ILoggable
+    {
+        ILoggerFacade LoggerFacade { get; set; }
 
-        string MyName { get; }
+        ILoggerFormatter Formatter {get;set;}
+        //string MyName { get; }
 
-        void Debug(string message);
-        void Info(string message);
-        void Warn(string message);
-        void Exception(string message);
+        
+    }
+
+    public interface ILoggerFormatter
+    {
+        string Format(string message,string caller="");
     }
 }

@@ -11,7 +11,7 @@ using Webcorp.Model;
 namespace Webcorp.rx_mvvm
 {
 
-    public interface IPropertyProvider<T>  where T : IViewModel
+    public interface IPropertyProvider<T>  //where T : IViewModel
     {
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression);
         IPropertySubject<K> CreateProperty<K>(Expression<Func<T, K>> expression, K value);

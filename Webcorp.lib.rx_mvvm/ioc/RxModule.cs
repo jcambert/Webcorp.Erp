@@ -18,6 +18,10 @@ namespace Webcorp.rx_mvvm
             Bind<IMessageBus>().To<MessageBus>().InSingletonScope();
             Bind<IDialogService>().To<DialogService>().InSingletonScope();
             Bind(typeof(IDeleteViewModelMessage<>)).To(typeof(DeleteViewModelMessage<>));
+
+            Bind<ILoggerFormatter>().To<LoggerFormatter>().InSingletonScope();
+            Bind<ILogger>().To<Logger>().InSingletonScope();
+
         }
     }
 }

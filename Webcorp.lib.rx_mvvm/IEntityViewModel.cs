@@ -42,7 +42,7 @@ namespace Webcorp.rx_mvvm
 
     public interface IPropertyChanged
     {
-        void OnPropertyChanged(string propertyName,[CallerMemberName] string memberName="");
+        void OnPropertyChanged([CallerMemberName]  string propertyName="");
     }
 
    

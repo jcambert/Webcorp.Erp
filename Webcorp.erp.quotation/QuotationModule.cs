@@ -35,19 +35,20 @@ namespace Webcorp.erp.quotation
         {
             base.RegisterViewsWithRegion();
             RegisterViewWithRegion<QuotationSummaryView>(Regions.Client);
-            
+            RegisterViewWithRegion<QuotationDetailView>(Regions.Client);
         }
 
         protected override void RegisterViewsWithModels()
         {
             base.RegisterViewsWithModels();
             RegisterViewWithModel<QuotationSummaryView, IQuotationViewModel, QuotationViewModel, Quotation>();
+            RegisterViewWithModel<QuotationDetailView, IQuotationViewModel, QuotationViewModel, Quotation>();
         }
 
         protected override void RegisterMenus()
         {
             base.RegisterMenus();
-            RegisterMenu<QuotationMenu, QuotationMenuViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
+            RegisterMenu<QuotationMenu, QuotationViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
         }
     }
 }

@@ -107,17 +107,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignData\DQuotationViewModel.cs" />
+    <Compile Include="FormElement.cs" />
     <Compile Include="QuotationModule.cs" />
     <Compile Include="Services\ViewService.cs" />
     <Compile Include="ViewModel\impl\QuotationMenuViewModel.cs" />
     <Compile Include="ViewModel\impl\QuotationViewModel.cs" />
     <Compile Include="ViewModel\IQuotationViewModel.cs" />
+    <Compile Include="Views\QuotationDetailView.xaml.cs">
+      <DependentUpon>QuotationDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\QuotationMenu.xaml.cs">
       <DependentUpon>QuotationMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuotationSummaryView.xaml.cs">
       <DependentUpon>QuotationSummaryView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\QuotationDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QuotationMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +164,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
+      <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
+      <Name>Webcorp.common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.erp.common\Webcorp.erp.common.csproj">
       <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>
       <Name>Webcorp.erp.common</Name>

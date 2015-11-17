@@ -16,6 +16,7 @@ using Webcorp.Model;
 using System.Linq.Expressions;
 using Prism.Regions;
 using System.Runtime.CompilerServices;
+using Prism.Events;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -24,7 +25,7 @@ namespace Webcorp.rx_mvvm
 {
 
 
-    public  class ViewModelBase:IViewModel
+    public  class ViewModelBase:IViewModel,ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly Guid _serial = Guid.NewGuid();
@@ -70,22 +71,31 @@ namespace Webcorp.rx_mvvm
         }
 
 
+        protected void NavigateTo(string region,string uri)
+        {
+            RegionManager.Regions[region].RequestNavigate(new Uri(uri, UriKind.Relative));
+        }
 
         #region Properties
         public string MyName => _myName;
 
         [Inject]
-        public ILoggerFacade Logger { get; set; }
+        public ILogger Logger { get; set; }
         [Inject]
         public IMessageBus MessageBus { get; set; }
         [Inject]
         public IDialogService DialogService { get; set; }
         [Inject]
+        public IEventAggregator EventAggregator { get; set; }
+        [Inject]
+        public IRegionManager RegionManager { get; set; }
+        
+        [Inject]
         public IKernel Container { get; set; }
 
+
+
         public ICommand AddCommand => _addCommand;
-
-
 
         public ICommand DeleteCommand => _deleteCommand;
 
@@ -191,9 +201,7 @@ namespace Webcorp.rx_mvvm
 
         public virtual void OnAdd()
         {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
+            Debug();
 
         }
 
@@ -220,9 +228,7 @@ namespace Webcorp.rx_mvvm
 
         public virtual void CloseView()
         {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
+            Debug();
         }
 
 
@@ -239,33 +245,51 @@ namespace Webcorp.rx_mvvm
         #endregion
 
         #region Logger
-        public void Debug(string message)
+        public void Debug(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Debug, Priority.Low);
+            Logger.Debug(message, caller);
         }
-        public void Info(string message)
+        public void Debug([CallerMemberName] string message = "")
         {
-            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Info, Priority.Low);
+            Logger.Debug(message);
         }
-        public void Warn(string message)
+        public void Info(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Warn, Priority.Medium);
+            Logger.Info(message, caller);
         }
-        public void Exception(string message)
+        public void Info([CallerMemberName] string message = "")
         {
-            Logger.Log(MyName + "-" + _serial.ToString() + "-" + message, Category.Exception, Priority.High);
+            Logger.Info(message);
+        }
+        public void Warn(string message, [CallerMemberName] string caller = "")
+        {
+            Logger.Warn(message, caller);
+        }
+        public void Warn([CallerMemberName] string message = "")
+        {
+            Logger.Warn(message);
+        }
+        public void Exception(string message, [CallerMemberName] string caller = "")
+        {
+            Logger.Exception(message, caller);
+        }
+        public void Exception([CallerMemberName] string message = "")
+        {
+            Logger.Exception(message);
         }
 
-        public virtual void OnPropertyChanged(string propertyName, [CallerMemberName]  string memberName="")
+
+        #endregion
+
+        public virtual void OnPropertyChanged([CallerMemberName]  string propertyName="")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
 
     }
-    public abstract class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
+    public  class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
     {
 
 
@@ -319,7 +343,7 @@ namespace Webcorp.rx_mvvm
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            Debug();
         }
 
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
