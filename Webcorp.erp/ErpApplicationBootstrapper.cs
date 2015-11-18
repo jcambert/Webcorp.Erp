@@ -42,14 +42,15 @@ namespace Webcorp.erp
 
         public IModuleManager ModuleManager { get; private set; }
 
-        protected override DependencyObject CreateShell() => Kernel.Get<MainWindow>();
+        //protected override DependencyObject CreateShell() => Kernel.Get<MainWindow>();
+        protected override DependencyObject CreateShell() => Kernel.Get<MainMetroWindow>();
 
-       /* protected override IKernel CreateKernel()
-        {
+        /* protected override IKernel CreateKernel()
+         {
 
-            IKernel kernel = new StandardKernel(NinjectModules());
-            return kernel;
-        }*/
+             IKernel kernel = new StandardKernel(NinjectModules());
+             return kernel;
+         }*/
 
         protected override void InitializeShell()
         {

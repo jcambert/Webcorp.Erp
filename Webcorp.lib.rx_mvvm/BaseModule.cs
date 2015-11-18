@@ -113,9 +113,13 @@ namespace Webcorp.rx_mvvm
 
         protected void RegisterRegionNavigationEvent(string regionName)
         {
-            RegionManager.Regions[regionName].NavigationService.NavigationFailed += NavigationFailed;
-            RegionManager.Regions[regionName].NavigationService.Navigating += Navigating;
-            //RegionManager.Regions[regionName].NavigationService.Navigated += Navigated;
+            try
+            {
+                RegionManager.Regions[regionName].NavigationService.NavigationFailed += NavigationFailed;
+                RegionManager.Regions[regionName].NavigationService.Navigating += Navigating;
+                //RegionManager.Regions[regionName].NavigationService.Navigated += Navigated;
+            }
+            catch (KeyNotFoundException) { }
 
         }
 
@@ -134,15 +138,21 @@ namespace Webcorp.rx_mvvm
         protected void RegisterMenu<TMENU>(string menuName, string ribbonRegion) where TMENU : FrameworkElement 
         {
             Kernel.Bind<TMENU>().ToSelf().InSingletonScope().Named(menuName);
+            try {
+                RegionManager.Regions[ribbonRegion].Add(Kernel.Get<TMENU>());
+            }
+            catch (KeyNotFoundException)
+            {
 
-            RegionManager.Regions[ribbonRegion].Add(Kernel.Get<TMENU>());
+            }
         }
         protected void RegisterMenu<TMENU, TVIEWMODEL, TENTITY>(string menuName, string ribbonRegion) where TMENU : FrameworkElement where TVIEWMODEL : IViewModel
         {
             Kernel.Bind<TMENU>().ToSelf().InSingletonScope().Named(menuName);
-
-            RegionManager.Regions[ribbonRegion].Add(Kernel.Get<TMENU>());
-
+            try {
+                RegionManager.Regions[ribbonRegion].Add(Kernel.Get<TMENU>());
+            }
+            catch (KeyNotFoundException) { }
             Kernel.Get<TMENU>().DataContext = Kernel.Get<TVIEWMODEL>();
         }
         #region Logger

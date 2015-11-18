@@ -88,6 +88,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AggregateModuleCatalog.cs" />
+    <Compile Include="MainMetroWindow.xaml.cs">
+      <DependentUpon>MainMetroWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
     <Compile Include="Views\home.xaml.cs">
       <DependentUpon>home.xaml</DependentUpon>
     </Compile>
+    <Page Include="MainMetroWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\folder-open-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />

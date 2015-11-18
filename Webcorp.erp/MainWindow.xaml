@@ -40,16 +40,11 @@
             </Grid.ColumnDefinitions>
             <GridSplitter HorizontalAlignment="Left" Width="5" Grid.Column="1"/>
            
-            <!-- Navigator Region -->
-            <ContentControl x:Name="NavigatorRegion" Grid.Row="0" prism:RegionManager.RegionName="{x:Static common:Regions.Navigation}" >
-                <Rectangle Fill="Black">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Visual="{StaticResource appbar_add}" Stretch="Fill" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </ContentControl>
+          
+            <ContentControl x:Name="NavigatorRegion" Grid.Row="0" prism:RegionManager.RegionName="{x:Static common:Regions.Navigation}" />
+                
 
-            <!-- Client Region -->
+            
             <ContentControl Grid.Column="1" Grid.Row="1" x:Name="ClientArea" prism:RegionManager.RegionName="{x:Static common:Regions.Client}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         </Grid>
 
