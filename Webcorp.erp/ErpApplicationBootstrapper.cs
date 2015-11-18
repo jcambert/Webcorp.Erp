@@ -55,6 +55,7 @@ namespace Webcorp.erp
         {
             base.InitializeShell();
             Application.Current.MainWindow = (Window)this.Shell;
+            
             Application.Current.MainWindow.Show();
         }
 

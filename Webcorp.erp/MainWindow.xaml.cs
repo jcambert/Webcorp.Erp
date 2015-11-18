@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using MahApps.Metro.Controls;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Webcorp.erp
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private readonly IKernel container;
         [Inject]
