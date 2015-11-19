@@ -21,9 +21,18 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
         public QuotationViewModel()
         {
-            Model = new Quotation() { Numero = 1234, Commentaire = "test" };
+            Quotations = new List<Quotation>();
+            Model = new Quotation() { Numero = 1234,Client="Souchier0",  Commentaire = "DP N° 1234" };
+            Quotations.Add(Model);
+            Model = new Quotation() { Numero = 4567, Client = "Souchier1", Commentaire = "DP N° 1234" };
+            Quotations.Add(Model);
+            Model = new Quotation() { Numero = 8910, Client = "Souchier2", Commentaire = "DP N° 1234" };
+            Quotations.Add(Model);
+            Model = new Quotation() { Numero = 111213, Client = "Souchier3", Commentaire = "DP N° 1234" };
+            Quotations.Add(Model);
         }
 
+        public List<Quotation> Quotations { get; set; }
 
         public override void Initialize()
         {

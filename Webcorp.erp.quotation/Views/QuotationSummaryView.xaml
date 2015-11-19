@@ -7,14 +7,42 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=designData:DQuotationViewModel,IsDesignTimeCreatable=True}"
              
-             d:DesignHeight="55" d:DesignWidth="500" BorderBrush="DarkGray" BorderThickness="5" Background="#33FFFFFF">
-    
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Model.Numero}" FontSize="13" FontWeight="Bold"/>
-            <TextBlock Text=" " FontSize="13" FontWeight="Bold"/>
-            <TextBlock Text="{Binding Model.Commentaire}" FontSize="13" FontWeight="Bold"/>
-            <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Height="26"  VerticalAlignment="Top" Width="76"  />
-            <Button Content="Save" Command="{Binding SaveCommand}" Grid.Column="1" Grid.Row="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,0" />
-        </StackPanel>
+             d:DesignHeight="500" d:DesignWidth="500" BorderBrush="DarkGray" BorderThickness="0" Background="#33FFFFFF">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Button  Grid.Row="0"
+         Width="55"
+        Height="55"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        ToolTip="Ajouter un chiffrage"
+        Style="{DynamicResource MetroCircleButtonStyle}">
+            <Rectangle Width="20"
+              Height="20">
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill"
+                    Visual="{StaticResource appbar_add}" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Button>
+        <DataGrid Grid.Row="1" x:Name="QuotationDataGrid" ItemsSource="{Binding Quotations}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
+                <DataGridTextColumn Header="Client" Binding="{Binding Client}"/>
+                <DataGridTextColumn Header="Commentaire" Binding="{Binding Commentaire}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+       
 
 </UserControl>

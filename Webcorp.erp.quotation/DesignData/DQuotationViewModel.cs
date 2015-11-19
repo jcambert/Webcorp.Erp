@@ -19,8 +19,11 @@ namespace Webcorp.erp.quotation.DesignData
         #region ctor
         public DQuotationViewModel()
         {
-            Model = new Quotation() { Numero = 1234,Commentaire="DP N° 1234" };
-            Numero = 4567;
+            Quotations = new List<Quotation>();
+            Model = new Quotation() { Numero = 1234,Client="Samoa", Commentaire="DP N° 1234" };
+
+            Quotations.Add(Model);
+
         }
 
         
@@ -28,6 +31,9 @@ namespace Webcorp.erp.quotation.DesignData
 
         public Quotation Model { get; set; }
         public int Numero { get;  set; }
+
+         
+        public List<Quotation> Quotations { get; set; }
 
         public ICommand SaveCommand
         {
