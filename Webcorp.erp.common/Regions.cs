@@ -11,7 +11,7 @@ namespace Webcorp.erp.common
         public const string Ribbon = "RibbonRegion";
         public const string Navigation = "NavigationRegion";
         public const string Client = "ClientRegion";
-
+        public const string MainTab = "MainTabRegion";
         
     }
 }

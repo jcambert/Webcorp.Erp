@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Webcorp.erp"
+        xmlns:common="clr-namespace:Webcorp.erp.common;assembly=Webcorp.erp.common"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Icon="logo.ico"
         Title="Webcorp ERP" Height="300" Width="300">
@@ -74,7 +76,31 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        
-    </Grid>
+    <Controls:MetroContentControl>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Menu Grid.Row="0"
+                  Margin="5"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Left">
+                <MenuItem Header="Theme" ItemsSource="{Binding ApplicationThemes, Mode=OneWay}"  ItemContainerStyle="{StaticResource AppThemeMenuItemStyle}" />
+                <MenuItem Header="Accent" ItemsSource="{Binding AccentColors, Mode=OneWay}" ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
+            </Menu>
+            <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1"   x:Name="MainTabControl" prism:RegionManager.RegionName="{x:Static common:Regions.MainTab}"/>
+            <!--<Controls:MetroAnimatedSingleRowTabControl  Grid.Row="1">
+                <TabItem Header="Articles">
+                    <Label Content="articles"/>
+                </TabItem>
+                <TabItem Header="Chiffrages">
+                    <Label Content="chiffrages"/>
+                </TabItem>
+            </Controls:MetroAnimatedSingleRowTabControl>-->
+                
+        </Grid>
+    </Controls:MetroContentControl>
 </Controls:MetroWindow>

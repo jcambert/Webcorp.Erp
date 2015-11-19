@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using Ninject.Modules;
+using Ninject.Extensions.Conventions;
 using Prism.Events;
 using Prism.Modularity;
 using Prism.Regions;
@@ -28,6 +29,7 @@ namespace Webcorp.erp
         {
             base.Initialize();
 
+            
             
 
             Kernel.Bind(typeof(IEntityController<>)).To(typeof(BusinessEntityController<>));

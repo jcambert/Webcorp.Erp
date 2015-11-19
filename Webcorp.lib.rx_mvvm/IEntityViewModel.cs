@@ -15,24 +15,18 @@ namespace Webcorp.rx_mvvm
 
     }
 
-    public interface IEntityViewModel<T> :  ICloseable,IViewModel<T> where T : IEntity
+    public interface IEntityViewModel<T> : ICloseable, IViewModel, IStandardCommand where T : IEntity
     {
 
-        
+        T Model { get; set; }
 
         IEntityController<T> Controller { get; set; }
 
-        
     }
 
-    public interface IViewModel:IViewModel<object>
+    public interface IViewModel : IInitializable, IRegionMemberLifetime,INotifyPropertyChanged,IPropertyChanged,IShouldDisposable,IDisposable
     {
         
-    }
-
-    public interface IViewModel<T> : IInitializable, IStandardCommand, IRegionMemberLifetime,INotifyPropertyChanged,IPropertyChanged,IShouldDisposable,IDisposable
-    {
-        T Model { get; set; }
     }
 
     public interface IShouldDisposable

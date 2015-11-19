@@ -48,6 +48,10 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +92,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AggregateModuleCatalog.cs" />
+    <Compile Include="IMainWindowViewModel.cs" />
     <Compile Include="MainMetroWindow.xaml.cs">
       <DependentUpon>MainMetroWindow.xaml</DependentUpon>
     </Compile>
@@ -100,6 +105,7 @@
     </Compile>
     <Compile Include="ErpApplicationBootstrapper.cs" />
     <Compile Include="ErpApplicationModule.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Utilities\RibbonRegionAdapter.cs" />
     <Compile Include="Views\ApplicationMenu.xaml.cs">
       <DependentUpon>ApplicationMenu.xaml</DependentUpon>
@@ -169,6 +175,10 @@
     <ProjectReference Include="..\Webcorp.controller\Webcorp.controller.csproj">
       <Project>{ff1a34a3-a99b-46ae-89f8-4683ae44032c}</Project>
       <Name>Webcorp.controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.erp.article\Webcorp.erp.article.csproj">
+      <Project>{7a560422-e18f-4004-a1f6-08156c8ea9c7}</Project>
+      <Name>Webcorp.erp.article</Name>
     </ProjectReference>
     <ProjectReference Include="..\Webcorp.erp.common\Webcorp.erp.common.csproj">
       <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>

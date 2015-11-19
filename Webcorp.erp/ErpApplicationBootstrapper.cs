@@ -15,6 +15,9 @@ using System.Windows.Controls.Ribbon;
 using Webcorp.erp.Utilities;
 using Microsoft.Practices.ServiceLocation;
 using Ninject.Modules;
+using Webcorp.erp.common;
+using MahApps.Metro.Controls;
+using Webcorp.erp.article;
 #if DEBUG
 using Webcorp.erp.quotation;
 #endif
@@ -45,41 +48,44 @@ namespace Webcorp.erp
         //protected override DependencyObject CreateShell() => Kernel.Get<MainWindow>();
         protected override DependencyObject CreateShell() => Kernel.Get<MainMetroWindow>();
 
-        /* protected override IKernel CreateKernel()
-         {
+        protected override IKernel CreateKernel()
+        {
 
-             IKernel kernel = new StandardKernel(NinjectModules());
-             return kernel;
-         }*/
+            IKernel kernel = new StandardKernel(NinjectModules());
+            return kernel;
+        }
 
         protected override void InitializeShell()
         {
             base.InitializeShell();
             Application.Current.MainWindow = (Window)this.Shell;
-            
+
             Application.Current.MainWindow.Show();
         }
 
         protected override IModuleCatalog CreateModuleCatalog() => new AggregateModuleCatalog();// new DirectoryModuleCatalog() {ModulePath= @".\modules" };
-       
-        
+
+
         protected override void ConfigureModuleCatalog()
         {
             base.ConfigureModuleCatalog();
 
-            
 
 
-           //Configuration Modules Declaration
+
+            //Configuration Modules Declaration
             ConfigurationModuleCatalog configurationCatalog = new ConfigurationModuleCatalog();
             ((AggregateModuleCatalog)ModuleCatalog).AddCatalog(configurationCatalog);
 
             var erpmodtype = typeof(ErpApplicationModule);
-            ModuleCatalog.AddModule(new ModuleInfo(erpmodtype.Name,erpmodtype.AssemblyQualifiedName) );
+            ModuleCatalog.AddModule(new ModuleInfo(erpmodtype.Name, erpmodtype.AssemblyQualifiedName));
 #if DEBUG
 
             Type quotmodType = typeof(QuotationModule);
             ModuleCatalog.AddModule(new ModuleInfo(quotmodType.Name, quotmodType.AssemblyQualifiedName));
+
+            Type artmodType = typeof(ArticleModule);
+            ModuleCatalog.AddModule(new ModuleInfo(artmodType.Name, artmodType.AssemblyQualifiedName));
 #else
             //Directory Modules dll 
             DirectoryModuleCatalog directoryCatalog = new DirectoryModuleCatalog() { ModulePath = @".\modules" };
@@ -95,14 +101,14 @@ namespace Webcorp.erp
 
             // Add custom mappings
             mappings.RegisterMapping(typeof(Ribbon), ServiceLocator.Current.GetInstance<RibbonRegionAdapter>());
-
+            mappings.RegisterMapping(typeof(MetroAnimatedSingleRowTabControl), ServiceLocator.Current.GetInstance<MetroAnimatedSingleRowTabControlAdapter>());
             return mappings;
         }
 
         protected override void ConfigureKernel()
         {
             base.ConfigureKernel();
-            
+
             Kernel.Load("*.dll");
         }
 
@@ -113,7 +119,7 @@ namespace Webcorp.erp
     {
         public override void Load()
         {
-            
+            Bind<IShellViewModel>().To<MainWindowViewModel>();
         }
     }
 }
