@@ -18,6 +18,8 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 {
     public class QuotationViewModel : ViewModelBase<Quotation>, IQuotationViewModel
     {
+        private ICommandObserver<Unit> _openQuotationCommand;
+        private IPropertySubject<bool> _canOpenQuotation;
 
         public QuotationViewModel()
         {
@@ -33,6 +35,10 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         }
 
         public List<Quotation> Quotations { get; set; }
+    
+        public ICommand OpenQuotationCommand => _openQuotationCommand;
+
+        public bool CanOpenQuotation { get { return _canOpenQuotation?.Value ?? false; } set { _canOpenQuotation.Value = value; } }
 
         public override void Initialize()
         {
@@ -40,7 +46,20 @@ namespace Webcorp.erp.quotation.ViewModel.impl
             EventAggregator.GetEvent<PubSubEvent<QuotationMessage<QuotationViewModel>>>().Subscribe(OnPubSub);
             CanAdd = true;
             CanSave = true;
+            CanOpenQuotation = true;
 
+        }
+
+        protected override void CreateProperties<W>()
+        {
+            base.CreateProperties<W>();
+            CreateProperty<QuotationViewModel>(i => i.CanOpenQuotation, CanOpenQuotation, ref _canOpenQuotation, ref _openQuotationCommand, OnOpenQuotation);
+
+        }
+
+        public void OnOpenQuotation()
+        {
+            NavigateTo(QuotationRegions.Main, "QuotationFormView");
         }
 
         public override void OnSave()

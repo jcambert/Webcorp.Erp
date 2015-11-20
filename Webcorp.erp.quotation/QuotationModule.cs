@@ -36,9 +36,11 @@ namespace Webcorp.erp.quotation
             base.RegisterViewsWithRegion();
             RegisterViewWithRegion<QuotationSummaryView>(Regions.Client);
             RegisterViewWithRegion<QuotationDetailView>(Regions.Client);
+            RegisterViewWithRegion<QuotationFormView>(Regions.Client);
 
             RegisterViewWithRegion<QuotationSummaryView>(QuotationRegions.Main);
             RegisterViewWithRegion<QuotationDetailView>(QuotationRegions.Main);
+            RegisterViewWithRegion<QuotationFormView>(QuotationRegions.Main);
         }
 
         protected override void RegisterViewsWithModels()
@@ -46,7 +48,8 @@ namespace Webcorp.erp.quotation
             base.RegisterViewsWithModels();
             RegisterViewWithModel<QuotationSummaryView, IQuotationViewModel, QuotationViewModel, Quotation>();
             RegisterViewWithModel<QuotationDetailView, IQuotationViewModel, QuotationViewModel, Quotation>();
-            
+            RegisterViewWithModel<QuotationFormView, IQuotationViewModel, QuotationViewModel, Quotation>();
+
         }
 
         protected override void RegisterMenus()

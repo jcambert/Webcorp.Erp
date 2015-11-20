@@ -112,6 +112,7 @@
     <Compile Include="MaterialProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quotation\Tarif.cs" />
+    <Compile Include="Tiers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">

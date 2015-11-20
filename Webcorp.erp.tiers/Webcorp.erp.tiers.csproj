@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0DF555E2-16C7-43F0-8197-AF9A60F8A31D}</ProjectGuid>
+    <ProjectGuid>{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Webcorp.erp.quotation</RootNamespace>
-    <AssemblyName>Webcorp.erp.quotation</AssemblyName>
+    <RootNamespace>Webcorp.erp.tiers</RootNamespace>
+    <AssemblyName>Webcorp.erp.tiers</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -73,7 +72,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -94,7 +92,6 @@
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -111,55 +108,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DesignData\DQuotationViewModel.cs" />
-    <Compile Include="FormElement.cs" />
-    <Compile Include="QuotationModule.cs" />
-    <Compile Include="QuotationRegions.cs" />
-    <Compile Include="Services\ViewService.cs" />
-    <Compile Include="ViewModel\impl\QuotationMenuViewModel.cs" />
-    <Compile Include="ViewModel\impl\QuotationViewModel.cs" />
-    <Compile Include="ViewModel\IQuotationViewModel.cs" />
-    <Compile Include="Views\QuotationDetailView.xaml.cs">
-      <DependentUpon>QuotationDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QuotationFormView.xaml.cs">
-      <DependentUpon>QuotationFormView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QuotationMenu.xaml.cs">
-      <DependentUpon>QuotationMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QuotationMetroMenu.xaml.cs">
-      <DependentUpon>QuotationMetroMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QuotationSummaryView.xaml.cs">
-      <DependentUpon>QuotationSummaryView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\QuotationDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuotationFormView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuotationMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuotationMetroMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QuotationSummaryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -191,10 +139,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
-      <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
-      <Name>Webcorp.common</Name>
-    </ProjectReference>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Webcorp.erp.common\Webcorp.erp.common.csproj">
       <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>
       <Name>Webcorp.erp.common</Name>
@@ -221,37 +177,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\cut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\new-file.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\printer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if not exist "$(SolutionDir)Webcorp.erp\$(OutDir)\modules" mkdir "$(SolutionDir)Webcorp.erp\$(OutDir)\modules"
-xcopy /y "$(TargetPath)" "$(SolutionDir)Webcorp.erp\$(OutDir)\modules"</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

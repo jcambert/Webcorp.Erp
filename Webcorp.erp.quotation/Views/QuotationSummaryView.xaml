@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:designData="clr-namespace:Webcorp.erp.quotation.DesignData"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=designData:DQuotationViewModel,IsDesignTimeCreatable=True}"
@@ -35,7 +36,14 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Button>
-        <DataGrid Grid.Row="1" x:Name="QuotationDataGrid" ItemsSource="{Binding Quotations}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="1" x:Name="QuotationDataGrid" SelectedItem="{Binding Model}" ItemsSource="{Binding Quotations}" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow">
+         
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick" >
+                        <i:InvokeCommandAction Command="{Binding OpenQuotationCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+           
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
                 <DataGridTextColumn Header="Client" Binding="{Binding Client}"/>

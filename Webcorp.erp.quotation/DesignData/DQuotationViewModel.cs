@@ -186,6 +186,15 @@ namespace Webcorp.erp.quotation.DesignData
         }
 
         public bool KeepAlive => false;
+
+        public ICommand OpenQuotationCommand
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            
+        }
         #endregion
     }
 }

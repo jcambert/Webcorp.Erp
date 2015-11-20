@@ -34,6 +34,7 @@ namespace Webcorp.Model.Quotation
 
         public List<EntityQuotation> Entities { get; set; } = new List<EntityQuotation>();
 
+        public int Version { get; set; }
         #endregion
 
     }
