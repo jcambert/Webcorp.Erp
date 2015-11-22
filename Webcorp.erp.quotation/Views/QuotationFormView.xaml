@@ -4,15 +4,77 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Webcorp.erp.quotation.Views"
+             xmlns:uicommonconverter="clr-namespace:webcorp.erp.ui.common.Converters;assembly=Webcorp.erp.ui.common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+      
+        <ResourceDictionary>
+            <uicommonconverter:BoolInverseConverter x:Key= "invertBool"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+         
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" x:Name="buttonsControl" >
-            <Label Content="Buttons"/>
+        <StackPanel Grid.Row="0" x:Name="buttonsControl" Orientation="Horizontal" >
+            <Button  Command="{Binding ListQuotationCommand}"
+         Width="55"
+        Height="55"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        ToolTip="Retour à la liste"
+        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_base_select}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding CancelCommand}"
+         Width="55"
+        Height="55"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        ToolTip="RAnnuler"
+        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_cancel}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding SaveCommand}"
+         Width="55"
+        Height="55"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        ToolTip="Sauver"
+        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_save}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding EditCommand}"
+         Width="55"
+        Height="55"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        ToolTip="Editer"
+        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_edit}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -26,7 +88,8 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Detail chiffrage"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Rapport"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Liste articles"/>
-            <Label Grid.Row="1" Grid.Column="1" Content="Detail article"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Numero}" IsReadOnly="{Binding IsReadonly}"/>
+            <!--<Label Grid.Row="1" Grid.Column="1" Content="Detail article"/>-->
         </Grid>
     </Grid>
 </UserControl>

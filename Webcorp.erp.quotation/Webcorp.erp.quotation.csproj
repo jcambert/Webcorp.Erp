@@ -199,6 +199,10 @@
       <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>
       <Name>Webcorp.erp.common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\webcorp.erp.ui.common\webcorp.erp.ui.common.csproj">
+      <Project>{0d48b013-f8ab-487d-bc83-46d268863e5d}</Project>
+      <Name>webcorp.erp.ui.common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.lib.controller\Webcorp.lib.controller.csproj">
       <Project>{390401e8-4bca-46f2-8189-873be56e8f09}</Project>
       <Name>Webcorp.lib.controller</Name>

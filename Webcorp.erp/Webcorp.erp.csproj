@@ -188,6 +188,10 @@
       <Project>{0df555e2-16c7-43f0-8197-af9a60f8a31d}</Project>
       <Name>Webcorp.erp.quotation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\webcorp.erp.ui.common\webcorp.erp.ui.common.csproj">
+      <Project>{0d48b013-f8ab-487d-bc83-46d268863e5d}</Project>
+      <Name>webcorp.erp.ui.common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.lib.controller\Webcorp.lib.controller.csproj">
       <Project>{390401e8-4bca-46f2-8189-873be56e8f09}</Project>
       <Name>Webcorp.lib.controller</Name>

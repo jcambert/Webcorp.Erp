@@ -9,6 +9,7 @@ using Webcorp.unite;
 namespace Webcorp.Model.Quotation
 {
 
+    [Serializable]
     public class Quotation:Entity
     {
         public int Numero { get; set; }

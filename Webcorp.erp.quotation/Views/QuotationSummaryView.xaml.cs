@@ -26,6 +26,5 @@ namespace Webcorp.erp.quotation.Views
             
         }
 
-        
     }
 }

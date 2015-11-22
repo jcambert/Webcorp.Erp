@@ -7,6 +7,7 @@ using Webcorp.unite;
 
 namespace Webcorp.Model.Quotation
 {
+    [Serializable]
     public class EntityQuotation
     {
         public EntityQuotation()

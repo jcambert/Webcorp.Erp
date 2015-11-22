@@ -34,9 +34,9 @@ namespace Webcorp.erp.quotation
         protected override void RegisterViewsWithRegion()
         {
             base.RegisterViewsWithRegion();
-            RegisterViewWithRegion<QuotationSummaryView>(Regions.Client);
+          /*  RegisterViewWithRegion<QuotationSummaryView>(Regions.Client);
             RegisterViewWithRegion<QuotationDetailView>(Regions.Client);
-            RegisterViewWithRegion<QuotationFormView>(Regions.Client);
+            RegisterViewWithRegion<QuotationFormView>(Regions.Client);*/
 
             RegisterViewWithRegion<QuotationSummaryView>(QuotationRegions.Main);
             RegisterViewWithRegion<QuotationDetailView>(QuotationRegions.Main);
@@ -55,8 +55,14 @@ namespace Webcorp.erp.quotation
         protected override void RegisterMenus()
         {
             base.RegisterMenus();
-            RegisterMenu<QuotationMenu, QuotationViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
+            //RegisterMenu<QuotationMenu, QuotationViewModel, Quotation>("QuotationMenu", Regions.Ribbon);
             RegisterMenu<QuotationMetroMenu, QuotationViewModel, Quotation>("QuotationMenu", Regions.MainTab);
+        }
+
+        protected override void RegisterRegionNavigationEvents()
+        {
+            base.RegisterRegionNavigationEvents();
+            RegisterRegionNavigationEvent(QuotationRegions.Main);
         }
     }
 }

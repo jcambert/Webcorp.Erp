@@ -58,6 +58,7 @@ namespace Webcorp.erp
         {
             base.RegisterRegionNavigationEvents();
             RegisterRegionNavigationEvent(Regions.Client);
+           
         }
     }
 }

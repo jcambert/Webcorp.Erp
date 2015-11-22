@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C6F9B8EB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lib.model", "Webcorp.lib.model\Webcorp.lib.model.csproj", "{EA60F455-F9F6-4317-8E5F-0001AF90F9F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{C64ED9CF-0278-4C27-AAF6-C59CF6D254A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "erp", "erp", "{C64ED9CF-0278-4C27-AAF6-C59CF6D254A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "business", "business", "{663B79A5-737D-464E-B008-C0C03B792FA7}"
 EndProject
@@ -48,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lib.ui", "Webcorp.lib.ui\Webcorp.lib.ui.csproj", "{30ABF1DE-713D-4E8B-A6F5-00B5254C797D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp.tiers", "Webcorp.erp.tiers\Webcorp.erp.tiers.csproj", "{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webcorp.erp.ui.common", "webcorp.erp.ui.common\webcorp.erp.ui.common.csproj", "{0D48B013-F8AB-487D-BC83-46D268863E5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D48B013-F8AB-487D-BC83-46D268863E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D48B013-F8AB-487D-BC83-46D268863E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D48B013-F8AB-487D-BC83-46D268863E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D48B013-F8AB-487D-BC83-46D268863E5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,5 +156,6 @@ Global
 		{7A560422-E18F-4004-A1F6-08156C8EA9C7} = {2713B670-468A-4443-9DD2-FD311909E07A}
 		{30ABF1DE-713D-4E8B-A6F5-00B5254C797D} = {AA804EA0-6804-4236-BD77-97DEBC07BF2D}
 		{2F23F5AF-B1DD-49A2-A24B-CE24DA3F5EF3} = {2713B670-468A-4443-9DD2-FD311909E07A}
+		{0D48B013-F8AB-487D-BC83-46D268863E5D} = {C64ED9CF-0278-4C27-AAF6-C59CF6D254A9}
 	EndGlobalSection
 EndGlobal

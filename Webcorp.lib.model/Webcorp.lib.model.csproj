@@ -63,6 +63,7 @@
     <Compile Include="IEntityProvider.cs" />
     <Compile Include="IEntityProviderInitializable.cs" />
     <Compile Include="KeyProviderAttribute.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,9 @@ using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+#if DEBUG
+using System.Diagnostics;
+#endif
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -25,15 +28,7 @@ namespace Webcorp.rx_mvvm
         public BaseModule()
         {
             _myName = GetType().Name;
-            /* this.Kernel = ServiceLocator.Current.GetInstance<IKernel>(); ;
 
-             this.RegionManager = Kernel.Get<IRegionManager>();
-
-             this.EventAggregator = Kernel.Get<IEventAggregator>();
-
-             this.RegionNavigationService = Kernel.Get<IRegionNavigationService>();
-
-             this.logger = this.Kernel.Get<ILoggerFacade>();*/
         }
 
         [Inject]
@@ -73,6 +68,9 @@ namespace Webcorp.rx_mvvm
 
         protected virtual void NavigationFailed(object sender, RegionNavigationFailedEventArgs e)
         {
+#if DEBUG
+            if (Debugger.IsAttached) Debugger.Break();
+#endif
             Exception("Navigation Failed:"+e.Error.ToString());
             OnNavigationFailed(sender, e);
             
@@ -128,11 +126,12 @@ namespace Webcorp.rx_mvvm
         {
             if(!Kernel.GetBindings(typeof(TIVIEWMODEL)).Any())
                 Kernel.Bind(typeof(TIVIEWMODEL)).To(typeof(TVIEWMODEL)).InSingletonScope();
-            
-            var t = new TVIEW();
+            if (!Kernel.GetBindings(typeof(TVIEW)).Any())
+                Kernel.Bind<TVIEW>().ToSelf().OnActivation(v=>v.DataContext=Kernel.Get<TIVIEWMODEL>());
+            /*var t = new TVIEW();
             t.DataContext = Kernel.Get<TIVIEWMODEL>();
 
-            Kernel.Bind<TVIEW>().ToMethod(ctx => t);
+            Kernel.Bind<TVIEW>().ToMethod(ctx => t);*/
         }
 
         protected void RegisterMenu<TMENU>(string menuName, string ribbonRegion) where TMENU : FrameworkElement 

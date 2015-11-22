@@ -40,7 +40,7 @@ namespace Webcorp.rx_mvvm
 
         private IPropertySubject<bool> _canAdd;
         private IPropertySubject<bool> _canEdit;
-        private IPropertySubject<bool> _canSave;
+        protected IPropertySubject<bool> _canSave;
         private IPropertySubject<bool> _canDelete;
         private IPropertySubject<bool> _canClose;
 
@@ -73,6 +73,7 @@ namespace Webcorp.rx_mvvm
 
         protected void NavigateTo(string region,string uri)
         {
+           
             RegionManager.Regions[region].RequestNavigate(new Uri(uri, UriKind.Relative));
         }
 
@@ -195,6 +196,11 @@ namespace Webcorp.rx_mvvm
         {
             return Get<W>().CreateCommand<Unit>( IsEnabled);
         }
+
+        protected virtual void Reset()
+        {
+
+        }
         #endregion
 
         #region public function
@@ -207,22 +213,18 @@ namespace Webcorp.rx_mvvm
 
         public virtual void OnEdit()
         {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
+            Debug();
         }
 
         public virtual void OnSave()
         {
-            Debug("Save");
+            Debug();
 
         }
 
         public virtual void OnDelete()
         {
-#if DEBUG
-            if (Debugger.IsAttached) Debugger.Break();
-#endif
+            Debug();
 
         }
 
@@ -247,35 +249,35 @@ namespace Webcorp.rx_mvvm
         #region Logger
         public void Debug(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Debug(message, caller);
+            Logger?.Debug(message, caller);
         }
         public void Debug([CallerMemberName] string message = "")
         {
-            Logger.Debug(message);
+            Logger?.Debug(message);
         }
         public void Info(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Info(message, caller);
+            Logger?.Info(message, caller);
         }
         public void Info([CallerMemberName] string message = "")
         {
-            Logger.Info(message);
+            Logger?.Info(message);
         }
         public void Warn(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Warn(message, caller);
+            Logger?.Warn(message, caller);
         }
         public void Warn([CallerMemberName] string message = "")
         {
-            Logger.Warn(message);
+            Logger?.Warn(message);
         }
         public void Exception(string message, [CallerMemberName] string caller = "")
         {
-            Logger.Exception(message, caller);
+            Logger?.Exception(message, caller);
         }
         public void Exception([CallerMemberName] string message = "")
         {
-            Logger.Exception(message);
+            Logger?.Exception(message);
         }
 
 
@@ -309,7 +311,18 @@ namespace Webcorp.rx_mvvm
         #region properties
 
 
-        public new T Model { get { return (T)base.Model; } set { base.Model = value; } }
+        public virtual new T Model {
+            get { return (T)base.Model; }
+            set
+            {
+                T bm =(T) base.Model;
+                if (value.IsNotNull() && ! value.Equals(bm))
+                {
+                    base.Model = value;
+                    OnPropertyChanged();
+                }
+            }    
+        }
 
       
         [Inject]
