@@ -25,7 +25,7 @@ namespace Webcorp.rx_mvvm
 {
 
 
-    public  class ViewModelBase: CustomReactiveObject, IViewModel,ILoggable
+    public class ViewModelBase : /*CustomReactiveObject,*/ IViewModel, ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly Guid _serial = Guid.NewGuid();
@@ -46,8 +46,8 @@ namespace Webcorp.rx_mvvm
 
         private readonly ISubject<bool> _closeSubject = new Subject<bool>();
 
-    
-        
+
+
 
         //public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,15 +65,15 @@ namespace Webcorp.rx_mvvm
         }
 #endif
 
-        public ViewModelBase( object model):base()
+        public ViewModelBase(object model) : base()
         {
             this.Model = model;
         }
 
 
-        protected void NavigateTo(string region,string uri)
+        protected void NavigateTo(string region, string uri)
         {
-           
+
             RegionManager.Regions[region].RequestNavigate(new Uri(uri, UriKind.Relative));
         }
 
@@ -90,7 +90,7 @@ namespace Webcorp.rx_mvvm
         public IEventAggregator EventAggregator { get; set; }
         [Inject]
         public IRegionManager RegionManager { get; set; }
-        
+
         [Inject]
         public IKernel Container { get; set; }
 
@@ -143,13 +143,13 @@ namespace Webcorp.rx_mvvm
             set;
         }
 
-        
+
 
         public IObservable<bool> Close => _closeSubject.AsObservable();
 
 
         public virtual bool KeepAlive => false;
-        
+
 
 
         #endregion
@@ -166,23 +166,23 @@ namespace Webcorp.rx_mvvm
 
         #region protected function
 
-        protected IPropertyProvider<W> Get<W>() where W:IViewModel => Container.Resolve<IPropertyProvider<W>>(this);
+        protected IPropertyProvider<W> Get<W>() where W : IViewModel => Container.Resolve<IPropertyProvider<W>>(this);
 
         protected virtual void CreateProperties<W>() where W : ViewModelBase
         {
 
-            CreateProperty<W>(i => i.CanAdd,  CanAdd, ref _canAdd, ref _addCommand, OnAdd);
-            CreateProperty<W>(i => i.CanEdit,  CanEdit, ref _canEdit, ref _editCommand, OnEdit);
+            CreateProperty<W>(i => i.CanAdd, CanAdd, ref _canAdd, ref _addCommand, OnAdd);
+            CreateProperty<W>(i => i.CanEdit, CanEdit, ref _canEdit, ref _editCommand, OnEdit);
             CreateProperty<W>(i => i.CanSave, CanSave, ref _canSave, ref _saveCommand, OnSave);
             CreateProperty<W>(i => i.CanDelete, CanDelete, ref _canDelete, ref _deleteCommand, OnDelete);
             CreateProperty<W>(i => i.CanClose, CanClose, ref _canClose, ref _closeCommand, CloseView);
 
         }
 
-        protected virtual void CreateProperty<W>(Expression<Func<W, bool>> property,  bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : ViewModelBase
+        protected virtual void CreateProperty<W>(Expression<Func<W, bool>> property, bool canCmd, ref IPropertySubject<bool> _canSubject, ref ICommandObserver<Unit> _canCommand, Action action) where W : ViewModelBase
         {
             _canSubject = Get<W>().CreateProperty(property, canCmd);
-            _canCommand = CreateCommand<W>( canCmd);
+            _canCommand = CreateCommand<W>(canCmd);
             ShouldDispose(_canSubject.Subscribe(_canCommand.SetCanExecute));
             ShouldDispose(_canSubject.Subscribe(_ =>
             {
@@ -194,7 +194,7 @@ namespace Webcorp.rx_mvvm
 
         protected ICommandObserver<Unit> CreateCommand<W>(bool IsEnabled = true) where W : ViewModelBase
         {
-            return Get<W>().CreateCommand<Unit>( IsEnabled);
+            return Get<W>().CreateCommand<Unit>(IsEnabled);
         }
 
         protected virtual void Reset()
@@ -282,16 +282,18 @@ namespace Webcorp.rx_mvvm
 
 
         #endregion
-
-        /*public virtual void OnPropertyChanged([CallerMemberName]  string propertyName="")
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public virtual void OnPropertyChanged([CallerMemberName]  string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }*/
+        }
+        #endregion
 
     }
-    public  class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
+    public class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
     {
 
 
@@ -311,19 +313,20 @@ namespace Webcorp.rx_mvvm
         #region properties
 
 
-        public virtual new T Model {
+        public virtual new T Model
+        {
             get { return (T)base.Model; }
             set
             {
-                T bm =(T) base.Model;
-               
-                    base.Model = value;
-                    OnPropertyChanged();
-                
-            }    
+                // T bm =(T) base.Model;
+
+                base.Model = value;
+                OnPropertyChanged();
+
+            }
         }
 
-      
+
         [Inject]
         public IEntityController<T> Controller
         {
@@ -333,7 +336,7 @@ namespace Webcorp.rx_mvvm
         }
 
 
-       
+
 
         #endregion
 
@@ -346,10 +349,10 @@ namespace Webcorp.rx_mvvm
             return fluidCommand;
         }
 
-       
 
 
-       
+
+
 
         #region INavigationAware
 

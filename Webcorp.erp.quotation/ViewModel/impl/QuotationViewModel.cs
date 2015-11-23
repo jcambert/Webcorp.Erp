@@ -160,14 +160,20 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanDelete = false;
                     break;
                 case Status.Creation:
-                    LastModel = Model.Clone();
-                    Model = Container.Resolve<T>();
-                    Models.Add(Model);
-                    NavigateTo(QuotationRegions.Main, "QuotationFormView");
                     CanSave = true;
                     IsReadonly = false;
                     CanCancel = true;
                     CanList = false;
+
+                    LastModel = Model;
+                    
+                    Model = Container.Resolve<T>();
+                    Models.Add(Model);
+                    // Model = m;
+                  //  SelectedIndex = Models.Count+1;
+                    //OnPropertyChanged("SelectedIndex");
+                    //NavigateTo(QuotationRegions.Main, "QuotationFormView");
+                    
                     break;
                 case Status.Edition:
                     LastModel = Model.Clone();
@@ -178,7 +184,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanList = false;
                     break;
                 case Status.Lecture:
-                    NavigateTo(QuotationRegions.Main, "QuotationFormView");
+                   // NavigateTo(QuotationRegions.Main, "QuotationFormView");
                     CanSave = false;
                     CanList = true;
                     CanEdit = true;
@@ -186,7 +192,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanCancel = false;
                     break;
                 case Status.Liste:
-                    NavigateTo(QuotationRegions.Main, "QuotationSummaryView");
+                   // NavigateTo(QuotationRegions.Main, "QuotationSummaryView");
                     CanAdd = true;
                     CanRead = true;
                     IsReadonly = true;

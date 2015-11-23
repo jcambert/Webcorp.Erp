@@ -15,8 +15,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
-            <ContentControl Grid.Row="1"   x:Name="MainQuotationControl" prism:RegionManager.RegionName="{x:Static l:QuotationRegions.Main}"/>
+            <ItemsControl Grid.Row="1"   x:Name="MainQuotationControl" prism:RegionManager.RegionName="{x:Static l:QuotationRegions.Main}"/>
         </Grid>
     </TabItem>
 

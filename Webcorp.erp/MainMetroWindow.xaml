@@ -92,14 +92,7 @@
                 <MenuItem Header="Accent" ItemsSource="{Binding AccentColors, Mode=OneWay}" ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
             </Menu>
             <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1"   x:Name="MainTabControl" prism:RegionManager.RegionName="{x:Static common:Regions.MainTab}"/>
-            <!--<Controls:MetroAnimatedSingleRowTabControl  Grid.Row="1">
-                <TabItem Header="Articles">
-                    <Label Content="articles"/>
-                </TabItem>
-                <TabItem Header="Chiffrages">
-                    <Label Content="chiffrages"/>
-                </TabItem>
-            </Controls:MetroAnimatedSingleRowTabControl>-->
+
                 
         </Grid>
     </Controls:MetroContentControl>
