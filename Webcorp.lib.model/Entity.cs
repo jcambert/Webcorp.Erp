@@ -2,23 +2,54 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
+using PropertyChanged;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
+    [Serializable]
+    [DataContract]
+    public class CustomReactiveObject : ReactiveObject
+    {
+        public new event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public new event System.ComponentModel.PropertyChangingEventHandler PropertyChanging = delegate{};
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+#if DEBUG
+            Debug.WriteLine("CustomReactiveObject PropertyChanged:" + propertyName);
+#endif
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void OnPropertyChanging([CallerMemberName]string propertyName = "")
+        {
+#if DEBUG
+            Debug.WriteLine("CustomReactiveObject PropertyChanging:" + propertyName);
+#endif
+            PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));
+        }
+    }
+
     /// <summary>
     /// Abstract Entity for all the BusinessEntities.
     /// </summary>
     [DataContract]
     [Serializable]
     [BsonIgnoreExtraElements(Inherited = true)]
-    public abstract class Entity : IEntity
+  
+    public  class Entity : CustomReactiveObject, IEntity
     {
+       
+
         /// <summary>
         /// Gets or sets the id for this object (the primary record for an entity).
         /// </summary>
@@ -41,6 +72,10 @@ namespace Webcorp.Model
         [DataMember]
         [BsonIgnoreIfNull]
         public string ModifiedBy { get; set; }
+        [BsonIgnore]
+        [IgnoreDataMember]
+        public bool IsSelected { get; set; }
+
         
     }
 

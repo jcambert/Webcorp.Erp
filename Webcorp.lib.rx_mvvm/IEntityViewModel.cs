@@ -24,7 +24,7 @@ namespace Webcorp.rx_mvvm
 
     }
 
-    public interface IViewModel : IInitializable, IRegionMemberLifetime,INotifyPropertyChanged,IPropertyChanged,IShouldDisposable,IDisposable
+    public interface IViewModel : IInitializable, IRegionMemberLifetime,IPropertyChanged,IShouldDisposable,IDisposable
     {
         
     }

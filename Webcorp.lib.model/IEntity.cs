@@ -29,7 +29,8 @@ namespace Webcorp.Model
 
         string ModifiedBy { get; set; }
 
-        
+        bool IsSelected { get; set; }
+
     }
 
     /// <summary>

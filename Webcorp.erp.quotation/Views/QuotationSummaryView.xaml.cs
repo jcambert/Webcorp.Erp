@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Webcorp.erp.quotation.ViewModel.impl;
 
 namespace Webcorp.erp.quotation.Views
 {
@@ -26,5 +27,19 @@ namespace Webcorp.erp.quotation.Views
             
         }
 
+        private void OnChecked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as QuotationViewModel;
+            foreach (var item in vm.Models)
+            {
+                item.IsSelected = true;
+                item.OnPropertyChanged("IsSelected");
+            }
+        }
     }
 }

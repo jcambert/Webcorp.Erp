@@ -88,7 +88,7 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Detail chiffrage"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Rapport"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Liste articles"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Numero}" IsReadOnly="{Binding IsReadonly}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Numero,Mode=TwoWay}" IsReadOnly="{Binding IsReadonly}"/>
             <!--<Label Grid.Row="1" Grid.Column="1" Content="Detail article"/>-->
         </Grid>
     </Grid>

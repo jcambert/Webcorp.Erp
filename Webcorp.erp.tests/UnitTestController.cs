@@ -11,6 +11,9 @@ using Webcorp.Dal;
 using Webcorp.unite;
 using Webcorp.Business;
 using Webcorp.Model.Quotation;
+using PropertyChanged;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace Webcorp.erp.tests
 {
@@ -242,5 +245,54 @@ namespace Webcorp.erp.tests
 
             Debug.WriteLine(format.CoutMatiere.ToString("0.00 [euro]"));
         }
+
+        [TestMethod]
+        public void TestPropertyChange()
+        {
+            Quotation q = new Quotation();
+            q.PropertyChanged += (sender,args)=> {
+                Debug.WriteLine("Property Changed:" + args.PropertyName);
+            };
+            q.PropertyChanging += (send, args) =>
+            {
+                Debug.WriteLine("Property Changing:" + args.PropertyName);
+            };
+            q.Numero = 1234;
+            q.IsSelected = true;
+
+            var tmp = new Tmp();
+            tmp.PropertyChanged += (sender, args) =>
+            {
+                Debug.WriteLine("Property Changed:" + args.PropertyName);
+            };
+            tmp.Numero = 1;
+
+        }
+
+        
+    }
+   
+   
+    public class Tmp:ReactiveUI.ReactiveObject
+    {
+        public new event PropertyChangedEventHandler PropertyChanged;
+        public Tmp()
+        {
+            PropertyChanged += Tmp_PropertyChanged;
+        }
+
+        private void Tmp_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+           
+        }
+
+        public int Numero { get; set; }
+
+        public void OnPropertyChanged([CallerMemberName] string sender = "")
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(sender));
+        }
+
+    
     }
 }

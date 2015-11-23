@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Webcorp.Model
 {
@@ -13,22 +15,14 @@ namespace Webcorp.Model
     {
         public static T Clone<T>(this T source)
         {
-            if (!typeof(T).IsSerializable)
-            {
-                throw new ArgumentException("This type must be serializable.", "source");
-            }
+            MemoryStream stream1 = new MemoryStream();
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+            ser.WriteObject(stream1, source);
 
-            if (Object.ReferenceEquals(source, null))
-                return default(T);
+            stream1.Position = 0;
+            T result = (T)ser.ReadObject(stream1);
 
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
-            using (stream)
-            {
-                formatter.Serialize(stream, source);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
+            return result;
         }
     }
 }

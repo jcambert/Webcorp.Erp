@@ -56,8 +56,8 @@
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Splat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Splat.1.0.0\lib\Net45\Splat.dll</HintPath>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="BaseModule.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="impl\DeleteViewModelMessage.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="IDeleteViewModelMessage.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="ICommandObserver.cs" />
     <Compile Include="IDoFluidCommand.cs" />
     <Compile Include="impl\Logger.cs" />
+    <Compile Include="impl\Message.cs" />
     <Compile Include="IPropertyProvider.cs" />
     <Compile Include="IPropertyProviderFactory.cs" />
     <Compile Include="IPropertySubject.cs" />

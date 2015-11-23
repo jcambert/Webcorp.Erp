@@ -20,13 +20,13 @@ using System.Reactive.Linq;
 
 namespace Webcorp.erp.quotation.ViewModel.impl
 {
-    public class NavigationViewModel<T> : ViewModelBase<T> where T : IEntity
+    public class NavigationViewModel<T> : ViewModelBase<T> where T :class, IEntity
     {
 
         private ICommandObserver<Unit> _readCommand;
         private IPropertySubject<bool> _canRead;
 
-        private ICommandObserver<Unit> _listQuotationCommand;
+        private ICommandObserver<Unit> _listCommand;
         private IPropertySubject<bool> _canList;
 
         private ICommandObserver<Unit> _cancelCommand;
@@ -35,13 +35,13 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         private IPropertySubject<bool> _isReadOnly;
         private IPropertySubject<Status> _propStatus;
 
-        ObservableCollection<T> Models { get; set; }
+        public ObservableCollection<T> Models { get; set; }
 
         public T LastModel { get; set; }
 
         public int SelectedIndex { get; set; }
 
-        public Status Status { get; set; }
+        public Status Status { get{ return _propStatus.Value; } set { _propStatus.Value = value; } }
 
         public bool IsReadonly { get { return _isReadOnly.Value; } set { _isReadOnly.Value = value; OnPropertyChanged(); } }
 
@@ -53,20 +53,27 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
         public ICommand ReadCommand => _readCommand;
 
-        public ICommand ListQuotationCommand => _listQuotationCommand;
+        public ICommand ListQuotationCommand => _listCommand;
 
         public ICommand CancelCommand => _cancelCommand;
 
         public override bool KeepAlive => true;
+
+        public NavigationViewModel()
+        {
+            Models = new ObservableCollection<T>();
+        }
 
         public override void Initialize()
         {
             base.Initialize();
 
             _propStatus = new PropertySubject<Status>();
-           ShouldDispose(  _propStatus.Subscribe(p => _onStatusChanged(p)));
+             _propStatus.Subscribe(p => _onStatusChanged(p));
 
-            EventAggregator.GetEvent<PubSubEvent<QuotationMessage<QuotationViewModel>>>().Subscribe(OnMessage);
+            EventAggregator.GetEvent<PubSubEvent<IMessage<NavigationViewModel<T>>>>().Subscribe(OnMessage);
+
+
 
             Status = Status.Liste;
 
@@ -77,7 +84,14 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         {
             base.OnAdd();
             Status = Status.Creation;
+        }
 
+        public override void OnDelete()
+        {
+            base.OnDelete();
+            if (Model.IsNull()) return;
+            Models.Remove(Model);
+            Model = Models.Count > 0 ? Models[0] : null;
 
         }
 
@@ -86,18 +100,18 @@ namespace Webcorp.erp.quotation.ViewModel.impl
             base.OnEdit();
             Status = Status.Edition;
         }
-        public void OnRead()
+        public virtual void OnRead()
         {
 
             Status = Status.Lecture;
         }
 
-        public void OnListQuotation()
+        public virtual void OnList()
         {
             Status = Status.Liste;
         }
 
-        public void OnCancel()
+        public virtual void OnCancel()
         {
             if (Status == Status.Creation)
             {
@@ -125,7 +139,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
 
         #region Protected
-        protected virtual void OnMessage(QuotationMessage<QuotationViewModel> msg)
+        protected virtual void OnMessage(IMessage<NavigationViewModel<T>> msg)
         {
             Debug("Receive PubSub Message:" + msg);
             msg.Action(this);
@@ -133,15 +147,17 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
         protected virtual void OnStatusChanged(Status p)
         {
+            Debug("Status changed to:" + p.ToString());
             switch (p)
             {
                 case Status.Aucun:
                     CanSave = false;
-                    CanAdd = true;
-                    CanRead = true;
-                    IsReadonly = true;
-                    CanList = true;
+                    CanAdd = false;
+                    CanRead = false;
+                    IsReadonly = false;
+                    CanList = false;
                     CanCancel = false;
+                    CanDelete = false;
                     break;
                 case Status.Creation:
                     LastModel = Model.Clone();
@@ -151,6 +167,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanSave = true;
                     IsReadonly = false;
                     CanCancel = true;
+                    CanList = false;
                     break;
                 case Status.Edition:
                     LastModel = Model.Clone();
@@ -174,6 +191,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanRead = true;
                     IsReadonly = true;
                     CanEdit = true;
+                    CanDelete = true;
                     break;
                 default:
                     break;
@@ -185,7 +203,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         {
             base.CreateProperties<W>();
             CreateProperty<QuotationViewModel>(i => i.CanRead, CanRead, ref _canRead, ref _readCommand, OnRead);
-            CreateProperty<QuotationViewModel>(i => i.CanList, CanList, ref _canList, ref _listQuotationCommand, OnListQuotation);
+            CreateProperty<QuotationViewModel>(i => i.CanList, CanList, ref _canList, ref _listCommand, OnList);
             CreateProperty<QuotationViewModel>(i => i.CanCancel, CanCancel, ref _canCancel, ref _cancelCommand, OnCancel);
 
             _isReadOnly = Get<QuotationViewModel>().CreateProperty<bool>(i => i.IsReadonly, !CanSave);
@@ -209,7 +227,25 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
 
     }
-    public class QuotationViewModel : ViewModelBase<Quotation>, IQuotationViewModel
+
+    public class QuotationViewModel : NavigationViewModel<Quotation>, IQuotationViewModel
+    {
+        public override void Initialize()
+        {
+            base.Initialize();
+            
+            Model = new Quotation() { Numero = 1234, Client = "Souchier0", Commentaire = "DP N° 1234" };
+            Models.Add(Model);
+            Model = new Quotation() { Numero = 4567, Client = "Souchier1", Commentaire = "DP N° 1234" };
+            Models.Add(Model);
+            Model = new Quotation() { Numero = 8910, Client = "Souchier2", Commentaire = "DP N° 1234" };
+            Models.Add(Model);
+            Model = new Quotation() { Numero = 111213, Client = "Souchier3", Commentaire = "DP N° 1234" };
+            Models.Add(Model);
+        }
+    }
+
+   /* public class QuotationViewModel : ViewModelBase<Quotation>, IQuotationViewModel
     {
         private ICommandObserver<Unit> _readCommand;
         private IPropertySubject<bool> _canRead;
@@ -270,11 +306,8 @@ namespace Webcorp.erp.quotation.ViewModel.impl
             _propStatus = new PropertySubject<Status>();
             ShouldDispose( _propStatus.Subscribe(p => _onStatusChanged(p)));
 
-            EventAggregator.GetEvent<PubSubEvent<QuotationMessage<QuotationViewModel>>>().Subscribe(OnPubSub);
-            /*    _canSave.Subscribe(_ =>
-                     IsReadonly = !CanSave
-                );
-                */
+            EventAggregator.GetEvent<PubSubEvent<IMessage<QuotationViewModel>>>().Subscribe(OnPubSub);
+
             Status = Status.Liste;
 
 
@@ -391,7 +424,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
         }
 
-        protected void OnPubSub(QuotationMessage<QuotationViewModel> msg)
+        protected void OnPubSub(IMessage<QuotationViewModel> msg)
         {
             Debug("Receive PubSub Message:" + msg);
             msg.Action(this);
@@ -412,4 +445,5 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
 
     }
+*/
 }

@@ -21,28 +21,41 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button  Command="{Binding AddCommand}"
-         Width="55"
-        Height="55"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        ToolTip="Ajouter un chiffrage"
-        Style="{DynamicResource MetroCircleButtonStyle}">
+                 Width="55"
+                Height="55"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Ajouter un chiffrage"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="20" Height="20">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_add}" />
+                        </Rectangle.Fill>
+                    </Rectangle>    
+            </Button>
+            <Button  Command="{Binding DeleteCommand}"
+                 Width="55"
+                Height="55"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Ajouter un chiffrage"
+                Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="20" Height="20">
                     <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_add}" />
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_delete}" />
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
-           
+
         </StackPanel>
         <DataGrid Grid.Row="1" 
                   x:Name="QuotationDataGrid" 
                   IsReadOnly="True"
                   SelectedIndex="{Binding Index,Mode=OneWay}"  
                   SelectedItem="{Binding Model}" 
-                  ItemsSource="{Binding Quotations}" 
+                  ItemsSource="{Binding Models}" 
                   
                   AutoGenerateColumns="False"  
                   SelectionUnit="FullRow" 
@@ -55,7 +68,22 @@
                 </i:Interaction.Triggers>
            
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="" ElementStyle="{DynamicResource MetroDataGridCheckBox}" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}" Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
+                <DataGridCheckBoxColumn Header="" ElementStyle="{DynamicResource MetroDataGridCheckBox}" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}" Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=TwoWay}">
+
+                </DataGridCheckBoxColumn>
+                <!--<DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="" Checked="CheckBox_Checked"/>    
+                        </DataTemplate>
+                        
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=TwoWay}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
                 <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
                 <DataGridTextColumn Header="Client" Binding="{Binding Client}"/>
                 <DataGridTextColumn Header="Commentaire" Binding="{Binding Commentaire}"/>

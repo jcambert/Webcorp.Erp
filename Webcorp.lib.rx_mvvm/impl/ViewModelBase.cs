@@ -25,7 +25,7 @@ namespace Webcorp.rx_mvvm
 {
 
 
-    public  class ViewModelBase:IViewModel,ILoggable
+    public  class ViewModelBase: CustomReactiveObject, IViewModel,ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly Guid _serial = Guid.NewGuid();
@@ -49,7 +49,7 @@ namespace Webcorp.rx_mvvm
     
         
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewModelBase()
         {
@@ -61,7 +61,7 @@ namespace Webcorp.rx_mvvm
 #if DEBUG
         private void ViewModelBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Debug(e.PropertyName + "has changed");
+            Debug(e.PropertyName + " has changed");
         }
 #endif
 
@@ -283,12 +283,12 @@ namespace Webcorp.rx_mvvm
 
         #endregion
 
-        public virtual void OnPropertyChanged([CallerMemberName]  string propertyName="")
+        /*public virtual void OnPropertyChanged([CallerMemberName]  string propertyName="")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }*/
 
     }
     public  class ViewModelBase<T> : ViewModelBase, IEntityViewModel<T>, INavigationAware where T : IEntity
@@ -316,11 +316,10 @@ namespace Webcorp.rx_mvvm
             set
             {
                 T bm =(T) base.Model;
-                if (value.IsNotNull() && ! value.Equals(bm))
-                {
+               
                     base.Model = value;
                     OnPropertyChanged();
-                }
+                
             }    
         }
 
