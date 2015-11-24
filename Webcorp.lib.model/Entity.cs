@@ -76,6 +76,7 @@ namespace Webcorp.Model
         [IgnoreDataMember]
         public bool IsSelected { get; set; }
 
+     //   public void OnPropertyChanged([CallerMemberName] string propertyName = "") { }
         
     }
 

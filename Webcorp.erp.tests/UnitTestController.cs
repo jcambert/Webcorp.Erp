@@ -250,13 +250,13 @@ namespace Webcorp.erp.tests
         public void TestPropertyChange()
         {
             Quotation q = new Quotation();
-            q.PropertyChanged += (sender,args)=> {
+            /*q.PropertyChanged += (sender,args)=> {
                 Debug.WriteLine("Property Changed:" + args.PropertyName);
             };
             q.PropertyChanging += (send, args) =>
             {
                 Debug.WriteLine("Property Changing:" + args.PropertyName);
-            };
+            };*/
             q.Numero = 1234;
             q.IsSelected = true;
 

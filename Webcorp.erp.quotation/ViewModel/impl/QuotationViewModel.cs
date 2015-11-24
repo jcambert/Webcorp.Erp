@@ -20,7 +20,7 @@ using System.Reactive.Linq;
 
 namespace Webcorp.erp.quotation.ViewModel.impl
 {
-    public class NavigationViewModel<T> : ViewModelBase<T> where T :class, IEntity
+    public abstract class NavigationViewModel<T> : ViewModelBase<T> where T :class, IEntity
     {
 
         private ICommandObserver<Unit> _readCommand;
@@ -165,9 +165,9 @@ namespace Webcorp.erp.quotation.ViewModel.impl
                     CanCancel = true;
                     CanList = false;
 
-                    LastModel = Model;
-                    
-                    Model = Container.Resolve<T>();
+                    LastModel = Model.Clone();
+
+                    Model =  Container.Resolve<T>();
                     Models.Add(Model);
                     // Model = m;
                   //  SelectedIndex = Models.Count+1;
@@ -228,10 +228,10 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         {
             OnStatusChanged(p);
         }
-        
+
         #endregion
 
-
+        public abstract T CreateModel();
     }
 
     public class QuotationViewModel : NavigationViewModel<Quotation>, IQuotationViewModel
@@ -239,8 +239,15 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         public override void Initialize()
         {
             base.Initialize();
-            
-            Model = new Quotation() { Numero = 1234, Client = "Souchier0", Commentaire = "DP N° 1234" };
+
+            for (int i = 1; i < 10; i++)
+            {
+                Models.Add(new Quotation() { Numero = i, Client = "Samoa_" + i, Commentaire = "DP N°" + i });
+            }
+
+            Model = Models[0];
+
+            /*Model = new Quotation() { Numero = 1234, Client = "Souchier0", Commentaire = "DP N° 1234" };
             Models.Add(Model);
             Model = new Quotation() { Numero = 4567, Client = "Souchier1", Commentaire = "DP N° 1234" };
             Models.Add(Model);
@@ -248,6 +255,25 @@ namespace Webcorp.erp.quotation.ViewModel.impl
             Models.Add(Model);
             Model = new Quotation() { Numero = 111213, Client = "Souchier3", Commentaire = "DP N° 1234" };
             Models.Add(Model);
+            
+            Model = Models[1];*/
+        }
+
+        public override Quotation CreateModel()
+        {
+            return new Quotation();
+        }
+        public override Quotation Model
+        {
+            get
+            {
+                return base.Model;
+            }
+
+            set
+            {
+                base.Model = value;
+            }
         }
     }
 

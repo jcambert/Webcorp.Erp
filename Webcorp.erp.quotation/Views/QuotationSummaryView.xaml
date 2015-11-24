@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:designData="clr-namespace:Webcorp.erp.quotation.DesignData"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=designData:DQuotationViewModel,IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=designData:DQuotationViewModel, IsDesignTimeCreatable=True}"
              
              d:DesignHeight="500" d:DesignWidth="500" BorderBrush="DarkGray" BorderThickness="0" Background="#33FFFFFF">
     <UserControl.Resources>
@@ -19,7 +19,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button  Command="{Binding AddCommand}"
@@ -50,16 +50,21 @@
             </Button>
 
         </StackPanel>
-        <DataGrid Grid.Row="1" 
+
+        <DataGrid  Grid.Row="1"
                   x:Name="QuotationDataGrid" 
                   IsReadOnly="True"
-                  SelectedIndex="{Binding SelectedIndex,Mode=OneWay}"  
-                  SelectedItem="{Binding Model}" 
+                  SelectedIndex="{Binding SelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                  SelectedItem="{Binding Model,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                   ItemsSource="{Binding Models}" 
                   
                   AutoGenerateColumns="False"  
                   SelectionUnit="FullRow" 
-                  RenderOptions.ClearTypeHint="Enabled">
+                  RenderOptions.ClearTypeHint="Enabled"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  >
          
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick" >
@@ -68,9 +73,9 @@
                 </i:Interaction.Triggers>
            
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="" ElementStyle="{DynamicResource MetroDataGridCheckBox}" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}" Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=TwoWay}">
+               <!-- <DataGridCheckBoxColumn Header="" ElementStyle="{DynamicResource MetroDataGridCheckBox}" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}" Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=TwoWay}">
 
-                </DataGridCheckBoxColumn>
+                </DataGridCheckBoxColumn>-->
                 <!--<DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>

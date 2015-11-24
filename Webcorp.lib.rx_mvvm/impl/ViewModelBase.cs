@@ -25,7 +25,7 @@ namespace Webcorp.rx_mvvm
 {
 
 
-    public class ViewModelBase : /*CustomReactiveObject,*/ IViewModel, ILoggable
+    public class ViewModelBase : CustomReactiveObject, IViewModel, ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly Guid _serial = Guid.NewGuid();
@@ -46,10 +46,6 @@ namespace Webcorp.rx_mvvm
 
         private readonly ISubject<bool> _closeSubject = new Subject<bool>();
 
-
-
-
-        //public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewModelBase()
         {
@@ -283,13 +279,13 @@ namespace Webcorp.rx_mvvm
 
         #endregion
         #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        /*public  event PropertyChangedEventHandler PropertyChanged = delegate { };
         public virtual void OnPropertyChanged([CallerMemberName]  string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }*/
         #endregion
 
     }
@@ -321,7 +317,7 @@ namespace Webcorp.rx_mvvm
                 // T bm =(T) base.Model;
 
                 base.Model = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
 
             }
         }

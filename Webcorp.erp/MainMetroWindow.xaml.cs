@@ -34,7 +34,7 @@ namespace Webcorp.erp
             set { DataContext = value; }
         }
 
-        private async void CloseCustomDialog(object sender, RoutedEventArgs e)
+        private  void CloseCustomDialog(object sender, RoutedEventArgs e)
         {
            
         }
