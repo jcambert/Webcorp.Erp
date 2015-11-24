@@ -38,7 +38,7 @@ namespace Webcorp.erp.quotation.Views
             foreach (var item in vm.Models)
             {
                 item.IsSelected = true;
-                item.OnPropertyChanged("IsSelected");
+               
             }
         }
     }

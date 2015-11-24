@@ -34,10 +34,7 @@ namespace Webcorp.rx_mvvm
         void ShouldDispose(IDisposable disposable);
     }
 
-    public interface IPropertyChanged
-    {
-        void OnPropertyChanged([CallerMemberName]  string propertyName="");
-    }
 
-   
+
+
 }

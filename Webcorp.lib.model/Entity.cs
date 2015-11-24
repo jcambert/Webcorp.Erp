@@ -17,27 +17,45 @@ using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
+
+    public interface IPropertyChanged
+    {
+        void OnPropertyChanged([CallerMemberName]  string propertyName = "");
+    }
+
+
+    static class o
+    {
+        public static void r(this ReactiveObject o)
+        {
+            o.
+        }
+    }
     [Serializable]
     [DataContract]
 
-    public class CustomReactiveObject : ReactiveObject
+    public class CustomReactiveObject : ReactiveObject, IPropertyChanged
     {
-        public new event PropertyChangedEventHandler PropertyChanged = delegate { };
-        public new event System.ComponentModel.PropertyChangingEventHandler PropertyChanging = delegate{};
+        /*   public new event PropertyChangedEventHandler PropertyChanged = delegate { };
+           public new event System.ComponentModel.PropertyChangingEventHandler PropertyChanging = delegate{};
+           public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+           {
+   #if DEBUG
+               Debug.WriteLine("CustomReactiveObject PropertyChanged:" + propertyName);
+   #endif
+               PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+           }
+
+           public void OnPropertyChanging([CallerMemberName]string propertyName = "")
+           {
+   #if DEBUG
+               Debug.WriteLine("CustomReactiveObject PropertyChanging:" + propertyName);
+   #endif
+               PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));
+           }*/
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-#if DEBUG
-            Debug.WriteLine("CustomReactiveObject PropertyChanged:" + propertyName);
-#endif
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void OnPropertyChanging([CallerMemberName]string propertyName = "")
-        {
-#if DEBUG
-            Debug.WriteLine("CustomReactiveObject PropertyChanging:" + propertyName);
-#endif
-            PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));
+            PropertyChanged
         }
     }
 
