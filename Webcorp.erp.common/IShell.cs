@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.rx_mvvm;
@@ -24,4 +25,6 @@ namespace Webcorp.erp.common
         List<CultureInfo> CultureInfos { get; set; }
 
     }
+
+    
 }

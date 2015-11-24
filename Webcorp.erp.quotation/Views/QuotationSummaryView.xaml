@@ -54,8 +54,8 @@
         <DataGrid  Grid.Row="1"
                   x:Name="QuotationDataGrid" 
                   IsReadOnly="True"
-                  SelectedIndex="{Binding SelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
-                  SelectedItem="{Binding Model,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  SelectedIndex="{Binding SelectedIndex}"  
+                  SelectedItem="{Binding Model}" 
                   ItemsSource="{Binding Models}" 
                   
                   AutoGenerateColumns="False"  

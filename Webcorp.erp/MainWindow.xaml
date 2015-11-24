@@ -8,7 +8,7 @@
         xmlns:common="clr-namespace:Webcorp.erp.common;assembly=Webcorp.erp.common"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Webcorp ERP" Height="1266.648" Width="895.738">
+        Title="Webcorp ERP" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

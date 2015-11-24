@@ -20,6 +20,7 @@ using System.Reactive.Linq;
 
 namespace Webcorp.erp.quotation.ViewModel.impl
 {
+
     public abstract class NavigationViewModel<T> : ViewModelBase<T> where T :class, IEntity
     {
 
@@ -233,6 +234,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
 
         public abstract T CreateModel();
     }
+
 
     public class QuotationViewModel : NavigationViewModel<Quotation>, IQuotationViewModel
     {

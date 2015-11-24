@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using PropertyChanged;
+using PropertyChanging;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Webcorp.Model
 {
     [Serializable]
     [DataContract]
+
     public class CustomReactiveObject : ReactiveObject
     {
         public new event PropertyChangedEventHandler PropertyChanged = delegate { };

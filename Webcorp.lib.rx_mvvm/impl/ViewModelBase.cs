@@ -17,6 +17,7 @@ using System.Linq.Expressions;
 using Prism.Regions;
 using System.Runtime.CompilerServices;
 using Prism.Events;
+
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -24,7 +25,7 @@ using System.Diagnostics;
 namespace Webcorp.rx_mvvm
 {
 
-
+   
     public class ViewModelBase : CustomReactiveObject, IViewModel, ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
@@ -50,7 +51,8 @@ namespace Webcorp.rx_mvvm
         public ViewModelBase()
         {
             _myName = GetType().Name;
-#if DEBUG
+        }
+/*#if DEBUG
             PropertyChanged += ViewModelBase_PropertyChanged;
 #endif
         }
@@ -60,7 +62,7 @@ namespace Webcorp.rx_mvvm
             Debug(e.PropertyName + " has changed");
         }
 #endif
-
+*/
         public ViewModelBase(object model) : base()
         {
             this.Model = model;
@@ -317,7 +319,7 @@ namespace Webcorp.rx_mvvm
                 // T bm =(T) base.Model;
 
                 base.Model = value;
-                //OnPropertyChanged();
+                OnPropertyChanged();
 
             }
         }

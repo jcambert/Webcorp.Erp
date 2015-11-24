@@ -23,6 +23,7 @@ namespace Webcorp.erp
             
             var bootstrapper = new ErpApplicationBootstrapper();
             bootstrapper.Run(true);
+            Application.Current.MainWindow.WindowState = WindowState.Maximized;
         }
 
        
