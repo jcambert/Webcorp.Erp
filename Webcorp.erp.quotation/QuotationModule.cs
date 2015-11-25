@@ -46,10 +46,13 @@ namespace Webcorp.erp.quotation
         protected override void RegisterViewsWithModels()
         {
             base.RegisterViewsWithModels();
-            RegisterViewWithModel<QuotationSummaryView, IQuotationViewModel, QuotationViewModel, Quotation>();
-            RegisterViewWithModel<QuotationDetailView, IQuotationViewModel, QuotationViewModel, Quotation>();
-            RegisterViewWithModel<QuotationFormView, IQuotationViewModel, QuotationViewModel, Quotation>();
+            /* RegisterViewWithModel<QuotationSummaryView, IQuotationViewModel, QuotationViewModel, Quotation>();
+             RegisterViewWithModel<QuotationDetailView, IQuotationViewModel, QuotationViewModel, Quotation>();
+             RegisterViewWithModel<QuotationFormView, IQuotationViewModel, QuotationViewModel, Quotation>();*/
 
+            Kernel.Bind<QuotationReactiveViewModel>().ToSelf().InSingletonScope(); ;
+            Kernel.Bind<QuotationSummaryView>().ToSelf().OnActivation(v => v.DataContext = Kernel.Get<QuotationReactiveViewModel>());
+            Kernel.Bind<QuotationFormView>().ToSelf().OnActivation(v => v.DataContext = Kernel.Get<QuotationReactiveViewModel>());
         }
 
         protected override void RegisterMenus()

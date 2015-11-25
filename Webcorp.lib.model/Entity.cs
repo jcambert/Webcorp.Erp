@@ -24,13 +24,7 @@ namespace Webcorp.Model
     }
 
 
-    static class o
-    {
-        public static void r(this ReactiveObject o)
-        {
-            o.
-        }
-    }
+    
     [Serializable]
     [DataContract]
 
@@ -55,7 +49,7 @@ namespace Webcorp.Model
            }*/
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged
+            
         }
     }
 

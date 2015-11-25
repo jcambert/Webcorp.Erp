@@ -17,6 +17,7 @@ using Webcorp.Model;
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
+using ReactiveUI;
 
 namespace Webcorp.erp.quotation.ViewModel.impl
 {
@@ -63,6 +64,7 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         public NavigationViewModel()
         {
             Models = new ObservableCollection<T>();
+            
         }
 
         public override void Initialize()
@@ -279,7 +281,37 @@ namespace Webcorp.erp.quotation.ViewModel.impl
         }
     }
 
-   /* public class QuotationViewModel : ViewModelBase<Quotation>, IQuotationViewModel
+ 
+    public class QuotationReactiveViewModel : ReactiveObject
+    {
+        private IPropertySubject<bool> _canList;
+        public QuotationReactiveViewModel()
+        {
+            Models = new ObservableCollection<Quotation>();
+            for (int i = 1; i < 10; i++)
+            {
+                Models.Add(new Quotation() { Numero = i, Client = "Samoa_" + i, Commentaire = "DP N°" + i });
+            }
+
+            Model = Models[0];
+            _canList = new PropertySubject<bool>();
+           
+            var canAdd = Observable.Return<bool>(true);
+            AddCommand = new ReactiveCommand<bool>(_canList,_=> { Console.WriteLine("Run Edit");_canList.Value = false; return Observable.Return<bool>(true); });
+            _canList.Value = true;
+        }
+
+        Quotation _model;
+        public Quotation Model { get { return _model; } set { this.RaiseAndSetIfChanged(ref _model, value); } }
+
+        public ObservableCollection<Quotation> Models { get; set; }
+
+        public ReactiveCommand<bool> AddCommand { get; protected set; }
+
+
+    }
+    
+    /* public class QuotationViewModel : ViewModelBase<Quotation>, IQuotationViewModel
     {
         private ICommandObserver<Unit> _readCommand;
         private IPropertySubject<bool> _canRead;
