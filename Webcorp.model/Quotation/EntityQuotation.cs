@@ -1,14 +1,18 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Webcorp.reactive;
 using Webcorp.unite;
 
 namespace Webcorp.Model.Quotation
 {
     [Serializable]
-    public class EntityQuotation
+    public class EntityQuotation : CustomReactiveObject
     {
         public EntityQuotation()
         {
@@ -16,6 +20,13 @@ namespace Webcorp.Model.Quotation
         }
         public EntityQuotation(Quotation q)
         {
+            ShouldDispose(this.Operations.Changed.Subscribe(x => Tarifs.ForEach(t => t.Update(this))));
+            var pp = Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged").ObserveOnDispatcher(System.Windows.Threading.DispatcherPriority.Normal);
+            ShouldDispose(pp.Subscribe(_ =>
+            {
+                Tarifs.ForEach(t => t.Update(this));
+            }));
+
             q.Entities.Add(this);
             Commentaire = q.Commentaire;
             TauxHorraireMethodes = q.TauxHorraireMethodes;
@@ -25,39 +36,53 @@ namespace Webcorp.Model.Quotation
             Difficulte = q.Difficulte;
             Delai = q.Delai;
             Ts = q.Ts;
-
+            /* var p = Observable.FromEventPattern<CollectionChangeEventArgs>(this.Operations, "CollectionChanged").ObserveOnDispatcher(System.Windows.Threading.DispatcherPriority.Normal);
+             ShouldDispose( p.Subscribe(_ => {
+                 Tarifs.ForEach(t => t.Update(this));
+             }));*/
+            
         }
-        public string Reference { get; set; }
 
-        public string Plan { get; set; }
+        string _reference;
+        public string Reference { get { return _reference; } set { this.RaiseAndSetIfChanged(ref _reference, value); } }
 
-        public string Designation { get; set; }
+        string _plan;
+        public string Plan { get { return _plan; } set { this.RaiseAndSetIfChanged(ref _plan, value); } }
 
-        public string Indice { get; set; }
+        string _designation;
+        public string Designation { get { return _designation; } set { this.RaiseAndSetIfChanged(ref _designation, value); } }
 
-
+        string _indice;
+        public string Indice { get { return _indice; } set { this.RaiseAndSetIfChanged(ref _indice, value); } }
 
         //public FormatTole FormatTole { get; set; }
+        string _commentaire;
+        public string Commentaire { get { return _commentaire; } set { this.RaiseAndSetIfChanged(ref _commentaire, value); } }
 
-        public string Commentaire { get; set; }
+        TauxHorraire _thmethodes;
+        public TauxHorraire TauxHorraireMethodes { get { return _thmethodes; } set { this.RaiseAndSetIfChanged(ref _thmethodes, value); } }
 
-        public TauxHorraire TauxHorraireMethodes { get; set; }
+        Time _tpsMethodes;
+        public Time TempsMethodes { get { return _tpsMethodes; } set { this.RaiseAndSetIfChanged(ref _tpsMethodes, value); } }
 
-        public Time TempsMethodes { get; set; }
+        Currency _fad;
+        public Currency FAD { get { return _fad; } set { this.RaiseAndSetIfChanged(ref _fad, value); } }
 
-        public Currency FAD { get; set; }
+        Currency _outillage;
+        public Currency Outillage { get { return _outillage; } set { this.RaiseAndSetIfChanged(ref _outillage, value); } }
 
-        public Currency Outillage { get; set; }
+        Difficulte _difficulte;
+        public Difficulte Difficulte { get { return _difficulte; }  set { this.RaiseAndSetIfChanged(ref _difficulte, value); } }
 
-        public Difficulte Difficulte { get; set; }
+        Delai _delai;
+        public Delai Delai { get { return _delai; } set { this.RaiseAndSetIfChanged(ref _delai, value); } }
 
-        public Delai Delai { get; set; }
+        TraitementSurface _ts;
+        public TraitementSurface Ts { get { return _ts; } set { this.RaiseAndSetIfChanged(ref _ts, value); } }
 
-        public TraitementSurface Ts { get; set; }
+        public ReactiveCollection<Operation> Operations { get; set; } = new ReactiveCollection<Operation>();
 
-        public List<Operation> Operations { get; set; } = new List<Operation>();
-
-        public List<Tarif> Tarifs { get; set; } = new List<Tarif>();
+        public ReactiveCollection<Tarif> Tarifs { get; set; } = new ReactiveCollection<Tarif>();
 
         public Currency CoutMethodes => TauxHorraireMethodes * TempsMethodes;
 
@@ -82,6 +107,7 @@ namespace Webcorp.Model.Quotation
         }
 
         public Currency CoutComposant => 0 * Currency.Euro;
+
         public Currency CoutMatiere
         {
             get
@@ -93,7 +119,7 @@ namespace Webcorp.Model.Quotation
 
         }
 
-        
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

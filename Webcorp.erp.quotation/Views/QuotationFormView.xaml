@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Webcorp.erp.quotation.Views"
-             xmlns:uicommonconverter="clr-namespace:webcorp.erp.ui.common.Converters;assembly=Webcorp.erp.ui.common"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:regions="clr-namespace:Webcorp.erp.quotation"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="453.919">
     <UserControl.Resources>
-
+       
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -21,27 +23,27 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" x:Name="buttonsControl" Orientation="Horizontal" >
-            <Button  Command="{Binding ListQuotationCommand}"
-         Width="55"
-        Height="55"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        ToolTip="Retour à la liste"
-        Style="{DynamicResource MetroCircleButtonStyle}">
-                <Rectangle Width="20" Height="20">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_base_select}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
-            <Button  Command="{Binding CancelCommand}"
-         Width="55"
-        Height="55"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        ToolTip="RAnnuler"
-        Style="{DynamicResource MetroCircleButtonStyle}">
+        <StackPanel Grid.Row="0" x:Name="buttonsControl" Orientation="Horizontal" Margin="0,0,0,4.8" >
+            <Button  Command="{Binding ViewListCommand}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Retour à la liste"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="20" Height="20">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_base_select}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                    <Button  Command="{Binding CancelCommand}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="RAnnuler"
+                Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="20" Height="20">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_cancel}" />
@@ -49,36 +51,101 @@
                 </Rectangle>
             </Button>
             <Button  Command="{Binding SaveCommand}"
-         Width="55"
-        Height="55"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        ToolTip="Sauver"
-        Style="{DynamicResource MetroCircleButtonStyle}">
+                Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Sauver"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="20" Height="20">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_save}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+            <Button  Command="{Binding EditCommand}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Editer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="20" Height="20">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_edit}" />
+                        </Rectangle.Fill>
+                    </Rectangle>    
+            </Button>
+            <Button  Command="{Binding PrintCommand}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Imprimer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="20" Height="20">
                     <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_save}" />
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_printer}" />
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
-            <Button  Command="{Binding EditCommand}"
-         Width="55"
-        Height="55"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        ToolTip="Editer"
-        Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button  Command="{Binding GoFirst}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Editer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="20" Height="20">
                     <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_edit}" />
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource  appbar_arrow_left}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding GoPrevious}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Editer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_arrow_left}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding GoNext}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Editer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_navigate_next}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding GoLast}"
+                 Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                ToolTip="Editer"
+                Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_navigate_next}" />
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -86,8 +153,9 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Detail chiffrage"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Rapport"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Liste articles"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Numero,Mode=TwoWay}" IsReadOnly="{Binding IsReadonly}"/>
+            <ContentControl Grid.Row="1" Grid.Column="0"  prism:RegionManager.RegionName="{x:Static regions:QuotationRegions.ListeArticle}"/>
+            <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{x:Static regions:QuotationRegions.SummaryArticle}"/>
+            <!--<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Numero,Mode=TwoWay}" IsReadOnly="{Binding IsReadonly}"/>-->
             <!--<Label Grid.Row="1" Grid.Column="1" Content="Detail article"/>-->
         </Grid>
     </Grid>

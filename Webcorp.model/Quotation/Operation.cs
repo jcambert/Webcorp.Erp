@@ -1,10 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Text;
 using Webcorp.unite;
-
+using ReactiveUI;
 namespace Webcorp.Model.Quotation
 {
-    public class Operation
+    public class Operation:CustomReactiveObject
     {
 
         public Operation()
@@ -17,9 +17,12 @@ namespace Webcorp.Model.Quotation
             e.Operations.Add(this);
 
         }
-        public PosteCharge Poste { get; set; }
 
-        public double Nombre { get; set; }
+        PosteCharge _posteCharge;
+        public PosteCharge Poste { get { return _posteCharge; } set { this.RaiseAndSetIfChanged(ref _posteCharge, value); } }
+
+        double _nombre;
+        public double Nombre { get { return _nombre; } set { this.RaiseAndSetIfChanged(ref _nombre, value); } }
 
         [BsonIgnore]
         public Currency CoutPreparation => Poste.TauxHorrairePrep * Poste.TempsPreparation;
@@ -33,8 +36,9 @@ namespace Webcorp.Model.Quotation
         [BsonIgnore]
         public Time TempsOperation => 1 / Cadence * Time.Hour;
 
+        IOperationDecoupe _decoupe;
         [BsonIgnoreIfNull]
-        public IOperationDecoupe OperationDecoupe { get; set; }
+        public IOperationDecoupe OperationDecoupe { get { return _decoupe; } set { this.RaiseAndSetIfChanged(ref _decoupe, value); } }
 
         [BsonIgnore]
         private Time TempsBaseOp

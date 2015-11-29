@@ -28,7 +28,10 @@ namespace Webcorp.Model.Quotation
         public const string COEF_MATIERE = "QuotationCoeficientMatiere";
         public const double DEFAULT_COEF_MATIERE = 0.25;
 
-        public const string COEF_DECOUPE = "QuotationCoeficientPrestation";
+        public const string COEF_COMPOSANT = "QuotationCoeficientComposant";
+        public const double DEFAULT_COEF_COMPOSANT = 0.25;
+
+        public const string COEF_DECOUPE = "QuotationCoeficientDecoupe";
         public const double DEFAULT_COEF_DECOUPE = 0.3;
 
 
@@ -39,12 +42,14 @@ namespace Webcorp.Model.Quotation
 
         public static Currency DefaultFAD => Helpers.GetCurrencyFromAppConfig(FAD, DEFAULT_FAD);
 
-        public static double DefaultCoeficientPrestation => Helpers.GetDoubleFromAppConfig(COEF_PRESTATION, DEFAULT_COEF_PRESTATION) +1;
+        public static double DefaultCoeficientPrestation => Helpers.GetDoubleFromAppConfig(COEF_PRESTATION, DEFAULT_COEF_PRESTATION) ;
 
-        public static double DefaultCoeficientDecoupe => Helpers.GetDoubleFromAppConfig(COEF_DECOUPE, DEFAULT_COEF_DECOUPE) + 1;
+        public static double DefaultCoeficientDecoupe => Helpers.GetDoubleFromAppConfig(COEF_DECOUPE, DEFAULT_COEF_DECOUPE) ;
 
         public static Time DefaultTempsMethodes => Helpers.GetTimeFromAppConfig(TEMPS_METHODES, DEFAULT_TEMPS_METHODES);
 
-        public static double DefaultCoeficientMatiere => Helpers.GetDoubleFromAppConfig(COEF_MATIERE, DEFAULT_COEF_MATIERE) + 1;
+        public static double DefaultCoeficientMatiere => Helpers.GetDoubleFromAppConfig(COEF_MATIERE, DEFAULT_COEF_MATIERE) ;
+
+        public static double DefaultCoeficientComposant => Helpers.GetDoubleFromAppConfig(COEF_COMPOSANT, DEFAULT_COEF_COMPOSANT);
     }
 }

@@ -426,6 +426,7 @@ namespace Webcorp.unite
         /// </returns>
         public static Currency operator *(Currency x, double y)
         {
+            x = x ?? new Currency(0);
             return new Currency(x.value * y);
         }
 
@@ -443,6 +444,8 @@ namespace Webcorp.unite
         /// </returns>
         public static Currency operator -(Currency x, Currency y)
         {
+            x = x ?? new Currency(0);
+            y = y ?? new Currency(0);
             return new Currency(x.value - y.value);
         }
 

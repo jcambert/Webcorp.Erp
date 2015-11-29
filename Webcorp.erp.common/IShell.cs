@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Webcorp.rx_mvvm;
 
 namespace Webcorp.erp.common
 {
@@ -16,7 +10,7 @@ namespace Webcorp.erp.common
     }
 
 
-    public interface IShellViewModel:IViewModel, IDataErrorInfo
+    public interface IShellViewModel: IDataErrorInfo
     {
         List<AccentColorMenuData> AccentColors { get; set; }
 

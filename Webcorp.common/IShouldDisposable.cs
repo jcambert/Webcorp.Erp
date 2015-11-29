@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Webcorp.erp.common
+namespace Webcorp.common
 {
-    public enum Status
+    public interface IShouldDisposable
     {
-        Aucun,
-        Creation,
-        Edition,
-        Lecture,
-        Liste
+        void ShouldDispose(IDisposable disposable);
     }
 }

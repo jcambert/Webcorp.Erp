@@ -34,12 +34,12 @@ namespace Webcorp.erp.quotation.Views
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as QuotationViewModel;
+            /*var vm = DataContext as QuotationViewModel;
             foreach (var item in vm.Models)
             {
                 item.IsSelected = true;
                
-            }
+            }*/
         }
     }
 }

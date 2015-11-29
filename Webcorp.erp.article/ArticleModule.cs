@@ -1,15 +1,10 @@
 ﻿using Prism.Modularity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Webcorp.erp.article.ViewModel;
 using Webcorp.erp.article.ViewModel.impl;
 using Webcorp.erp.article.Views;
 using Webcorp.erp.common;
 using Webcorp.Model.Article;
-using Webcorp.rx_mvvm;
+using Ninject;
+using Webcorp.reactive;
 
 namespace Webcorp.erp.article
 {
@@ -28,7 +23,9 @@ namespace Webcorp.erp.article
         protected override void RegisterViewsWithModels()
         {
             base.RegisterViewsWithModels();
-            RegisterViewWithModel<ArticleSummaryView, IArticleViewModel, ArticleViewModel, Article>();
+           // RegisterViewWithModel<ArticleSummaryView, IArticleViewModel, ArticleViewModel, Article>();
+            Kernel.Bind<ArticleViewModel>().ToSelf().InSingletonScope();
+            Kernel.Bind<ArticleSummaryView>().ToSelf().OnActivation(v => v.DataContext = Kernel.Get<ArticleViewModel>());
 
         }
 

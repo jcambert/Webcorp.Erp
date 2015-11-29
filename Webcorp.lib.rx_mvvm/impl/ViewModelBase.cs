@@ -25,7 +25,7 @@ using System.Diagnostics;
 namespace Webcorp.rx_mvvm
 {
 
-   
+  /* 
     public class ViewModelBase : CustomReactiveObject, IViewModel, ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
@@ -52,17 +52,7 @@ namespace Webcorp.rx_mvvm
         {
             _myName = GetType().Name;
         }
-/*#if DEBUG
-            PropertyChanged += ViewModelBase_PropertyChanged;
-#endif
-        }
-#if DEBUG
-        private void ViewModelBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Debug(e.PropertyName + " has changed");
-        }
-#endif
-*/
+
         public ViewModelBase(object model) : base()
         {
             this.Model = model;
@@ -278,16 +268,15 @@ namespace Webcorp.rx_mvvm
             Logger?.Exception(message);
         }
 
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            
+        }
+
 
         #endregion
         #region PropertyChanged
-        /*public  event PropertyChangedEventHandler PropertyChanged = delegate { };
-        public virtual void OnPropertyChanged([CallerMemberName]  string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }*/
+
         #endregion
 
     }
@@ -371,4 +360,5 @@ namespace Webcorp.rx_mvvm
         #endregion
 
     }
+*/
 }

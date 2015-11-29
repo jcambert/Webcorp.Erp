@@ -111,11 +111,15 @@
     <Compile Include="IDoFluidCommand.cs" />
     <Compile Include="impl\Logger.cs" />
     <Compile Include="impl\Message.cs" />
+    <Compile Include="impl\ReactiveViewModel.cs" />
+    <Compile Include="impl\ViewModelStatus.cs" />
     <Compile Include="IPropertyProvider.cs" />
     <Compile Include="IPropertyProviderFactory.cs" />
     <Compile Include="IPropertySubject.cs" />
+    <Compile Include="IReactiveViewModel.cs" />
     <Compile Include="ISchedulers.cs" />
     <Compile Include="IStandardCommand.cs" />
+    <Compile Include="IViewModelStatus.cs" />
     <Compile Include="IWhereFluidCommand.cs" />
     <Compile Include="impl\MessageBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,6 +150,10 @@
     <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.reactive\Webcorp.reactive.csproj">
+      <Project>{bea698e2-e36e-48c8-89a3-035ef4b13f5a}</Project>
+      <Name>Webcorp.reactive</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -167,10 +167,6 @@
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.rx_mvvm\Webcorp.lib.rx_mvvm.csproj">
-      <Project>{56158907-3988-45fd-8fe4-4ca299881d26}</Project>
-      <Name>Webcorp.lib.rx_mvvm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
       <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
       <Name>Webcorp.model</Name>

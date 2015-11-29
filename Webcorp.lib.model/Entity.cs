@@ -1,19 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
-using PropertyChanged;
-using PropertyChanging;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
+using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
@@ -23,33 +15,28 @@ namespace Webcorp.Model
         void OnPropertyChanged([CallerMemberName]  string propertyName = "");
     }
 
+    public interface IShouldDispose
+    {
+        void ShouldDispose(IDisposable disposable);
+    }
 
-    
+
     [Serializable]
     [DataContract]
 
-    public class CustomReactiveObject : ReactiveObject, IPropertyChanged
+    public class CustomReactiveObject : ReactiveObject, IDisposable, IShouldDispose
     {
-        /*   public new event PropertyChangedEventHandler PropertyChanged = delegate { };
-           public new event System.ComponentModel.PropertyChangingEventHandler PropertyChanging = delegate{};
-           public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-           {
-   #if DEBUG
-               Debug.WriteLine("CustomReactiveObject PropertyChanged:" + propertyName);
-   #endif
-               PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-           }
 
-           public void OnPropertyChanging([CallerMemberName]string propertyName = "")
-           {
-   #if DEBUG
-               Debug.WriteLine("CustomReactiveObject PropertyChanging:" + propertyName);
-   #endif
-               PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));
-           }*/
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
+
+        public virtual void Dispose()
         {
-            
+            _disposables.Dispose();
+        }
+
+        public void ShouldDispose(IDisposable disposable)
+        {
+            _disposables.Add(disposable);
         }
     }
 

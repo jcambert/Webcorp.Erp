@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Webcorp.Model.Article;
-using Webcorp.rx_mvvm;
+﻿using Webcorp.Model.Article;
+using Webcorp.reactive;
 
 namespace Webcorp.erp.article.ViewModel.impl
 {
-    public class ArticleViewModel : ViewModelBase<Article>, IArticleViewModel
+    public class ArticleViewModel : ReactiveViewModel<Article>
     {
     }
 }

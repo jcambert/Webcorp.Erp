@@ -145,7 +145,7 @@ namespace Webcorp.rx_mvvm
 
             }
         }
-        protected void RegisterMenu<TMENU, TVIEWMODEL, TENTITY>(string menuName, string ribbonRegion) where TMENU : FrameworkElement where TVIEWMODEL : IViewModel
+        protected void RegisterMenu<TMENU, TVIEWMODEL, TENTITY>(string menuName, string ribbonRegion) where TMENU : FrameworkElement //where TVIEWMODEL : IViewModel
         {
             Kernel.Bind<TMENU>().ToSelf().InSingletonScope().Named(menuName);
             try {

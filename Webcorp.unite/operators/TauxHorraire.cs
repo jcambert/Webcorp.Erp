@@ -10,7 +10,13 @@ namespace Webcorp.unite
     {
         public static Currency operator *(TauxHorraire x, Time y)
         {
-            return new Currency(x.Value * y.ConvertTo(Time.Hour));
+            try {
+                return new Currency(x.Value * y.ConvertTo(Time.Hour));
+            }
+            catch
+            {
+                return 0 * Currency.Euro;
+            }
         }
 
 

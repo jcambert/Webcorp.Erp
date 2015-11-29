@@ -269,6 +269,12 @@ namespace Webcorp.erp.tests
 
         }
 
+        [TestMethod]
+        public void TestCurrencyFormat()
+        {
+            Currency c = (1 / 3) * Currency.Euro;
+            Debug.WriteLine( c.ToString("0.00"));
+        }
         
     }
    

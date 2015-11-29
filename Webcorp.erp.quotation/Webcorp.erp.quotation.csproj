@@ -123,11 +123,17 @@
     <Compile Include="ViewModel\impl\QuotationMenuViewModel.cs" />
     <Compile Include="ViewModel\impl\QuotationViewModel.cs" />
     <Compile Include="ViewModel\IQuotationViewModel.cs" />
+    <Compile Include="Views\QuotationArticleSummaryView.xaml.cs">
+      <DependentUpon>QuotationArticleSummaryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\QuotationDetailView.xaml.cs">
       <DependentUpon>QuotationDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuotationFormView.xaml.cs">
       <DependentUpon>QuotationFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuotationListeArticleView.xaml.cs">
+      <DependentUpon>QuotationListeArticleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuotationMenu.xaml.cs">
       <DependentUpon>QuotationMenu.xaml</DependentUpon>
@@ -142,11 +148,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\QuotationArticleSummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QuotationDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\QuotationFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuotationListeArticleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,13 +231,17 @@
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.rx_mvvm\Webcorp.lib.rx_mvvm.csproj">
-      <Project>{56158907-3988-45fd-8fe4-4ca299881d26}</Project>
-      <Name>Webcorp.lib.rx_mvvm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
       <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
       <Name>Webcorp.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.reactive\Webcorp.reactive.csproj">
+      <Project>{bea698e2-e36e-48c8-89a3-035ef4b13f5a}</Project>
+      <Name>Webcorp.reactive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
+      <Project>{3a221492-33fb-4ec2-92bf-6ab0d2ce9ab9}</Project>
+      <Name>Webcorp.unite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

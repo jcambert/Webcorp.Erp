@@ -79,7 +79,7 @@
     <Controls:MetroContentControl>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -91,7 +91,13 @@
                 <MenuItem Header="Theme" ItemsSource="{Binding ApplicationThemes, Mode=OneWay}"  ItemContainerStyle="{StaticResource AppThemeMenuItemStyle}" />
                 <MenuItem Header="Accent" ItemsSource="{Binding AccentColors, Mode=OneWay}" ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
             </Menu>
-            <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1"   x:Name="MainTabControl" prism:RegionManager.RegionName="{x:Static common:Regions.MainTab}"/>
+            <Controls:MetroAnimatedSingleRowTabControl
+                  Grid.Row="1"   
+                  x:Name="MainTabControl" 
+                  prism:RegionManager.RegionName="{x:Static common:Regions.MainTab}"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" />
 
                 
         </Grid>

@@ -1,10 +1,12 @@
-﻿using PropertyChanged;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Webcorp.reactive;
 using Webcorp.unite;
 
 namespace Webcorp.Model.Quotation
@@ -34,7 +36,8 @@ namespace Webcorp.Model.Quotation
 
         public TraitementSurface Ts { get; set; } = TraitementSurface.Aucun;
 
-        public List<EntityQuotation> Entities { get; set; } = new List<EntityQuotation>();
+        [BsonSerializer(typeof(ReactiveCollectionSerializer<string>))]
+        public ReactiveCollection<EntityQuotation> Entities { get; set; } = new ReactiveCollection<EntityQuotation>();
 
         public int Version { get; set; }
 

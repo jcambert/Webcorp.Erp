@@ -21,7 +21,8 @@ namespace Webcorp.rx_mvvm
 
             Bind<ILoggerFormatter>().To<LoggerFormatter>().InSingletonScope();
             Bind<ILogger>().To<Logger>().InSingletonScope();
-
+            Bind(typeof(IReactiveViewModel<>)).To(typeof(ReactiveViewModel<>));
+            Bind(typeof(IViewModelStatus<>)).To(typeof(ViewModelStatus<>));
         }
     }
 }

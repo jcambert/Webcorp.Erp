@@ -14,6 +14,6 @@ namespace Webcorp.erp.quotation.Services
         [Inject]
         public IKernel Container { get; set; }
         
-        public QuotationViewModel QuotationViewModel => (QuotationViewModel)Container.Get<IQuotationViewModel>();
+       // public QuotationViewModel QuotationViewModel => (QuotationViewModel)Container.Get<IQuotationViewModel>();
     }
 }

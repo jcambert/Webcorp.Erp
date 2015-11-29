@@ -146,6 +146,10 @@
       <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
       <Name>Webcorp.model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Webcorp.reactive\Webcorp.reactive.csproj">
+      <Project>{bea698e2-e36e-48c8-89a3-035ef4b13f5a}</Project>
+      <Name>Webcorp.reactive</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
       <Project>{3A221492-33FB-4EC2-92BF-6AB0D2CE9AB9}</Project>
       <Name>Webcorp.unite</Name>

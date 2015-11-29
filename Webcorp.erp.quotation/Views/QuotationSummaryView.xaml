@@ -54,9 +54,8 @@
         <DataGrid  Grid.Row="1"
                   x:Name="QuotationDataGrid" 
                   IsReadOnly="True"
-                  SelectedIndex="{Binding SelectedIndex}"  
-                  SelectedItem="{Binding Model}" 
-                  ItemsSource="{Binding Models}" 
+                  SelectedIndex="{Binding SelectedIndex}" 
+                  ItemsSource="{Binding }" 
                   
                   AutoGenerateColumns="False"  
                   SelectionUnit="FullRow" 
@@ -95,20 +94,36 @@
                 <DataGridTemplateColumn Header="Action">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button  Command="{Binding Path=DataContext.ReadCommand,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}"
+                            <StackPanel Orientation="Horizontal">
+                                <Button  Command="{Binding Path=DataContext.ReadCommand,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}"
+                                     Width="25"
+                                    Height="25"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    ToolTip="{Binding Numero}"
+                                    Style="{DynamicResource MetroCircleButtonStyle}">
+
+                                    <Rectangle Width="10" Height="10">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_edit}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <Button  Command="{Binding Path=DataContext.DeleteCommand,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}"
                                  Width="25"
                                 Height="25"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
                                 ToolTip="{Binding Numero}"
                                 Style="{DynamicResource MetroCircleButtonStyle}">
-                                
-                                <Rectangle Width="10" Height="10">
-                                    <Rectangle.Fill>
-                                        <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_edit}" />
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </Button>
+
+                                    <Rectangle Width="10" Height="10">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_delete}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

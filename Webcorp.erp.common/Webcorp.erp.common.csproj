@@ -86,7 +86,6 @@
     <Compile Include="Regions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleCommand.cs" />
-    <Compile Include="Status.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -96,10 +95,6 @@
     <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Webcorp.lib.rx_mvvm\Webcorp.lib.rx_mvvm.csproj">
-      <Project>{56158907-3988-45fd-8fe4-4ca299881d26}</Project>
-      <Name>Webcorp.lib.rx_mvvm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

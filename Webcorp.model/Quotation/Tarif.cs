@@ -3,16 +3,24 @@ using Webcorp.unite;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using ReactiveUI;
+using System.Reactive.Linq;
 
 namespace Webcorp.Model.Quotation
 {
-    public class Tarif
+    public class Tarif:CustomReactiveObject
     {
         public Tarif()
         {
-            
+            _cPrest = Configuration.DefaultCoeficientPrestation;
+            _cMat = Configuration.DefaultCoeficientMatiere;
+            _cComp = Configuration.DefaultCoeficientComposant;
+            _cVente = 0;
+
+           // var p=Observable.FromEventPattern<PropertyChangingEventArgs>(this, "PropertyChanged").Select(x => x.EventArgs.PropertyName == "PuBrut").ObserveOnDispatcher(System.Windows.Threading.DispatcherPriority.Normal);
+           // ShouldDispose(p.Subscribe(_=> { }));
         }
-        public Tarif(EntityQuotation entity)
+        public Tarif(EntityQuotation entity): this()
         {
             
             entity.Tarifs.Add(this);
@@ -20,29 +28,34 @@ namespace Webcorp.Model.Quotation
         public List<TarifPrestation> Prestations { get; set; } = new List<TarifPrestation>();
         public int Quantite { get; set; }
 
-        public void Update(EntityQuotation entity)
+        internal void Update(EntityQuotation entity)
         {
             double result0 = 0.0;
             Prestations.ForEach(p => result0 = result0 + p.Tarif.Value);
-            result0 *= CoeficientPrestation;
+            result0 *= (1+CoeficientPrestation);
             Currency result = new Currency(result0);
-            result = result + entity.CoutOperation + entity.CoutComposant + entity.CoutMatiere * CoeficientMatiere + (entity.CoutPreparation + entity.CoutMethodes + entity.FAD + entity.Outillage) / Quantite;
+            result = result + entity.CoutOperation + entity.CoutComposant*(1+CoeficientComposant) + entity.CoutMatiere * (1+CoeficientMatiere) + (entity.CoutPreparation + entity.CoutMethodes + entity.FAD + entity.Outillage) / Quantite;
             PuBrut = result;
         }
 
-       
+        Currency _pubrut;
         public Currency PuBrut
         {
-            get; set;
+            get { return _pubrut; } private set { this.RaiseAndSetIfChanged(ref _pubrut, value); }
         }
 
-      
 
-        public double CoeficientPrestation { get;  set; } = Configuration.DefaultCoeficientPrestation;
+        double _cPrest;
+        public double CoeficientPrestation { get { return _cPrest; }  set { this.RaiseAndSetIfChanged(ref _cPrest, value); } } 
 
-        public double CoeficientMatiere { get;  set; } = Configuration.DefaultCoeficientMatiere;
+        double _cMat;
+        public double CoeficientMatiere { get { return _cMat; }  set { this.RaiseAndSetIfChanged(ref _cMat, value); } } 
 
-        public double CoeficientVente { get; set; } = 0;
+        double _cComp;
+        public double CoeficientComposant { get { return _cComp; } set { this.RaiseAndSetIfChanged(ref _cComp, value); } }
+
+        double _cVente;
+        public double CoeficientVente { get { return _cVente; } set { this.RaiseAndSetIfChanged(ref _cVente, value); } } 
 
         [BsonIgnore]
         public Currency PuVente=> PuBrut * (1 + CoeficientVente);

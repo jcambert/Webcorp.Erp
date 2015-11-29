@@ -9,5 +9,7 @@ namespace Webcorp.erp.quotation
     public static class QuotationRegions
     {
         public const string Main = "MainQuotationRegion";
+        public const string ListeArticle = "ListeArticleRegion";
+        public const string SummaryArticle = "SummaryArticleRegion";
     }
 }

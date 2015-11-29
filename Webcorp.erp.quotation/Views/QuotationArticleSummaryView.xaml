@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Webcorp.erp.quotation.Views.QuotationArticleSummaryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Webcorp.erp.quotation.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <sys:Double x:Key="toto">13.3335</sys:Double>
+    </UserControl.Resources>
+    <Grid Margin="10" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Cout Matière:"/>
+        <Label Grid.Column="1" Grid.Row="0" Content="{Binding CurrentEntity.CoutMatiere}"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Cout Composant:"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="{Binding CurrentEntity.CoutComposant}"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Cout Preparation:"/>
+        <Label Grid.Column="1" Grid.Row="2" Content="{Binding CurrentEntity.CoutPreparation}"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Cout Operations:"/>
+        <Label Grid.Column="1" Grid.Row="3" Content="{Binding CurrentEntity.CoutOperation.Value, StringFormat={}{0:n2}}"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="FAD:"/>
+        <TextBox Grid.Column="1" Grid.Row="4"   IsReadOnly="True" BorderThickness="0" Text="{Binding CurrentEntity.FAD.Value,Mode=OneWay,StringFormat=F2}"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Outillage:"/>
+        <Label Grid.Column="1" Grid.Row="5" Content="{Binding CurrentEntity.Outillage}"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Tarifs"/>
+        <DataGrid Grid.Column="1" Grid.Row="6"  IsReadOnly="True" AutoGenerateColumns="false"
+              ScrollViewer.CanContentScroll="True"
+              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+              ItemsSource="{Binding CurrentEntity.Tarifs}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Quantite" Binding="{Binding Quantite}"/>
+                <DataGridTextColumn Header="Coef Prest." Binding="{Binding CoeficientPrestation, StringFormat={}{0:P}}"/>
+                <DataGridTextColumn Header="Coef Mat." Binding="{Binding CoeficientMatiere, StringFormat={}{0:P}}"/>
+                <DataGridTextColumn Header="Coef Vente" Binding="{Binding CoeficientVente , StringFormat={}{0:P}}"/>
+                <DataGridTextColumn Header="Pu Brut" Binding="{Binding PuBrut.Value,StringFormat='0.00 eur'}"/>
+                <DataGridTextColumn Header="Pu Vente" Binding="{Binding PuVente.Value,StringFormat='0.00 eur'}"/>
+                
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</UserControl>
