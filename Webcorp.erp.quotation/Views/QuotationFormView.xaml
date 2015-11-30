@@ -151,7 +151,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Detail chiffrage"/>
+            <!--<Label Grid.Row="0" Grid.Column="0" Content="Detail chiffrage"/>-->
+            <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="{x:Static regions:QuotationRegions.QuotationDetail}"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Rapport"/>
             <ContentControl Grid.Row="1" Grid.Column="0"  prism:RegionManager.RegionName="{x:Static regions:QuotationRegions.ListeArticle}"/>
             <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{x:Static regions:QuotationRegions.SummaryArticle}"/>

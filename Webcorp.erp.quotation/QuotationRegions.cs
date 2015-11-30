@@ -11,5 +11,6 @@ namespace Webcorp.erp.quotation
         public const string Main = "MainQuotationRegion";
         public const string ListeArticle = "ListeArticleRegion";
         public const string SummaryArticle = "SummaryArticleRegion";
+        public const string QuotationDetail = "QuotationDetailRegion";
     }
 }
