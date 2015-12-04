@@ -28,7 +28,7 @@ namespace Webcorp.reactive.tests
             poco.Values.Add("un");
             poco.Values.Add("deux");
             poco.Values.Add("trois");
-
+            poco.Values.Add("quatre");
             string s = Serialize(poco);
             var poco_ = Deserialize<POCO>(s);
             Assert.AreEqual(poco, poco_);
