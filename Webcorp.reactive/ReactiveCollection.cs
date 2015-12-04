@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Specialized;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Reactive.Disposables;
 
 namespace Webcorp.reactive
 {
 
     [Serializable]
-    public class ReactiveCollection<T> : ReactiveObject, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable, IList, ICollection, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged
+    public class ReactiveCollection<T> : ReactiveObject, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable, IList, ICollection, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged,IDisposable
     {
+
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
         private SimpleMonitor _monitor = new SimpleMonitor();
@@ -110,6 +113,11 @@ namespace Webcorp.reactive
                 if ((CollectionChanged != null) && (CollectionChanged.GetInvocationList().Length > 1))
                     throw new InvalidOperationException("Cannot reentrant");
             }
+        }
+
+        protected void ShouldDispose(IDisposable disposable)
+        {
+            _disposables.Add(disposable);
         }
         #endregion
 
@@ -292,10 +300,15 @@ namespace Webcorp.reactive
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)items).GetEnumerator();
 
-       
+
         #endregion
 
-
+        #region Disposable
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
+        #endregion
     }
 
 }

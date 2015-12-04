@@ -18,6 +18,9 @@ namespace Webcorp.lin.binpack
         // Status Progress Bar on the Form
         //private ToolStripProgressBar ProgressBar;
 
+        #region Events
+        public event EventHandler OnSolvingEnd = delegate { };
+        #endregion
 
         #region GreedyNextFit fields
 
@@ -52,9 +55,9 @@ namespace Webcorp.lin.binpack
         // Collection of Solutions
         private Dictionary<string, List<Bin>> SetOfSolutions = new Dictionary<string, List<Bin>>();
 
-        public CuttingStock(List<BinStock> theStocks, List<Item> theItems, float theTotalItemsSum/*, ToolStripLabel theTextBoxStatus, ToolStripProgressBar theToolStripProgressBar, CheckBox theExitGreedyNextFit*/)
+        public CuttingStock(List<BinStock> theStocks, ItemList theItems/*, float theTotalItemsSum/*, ToolStripLabel theTextBoxStatus, ToolStripProgressBar theToolStripProgressBar, CheckBox theExitGreedyNextFit*/)
         {
-            this.TotalItemsSum = theTotalItemsSum;
+            this.TotalItemsSum =theItems.Sum;
 
             //this.Label = theTextBoxStatus;
             //this.ProgressBar = theToolStripProgressBar;
@@ -78,8 +81,15 @@ namespace Webcorp.lin.binpack
             }
         }
 
+        public async Task SolveAsync()
+        {
+            await new TaskFactory().StartNew(
+                Solve
+                );
+            return ;
+        }
 
-        public async Task Solve()
+        public void Solve()
         {
             // This method drives the solver algorithms
 
@@ -116,7 +126,7 @@ namespace Webcorp.lin.binpack
              * This process can be repeated twice for searching the Best Cost and the Best Size solutions.
              */
             // Get a Branch & Bound List of improving solutions 
-            BranchAndBound Branch = new BranchAndBound(ListOfStocks, ListOfItems, TotalItemsSum, BoundValue, Label);
+            BranchAndBound Branch = new BranchAndBound(ListOfStocks, ListOfItems, TotalItemsSum, BoundValue/*, Label*/);
             List<BranchAndBound.BranchBound> BranchList = new List<BranchAndBound.BranchBound>();
             BranchList = Branch.GetBranchAndBound();
 

@@ -14,7 +14,7 @@ namespace Webcorp.lin.binpack
          */
 
         // StatusLabel on the Form
-        private ToolStripLabel Label;
+        //private ToolStripLabel Label;
 
         // Stores the maximum number of branhces
         private float MaxBranch;
@@ -52,10 +52,9 @@ namespace Webcorp.lin.binpack
         private List<BranchBound> BranchBoundList;
 
 
-        public BranchAndBound(List<BinStock> theStocks, List<Item> theItems, float theTotalItemsSum, float theBound,
-            ToolStripLabel theToolStripLabel)
+        public BranchAndBound(List<BinStock> theStocks, List<Item> theItems, float theTotalItemsSum, float theBound/*,   ToolStripLabel theToolStripLabel*/)
         {
-            this.Label = theToolStripLabel;
+            //this.Label = theToolStripLabel;
             this.TotalItemsSum = theTotalItemsSum;
             this.BoundValue = theBound;
 
@@ -103,8 +102,8 @@ namespace Webcorp.lin.binpack
 
             float measure;
 
-            try
-            {
+         /*   try
+            {*/
                 // 1 Stock
                 if (MaxStocksQuantity.Length == 1)
                 {
@@ -113,7 +112,7 @@ namespace Webcorp.lin.binpack
                         ++EvaluatedBranchCounter;
                         if (EvaluatedBranchCounter % 500 == 0)
                         {
-                            UpdateStatus();
+                           // UpdateStatus();
                         }
 
                         measure = c1 * BranchListOfStocks[0].Size;
@@ -140,7 +139,7 @@ namespace Webcorp.lin.binpack
                             ++EvaluatedBranchCounter;
                             if (EvaluatedBranchCounter % 500 == 0)
                             {
-                                UpdateStatus();
+                               // UpdateStatus();
                             }
 
                             measure = c1 * BranchListOfStocks[0].Size + c2 * BranchListOfStocks[1].Size;
@@ -170,7 +169,7 @@ namespace Webcorp.lin.binpack
                                 ++EvaluatedBranchCounter;
                                 if (EvaluatedBranchCounter % 500 == 0)
                                 {
-                                    UpdateStatus();
+                                    //UpdateStatus();
                                 }
 
                                 measure = c1 * BranchListOfStocks[0].Size + c2 * BranchListOfStocks[1].Size + c3 * BranchListOfStocks[2].Size;
@@ -203,7 +202,7 @@ namespace Webcorp.lin.binpack
                                     ++EvaluatedBranchCounter;
                                     if (EvaluatedBranchCounter % 5000 == 0)
                                     {
-                                        UpdateStatus();
+                                       // UpdateStatus();
                                     }
 
                                     measure = c1 * BranchListOfStocks[0].Size + c2 * BranchListOfStocks[1].Size + c3 * BranchListOfStocks[2].Size
@@ -242,7 +241,7 @@ namespace Webcorp.lin.binpack
                                         ++EvaluatedBranchCounter;
                                         if (BranchBoundList.Count % 5000 == 0)
                                         {
-                                            UpdateStatus();
+                                            //UpdateStatus();
                                         }
                                         measure = c1 * BranchListOfStocks[0].Size + c2 * BranchListOfStocks[1].Size + c3 * BranchListOfStocks[2].Size
                                        + c4 * BranchListOfStocks[3].Size + c5 * BranchListOfStocks[4].Size;
@@ -284,7 +283,7 @@ namespace Webcorp.lin.binpack
                                             ++EvaluatedBranchCounter;
                                             if (BranchBoundList.Count % 10000 == 0)
                                             {
-                                                UpdateStatus();
+                                                //UpdateStatus();
                                             }
                                             measure = c1 * BranchListOfStocks[0].Size + c2 * BranchListOfStocks[1].Size
                                                 + c3 * BranchListOfStocks[2].Size + c4 * BranchListOfStocks[3].Size
@@ -309,14 +308,14 @@ namespace Webcorp.lin.binpack
                         }
                     }
                 }
-            }
+           /* }
 
             catch (OutOfMemoryException)
             {
                 MessageBox.Show("Memory Full!\nThe application will be quitted.\nRetry with less Items or remove some Stocks.", BPCSform.HeaderMsgBox, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Application.Exit();
                 return;
-            }
+            }*/
         }
 
         private void AddItemToBranchBoundList(BranchBound myB, params int[] myCoeff)
@@ -336,12 +335,12 @@ namespace Webcorp.lin.binpack
             BranchBoundList.Add(myB);
         }
 
-        private void UpdateStatus()
+      /*  private void UpdateStatus()
         {
             // Shows information on the process
             Label.Text = "Branch and Bound. Evaluating branch " + EvaluatedBranchCounter.ToString("#,###") + " of " + MaxBranch.ToString("#,###");
             Application.DoEvents();
-        }
+        }*/
     }
 
 }
