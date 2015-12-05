@@ -9,12 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Webcorp.rx_mvvm;
 using System.Runtime.CompilerServices;
 
 namespace Webcorp.lib.ui
 {
-    public class WindowBase : Window, IInitializable,ILoggable
+  /*  public class WindowBase : Window, IInitializable,ILoggable
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -198,5 +197,5 @@ namespace Webcorp.lib.ui
 
 
         #endregion
-    }
+    }*/
 }

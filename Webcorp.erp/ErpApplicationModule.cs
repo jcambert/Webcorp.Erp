@@ -14,7 +14,7 @@ using Webcorp.erp.common;
 using Webcorp.erp.Views;
 using Webcorp.Model;
 using Webcorp.Model.Quotation;
-using Webcorp.rx_mvvm;
+using Webcorp.reactive;
 
 namespace Webcorp.erp
 {

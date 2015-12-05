@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 namespace Webcorp.reactive
 {
     [Serializable]
-    public class ReactiveNavigableCollection<T> : ReactiveCollection<T>, INavigable<T>, IDisposable, IShouldDisposable
+    public class ReactiveNavigableCollection<T> : ReactiveCollection<T>, INavigable<T>/*, IDisposable, IShouldDisposable*/
     {
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -182,17 +182,6 @@ namespace Webcorp.reactive
 
         #endregion
 
-        #region Dispose
-        public void ShouldDispose(IDisposable disposable)
-        {
-            _disposables.Add(disposable);
-        }
-        public void Dispose()
-        {
-            _disposables.Dispose();
-        }
-
-        #endregion
 
     }
 

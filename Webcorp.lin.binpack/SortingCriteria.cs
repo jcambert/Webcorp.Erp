@@ -20,9 +20,9 @@ namespace Webcorp.lin.binpack
 
 
     // Method for Non Decreasing Sort of Items
-    public class NonDecreasingSortOnItemSize : IComparer<Item>
+    public class NonDecreasingSortOnItemSize : IComparer<BinItem>
     {
-        public int Compare(Item x, Item y)
+        public int Compare(BinItem x, BinItem y)
         {
             if (x.Size > y.Size) return 1;
             else if (x.Size < y.Size) return -1;
@@ -32,9 +32,9 @@ namespace Webcorp.lin.binpack
 
 
     // Method for Non Increasing Sort of Items
-    public class NonIncreasingSortOnItemSize : IComparer<Item>
+    public class NonIncreasingSortOnItemSize : IComparer<BinItem>
     {
-        public int Compare(Item x, Item y)
+        public int Compare(BinItem x, BinItem y)
         {
             if (x.Size < y.Size) return 1;
             else if (x.Size > y.Size) return -1;

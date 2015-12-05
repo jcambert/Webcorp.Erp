@@ -50,12 +50,14 @@ namespace Webcorp.lin.binpack
         private List<BinStock> ListOfStocks;
 
         // Collection of Items to obtain
-        private List<Item> ListOfItems;
+        private List<BinItem> ListOfItems;
 
         // Collection of Solutions
         private Dictionary<string, List<Bin>> SetOfSolutions = new Dictionary<string, List<Bin>>();
 
-        public CuttingStock(List<BinStock> theStocks, ItemList theItems/*, float theTotalItemsSum/*, ToolStripLabel theTextBoxStatus, ToolStripProgressBar theToolStripProgressBar, CheckBox theExitGreedyNextFit*/)
+        public CuttingStock(List<BinStock> theStocks, List<BinItem> theItems) : this(new StockList(theStocks), new ItemList(theItems)) { }
+
+        public CuttingStock(StockList theStocks, ItemList theItems/*, float theTotalItemsSum/*, ToolStripLabel theTextBoxStatus, ToolStripProgressBar theToolStripProgressBar, CheckBox theExitGreedyNextFit*/)
         {
             this.TotalItemsSum =theItems.Sum;
 
@@ -64,22 +66,14 @@ namespace Webcorp.lin.binpack
            // this.ExitGreedyNextFit = theExitGreedyNextFit;
 
             // Get a List of Stocks available
-            this.ListOfStocks = new List<BinStock>();
-            foreach (BinStock s in theStocks)
-            {
-                if (s.Size > 0) this.ListOfStocks.Add(s);
-            }
+            this.ListOfStocks =  theStocks.Available;
 
             // Get a List of Items available
-            this.ListOfItems = new List<Item>();
-            foreach (Item i in theItems)
-            {
-                for (int j = 1; j <= i.Pieces; j++)
-                {
-                    if (i.Size > 0) this.ListOfItems.Add(i);
-                }
-            }
+            this.ListOfItems = theItems.Available;
         }
+
+
+        public Dictionary<string, List<Bin>> Solutions => SetOfSolutions;
 
         public async Task SolveAsync()
         {
@@ -251,7 +245,7 @@ namespace Webcorp.lin.binpack
             List<Bin> queryList = new List<Bin>();
 
             // Build the solution
-            foreach (Item myItem in ListOfItems)
+            foreach (BinItem myItem in ListOfItems)
             {
                 // Check if the current Stock can accept the Item
                 if (myItem.Size <= GreedyFirstFitSolution[GreedyFirstFitSolution.Count - 1].Reject)
@@ -324,7 +318,7 @@ namespace Webcorp.lin.binpack
                 GreedyBestFitSolution.Add(new Bin(branch.SetOfStocks[k], branch.SetOfStocksCost[k]));
 
                 // Try to build the solution
-                foreach (Item myItem in ListOfItems)
+                foreach (BinItem myItem in ListOfItems)
                 {
                     // Check if the current Stock can accept the Item
                     if (myItem.Size <= GreedyBestFitSolution[GreedyBestFitSolution.Count - 1].Reject)
@@ -571,7 +565,7 @@ namespace Webcorp.lin.binpack
 
         # region CommonMethods
 
-        private void AssignItem(Bin myElement, Item myItemToAssign)
+        private void AssignItem(Bin myElement, BinItem myItemToAssign)
         {
             // Add a new item of the ListOfItems at the current element of the Solution List passed in
             // This method is also invoked by QualifySolution() to move an item from one Bin to another
@@ -580,7 +574,7 @@ namespace Webcorp.lin.binpack
             myElement.Reject -= myItemToAssign.Size;
         }
 
-        private void RemoveItem(Bin myElement, Item myItemToRemove)
+        private void RemoveItem(Bin myElement, BinItem myItemToRemove)
         {
             // Remove an item in a source Bin of the Solution list. This method is invoked only by QualifySolution()
             myElement.Employ -= myItemToRemove.Size;

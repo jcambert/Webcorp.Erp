@@ -47,8 +47,8 @@ namespace Webcorp.lin.binpack
             set { reject = value; }
         }
 
-        private List<Item> itemsAssigned;
-        public List<Item> ItemsAssigned
+        private List<BinItem> itemsAssigned;
+        public List<BinItem> ItemsAssigned
         {
             get { return itemsAssigned; }
             set { itemsAssigned = value; }
@@ -61,7 +61,7 @@ namespace Webcorp.lin.binpack
             this.Cost = cost;
             this.Employ = 0;
             this.Reject = size;
-            this.ItemsAssigned = new List<Item>();
+            this.ItemsAssigned = new List<BinItem>();
         }
     }
 

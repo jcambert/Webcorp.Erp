@@ -35,7 +35,7 @@ namespace Webcorp.lin.binpack
         private List<BinStock> BranchListOfStocks;
 
         // Collection of Items
-        private List<Item> BranchListOfItems;
+        private List<BinItem> BranchListOfItems;
 
         // The single "branch" data structure
         public struct BranchBound
@@ -52,7 +52,7 @@ namespace Webcorp.lin.binpack
         private List<BranchBound> BranchBoundList;
 
 
-        public BranchAndBound(List<BinStock> theStocks, List<Item> theItems, float theTotalItemsSum, float theBound/*,   ToolStripLabel theToolStripLabel*/)
+        public BranchAndBound(List<BinStock> theStocks, List<BinItem> theItems, float theTotalItemsSum, float theBound/*,   ToolStripLabel theToolStripLabel*/)
         {
             //this.Label = theToolStripLabel;
             this.TotalItemsSum = theTotalItemsSum;
@@ -61,7 +61,7 @@ namespace Webcorp.lin.binpack
             BranchListOfStocks = new List<BinStock>();
             this.BranchListOfStocks = theStocks;
 
-            BranchListOfItems = new List<Item>();
+            BranchListOfItems = new List<BinItem>();
             this.BranchListOfItems = theItems;
 
             this.MaxStocksQuantity = new int[theStocks.Count];

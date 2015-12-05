@@ -57,6 +57,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.reactive.tests", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lin.binpack", "Webcorp.lin.binpack\Webcorp.lin.binpack.csproj", "{197806A9-3385-4AF6-8C6E-6A595CB8B75A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.binstock.tests", "Webcorp.binstock.tests\Webcorp.binstock.tests.csproj", "{10B06FFD-161E-4ACF-95AB-548CA541536D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lib.onedcut", "Webcorp.lib.onedcut\Webcorp.lib.onedcut.csproj", "{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +155,14 @@ Global
 		{197806A9-3385-4AF6-8C6E-6A595CB8B75A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{197806A9-3385-4AF6-8C6E-6A595CB8B75A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{197806A9-3385-4AF6-8C6E-6A595CB8B75A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B06FFD-161E-4ACF-95AB-548CA541536D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B06FFD-161E-4ACF-95AB-548CA541536D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B06FFD-161E-4ACF-95AB-548CA541536D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B06FFD-161E-4ACF-95AB-548CA541536D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,5 +190,7 @@ Global
 		{BEA698E2-E36E-48C8-89A3-035EF4B13F5A} = {663B79A5-737D-464E-B008-C0C03B792FA7}
 		{802C38BD-CDF5-44EF-BDD8-36E1B09D3AD6} = {C6F9B8EB-F00C-4C82-8511-A18C1923A505}
 		{197806A9-3385-4AF6-8C6E-6A595CB8B75A} = {AA804EA0-6804-4236-BD77-97DEBC07BF2D}
+		{10B06FFD-161E-4ACF-95AB-548CA541536D} = {C6F9B8EB-F00C-4C82-8511-A18C1923A505}
+		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE} = {AA804EA0-6804-4236-BD77-97DEBC07BF2D}
 	EndGlobalSection
 EndGlobal
