@@ -46,7 +46,7 @@ namespace Webcorp.lib.onedcut
     }
 
 
-    public class Solver
+   /* public class Solver
     {
         private readonly ReactiveList<Stock> _stocks;
         private readonly ReactiveList<Item> _items;
@@ -77,14 +77,11 @@ namespace Webcorp.lib.onedcut
         {
             Solution solution = new Solution();
             solution.Stock =0;
-            while (_stocks[solution.Stock].Size-)
-            {
-
-            }
+           
         }
 
     }
-
+*/
     public struct Solution
     {
         public int Item { get; set; }
