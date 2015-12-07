@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GAF;
 using GAF.Extensions;
+
 using System.Collections.Generic;
 using GAF.Operators;
 using System.Diagnostics;
