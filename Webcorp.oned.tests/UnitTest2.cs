@@ -86,6 +86,7 @@ namespace Webcorp.oned.tests
             var crossover = new Crossover(0.85) { CrossoverType = CrossoverType.DoublePointOrdered };
             var mutate = new SwapMutate(0.001);
             var ga = new GeneticAlgorithm(population, CalculateFitness);
+            
             ga.OnGenerationComplete += Ga_OnGenerationComplete;
             ga.OnRunComplete += Ga_OnRunComplete;
             ga.Operators.Add(elite);

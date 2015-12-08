@@ -93,8 +93,8 @@ namespace Webcorp.oned.tests
 
         private double CalculateFitness(Chromosome solution)
         {
-            var result = 0.0;
-            var wastedCount = 0;
+          
+          
             var waste = 0;
             var stockCount = 0;
             for (int i = 0; i < solution.Genes.Count; i++)
