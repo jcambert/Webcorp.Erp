@@ -9,6 +9,7 @@ using GAF;
 using GAF.Extensions;
 using System.Diagnostics;
 using ReactiveUI;
+using System.Threading.Tasks;
 
 namespace Webcorp.oned.tests
 {
@@ -80,47 +81,53 @@ namespace Webcorp.oned.tests
             ISolver solver = kernel.Get<ISolver>();
             Assert.IsNotNull(solver);
             solver.Beams = kernel.Get<IPopulation>().Beams;
+            solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
 
             solver.OnSolved += Solver_OnSolved;
             solver.Solve();
         }
 
+        [TestMethod]
+        public async Task TestCuttingBeamWithNinjectAsync()
+        {
+            var kernel = new StandardKernel(new OneDCutModule());
+
+            kernel.Bind<IPopulation>().To<InitialBeamPopulation>().InSingletonScope();
+            ISolver solver = kernel.Get<ISolver>();
+            Assert.IsNotNull(solver);
+            solver.Beams = kernel.Get<IPopulation>().Beams;
+            solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
+
+            solver.OnSolved += Solver_OnSolved;
+            await solver.SolveAsync();
+        }
         private void Solver_OnSolved(object sender, SolverEventArgs e)
         {
             var solver = sender as Solver;
-            var fittest = e.Population.GetTop(1)[0];
-            Debug.WriteLine("Fittest chromosome or best solution");
-            DebugChromosome(fittest);
-            int totCut = 0, totUncut = 0, totWaste = 0, totStock = 0, totToCut = 0;
-            foreach (var gene in fittest.Genes)
-            {
-                var cutplan = (gene.ObjectValue as Webcorp.lib.onedcut.CutPlan);
-                totWaste += cutplan.Waste == cutplan.StockLength ? 0 : cutplan.Waste;
-                totStock += cutplan.Waste == cutplan.StockLength ? 0 : cutplan.StockLength;
-                totCut += cutplan.CutLength;
-                totUncut += cutplan.Waste == cutplan.StockLength ? cutplan.StockLength : 0;
-            }
+            Debug.WriteLine("Best solution");
+            Debug.WriteLine("----------------------------");
+            Debug.WriteLine("Total To Cut:" +e.TotalToCut);
+            Debug.WriteLine("Total Cut:" + e.TotalCut);
+            Debug.WriteLine("Total Waste:" +e.TotalWaste);
+            Debug.WriteLine("Total Stock:" + e.TotalStock);
+            Debug.WriteLine(string.Format("Percentage Waste {0:P2} ",e.WastePercentage));
+            Debug.WriteLine("Uncut Stock:" + e.TotalUncut);
 
-            solver.Beams.ToList().ForEach(item => totToCut += item.TotalLength);
-            Debug.WriteLine("Total To Cut:" + totToCut);
-            Debug.WriteLine("Total Cut:" + totCut);
-            Debug.WriteLine("Total Waste:" + totWaste);
-            Debug.WriteLine("Total Stock:" + totStock);
-            Debug.WriteLine(string.Format("Percentage Waste {0:P2} ", (totWaste * 1.0 / totStock)));
-            Debug.WriteLine("Uncut Stock:" + totUncut);
-
-            if (totToCut > totCut)
+            if (!e.IsStockSuffisant)
             {
                 Debug.WriteLine("No stock to cut all need");
-                Debug.WriteLine(totToCut - totCut + " rest tot cut");
+                Debug.WriteLine(e.RestToCut + " rest tot cut");
             }
+            DebugCutPlan(e.CutPlan);  
         }
 
-        private void DebugChromosome(Chromosome c)
+        private void DebugCutPlan(List<lib.onedcut.CutPlan> cutplan)
         {
-            foreach (var gene in c.Genes)
+           
+            Debug.WriteLine("**** Cutting plan ****");
+            foreach (var cut in cutplan.OrderBy(i=>i.StockIndex))
             {
-                Debug.WriteLine(gene.ObjectValue as Webcorp.lib.onedcut.CutPlan);
+                Debug.WriteLine(cut);
             }
         }
     }
@@ -146,51 +153,6 @@ namespace Webcorp.oned.tests
 
         public ReactiveList<BeamStock> CuttingStock => stocks;
         
-        
-
-        /*    private Population CreateInitialePopulation(int totPop)
-            {
-                Population population = new Population();
-                for (int i = 0; i < totPop; i++)
-                {
-                    Debug.WriteLine("************************************");
-                    Debug.WriteLine("Create new Chromosome");
-                    var chromosome = CreateChromosome();
-
-                    population.Solutions.Add(chromosome);
-                }
-                return population;
-            }
-
-            private Chromosome CreateChromosome()
-            {
-                Chromosome chromosome = new Chromosome();
-                for (int i = 0; i < cuttingStock.Length; i++)
-                {
-                    var stock = cuttingStock[i];
-                    var cutplan = new Webcorp.lib.onedcut.CutPlan(i,stock);
-
-                    for (int j = 0; j < beams.Count; j++)
-                    {
-                        var item = beams[j];
-                        int v = (int)System.Math.Floor((1.0 * stock) / item.Length);
-                        v = System.Math.Min(v, item.Need);
-                        if (cutplan.AddCut(j, v, item.Length))
-                            item.Need -= v;
-                    }
-
-                    chromosome.Genes.Add(new Gene(cutplan));
-                    Debug.WriteLine("Creating gene");
-                    Debug.WriteLine(cutplan);
-                }
-                int reste = 0;
-                beams.ForEach(p => { reste += p.Need; Debug.WriteLine(p); });
-                Debug.WriteLine("Reste :" + reste);
-
-                beams.ForEach(item => item.Reset());
-                chromosome.Genes.ShuffleFast();
-                return chromosome;
-            }
-      */
+       
     }
 }

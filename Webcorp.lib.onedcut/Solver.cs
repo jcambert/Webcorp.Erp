@@ -25,11 +25,12 @@ namespace Webcorp.lib.onedcut
         private ReactiveList<Beam> beams;
         private ReactiveList<BeamStock> stocks;
         private Population initialPopulation;
+        private FitnessFunction _fitnessfunction;
         public Solver()
         {
-            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true; }));
-            this.Changed.ObservableForProperty(_ => Beams).Subscribe(_ => beamsChanged = true);
-            this.Changed.ObservableForProperty(_ => Stocks).Subscribe(_ => beamsChanged = true);
+            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true;beamsChanged=( _.PropertyName == "Beams" ||_.PropertyName=="Stocks"); }));
+            
+            
 
         }
 
@@ -48,8 +49,9 @@ namespace Webcorp.lib.onedcut
         [Inject]
         public ISolverParameter SolverParameter { get; set; }
 
-        public FitnessFunction FitnessFunction { get; set; }
+        public FitnessFunction FitnessFunction { get { return _fitnessfunction; } set { this.RaiseAndSetIfChanged(ref _fitnessfunction, value); } }
 
+        
 
         protected double CalculateFitness(Chromosome solution)
         {
@@ -62,8 +64,10 @@ namespace Webcorp.lib.onedcut
             return (totWaste / totStock);
         }
 
+
         public void Solve()
         {
+        
             if (beamsChanged)
             {
                 initialPopulation = CreateInitialePopulation(SolverParameter.InitialPopulationCount);
@@ -73,11 +77,13 @@ namespace Webcorp.lib.onedcut
             _ga.Run(SolverParameter.MaxEvaluation);
         }
 
-        public void SolveAsync()
+        public async Task SolveAsync()
         {
+
+
             if (beamsChanged)
             {
-                initialPopulation = CreateInitialePopulation(SolverParameter.InitialPopulationCount);
+                initialPopulation = await CreateInitialePopulationAsync(SolverParameter.InitialPopulationCount);
                 beamsChanged = false;
             }
             if(hasChanged) internalInit();
@@ -89,7 +95,7 @@ namespace Webcorp.lib.onedcut
 
 
             eliteOperator = new Elite(SolverParameter.ElitePercentage);
-            crossoverOperator = new Crossover(SolverParameter.CrossoverProbability) { CrossoverType = CrossoverType.DoublePointOrdered, AllowDuplicates = false };
+            crossoverOperator = new Crossover(SolverParameter.CrossoverProbability) { CrossoverType = CrossoverType.DoublePointOrdered };
             mutateOperator = new SwapMutate(SolverParameter.MutationProbability);
             internalInit();
 
@@ -97,7 +103,11 @@ namespace Webcorp.lib.onedcut
 
         private void internalInit()
         {
-            if (_ga != null)
+#if DEBUG
+            if (hasChanged)
+                Debug.WriteLine("a property has changed. We recreate a genetic algorithm");
+#endif
+                if (_ga != null)
             {
                 _ga.OnRunComplete -= Ga_OnRunComplete;
                 _ga = null;
@@ -112,7 +122,12 @@ namespace Webcorp.lib.onedcut
 
         private void Ga_OnRunComplete(object sender, GaEventArgs e)
         {
-            OnSolved(this, new SolverEventArgs(e.Population, e.Generation, e.Evaluations));
+#if DEBUG
+            Debug.WriteLine("Run Complete ...");
+#endif
+            var args = new SolverEventArgs(e.Population, e.Generation, e.Evaluations,Beams);
+            
+            OnSolved(this,args);
         }
 
         public bool IsRunning => _ga.IsRunning;
@@ -122,9 +137,18 @@ namespace Webcorp.lib.onedcut
         public void Halt() { _ga.Halt(); }
 
 
+        private async Task<Population> CreateInitialePopulationAsync(int totPop)
+        {
+            return await new TaskFactory<Population>().StartNew(()=> { return CreateInitialePopulation(totPop); });
+         }
 
         private Population CreateInitialePopulation(int totPop)
         {
+            if (Stocks == null) throw new ArgumentNullException("You must set Stocks");
+            if (Beams == null) throw new ArgumentNullException("You must set Beams");
+            if (totPop <= 0) throw new ArgumentException("Initial Total population count must be more than 0");
+            if (Stocks.Count == 0) throw new ArgumentException("There is no stocks !");
+            if (Beams.Count == 0) throw new ArgumentException("There is no beams !");
             Population population = new Population();
             for (int i = 0; i < totPop; i++)
             {
@@ -147,7 +171,7 @@ namespace Webcorp.lib.onedcut
             for (int i = 0; i < cuttingStock.Length; i++)
             {
                 var stock = cuttingStock[i];
-                var cutplan = new Webcorp.lib.onedcut.CutPlan(i, stock.Length);
+                var cutplan = new CutPlan(i, stock.Length);
 
                 for (int j = 0; j < beams.Count; j++)
                 {

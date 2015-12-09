@@ -2,6 +2,7 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Webcorp.lib.onedcut
 {
@@ -11,7 +12,7 @@ namespace Webcorp.lib.onedcut
 
         void Solve();
 
-        void SolveAsync();
+        Task SolveAsync();
 
         bool IsRunning { get; }
 

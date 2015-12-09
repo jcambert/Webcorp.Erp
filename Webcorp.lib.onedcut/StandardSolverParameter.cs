@@ -8,9 +8,9 @@ namespace Webcorp.lib.onedcut
 
         public int ElitePercentage => 2;
 
-        public int InitialPopulationCount => 100;
+        public int InitialPopulationCount => 50;
 
-        public int MaxEvaluation => 200;
+        public int MaxEvaluation => 50;
 
         public double MutationProbability => 0.001;
     }
