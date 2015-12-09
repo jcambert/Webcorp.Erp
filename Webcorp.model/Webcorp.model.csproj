@@ -165,6 +165,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="generated\Beam.csv" />
     <None Include="generated\delai.csv" />
     <None Include="generated\MaterialPrice.csv" />
     <None Include="generated\VitesseDecoupeLaser.csv" />
