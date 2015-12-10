@@ -31,7 +31,6 @@ namespace Webcorp.erp.quotation
               RegisterViewWithRegion<QuotationFormView>(Regions.Client);*/
 
             RegisterViewWithRegion<QuotationSummaryView>(QuotationRegions.Main);
-            //RegisterViewWithRegion<QuotationDetailView>(QuotationRegions.Main);
             RegisterViewWithRegion<QuotationFormView>(QuotationRegions.Main);
             RegisterViewWithRegion<QuotationListeArticleView>(QuotationRegions.ListeArticle);
             RegisterViewWithRegion<QuotationArticleSummaryView>(QuotationRegions.SummaryArticle);

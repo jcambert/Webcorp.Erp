@@ -43,8 +43,56 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Ninject.Wpf, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Ninject.6.1.0\lib\net45\Prism.Ninject.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.1.0\lib\net45\Prism.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -63,6 +111,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OneDCutModule.cs" />
+    <Compile Include="OneDCutRegions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,6 +152,48 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
+      <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
+      <Name>Webcorp.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.erp.common\Webcorp.erp.common.csproj">
+      <Project>{1d6ea88c-37fd-4303-8ee8-2d850b4378a6}</Project>
+      <Name>Webcorp.erp.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webcorp.erp.ui.common\webcorp.erp.ui.common.csproj">
+      <Project>{0d48b013-f8ab-487d-bc83-46d268863e5d}</Project>
+      <Name>webcorp.erp.ui.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.controller\Webcorp.lib.controller.csproj">
+      <Project>{390401e8-4bca-46f2-8189-873be56e8f09}</Project>
+      <Name>Webcorp.lib.controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.Dal\Webcorp.lib.dal.csproj">
+      <Project>{62bfa003-894b-44f5-bf51-16efd93b521d}</Project>
+      <Name>Webcorp.lib.dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
+      <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
+      <Name>Webcorp.lib.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.onedcut\Webcorp.lib.onedcut.csproj">
+      <Project>{bb268c6a-e4ef-49f2-b2b9-3ffab17263de}</Project>
+      <Name>Webcorp.lib.onedcut</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
+      <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
+      <Name>Webcorp.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.reactive\Webcorp.reactive.csproj">
+      <Project>{bea698e2-e36e-48c8-89a3-035ef4b13f5a}</Project>
+      <Name>Webcorp.reactive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
+      <Project>{3a221492-33fb-4ec2-92bf-6ab0d2ce9ab9}</Project>
+      <Name>Webcorp.unite</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

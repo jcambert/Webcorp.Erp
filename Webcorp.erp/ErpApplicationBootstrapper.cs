@@ -17,8 +17,10 @@ using Microsoft.Practices.ServiceLocation;
 using Ninject.Modules;
 using Webcorp.erp.common;
 using MahApps.Metro.Controls;
-using Webcorp.erp.article;
+
 #if DEBUG
+using Webcorp.erp.article;
+using Webcorp.lib.onedcut;
 using Webcorp.erp.quotation;
 #endif
 namespace Webcorp.erp
@@ -64,8 +66,9 @@ namespace Webcorp.erp
         }
 
         protected override IModuleCatalog CreateModuleCatalog() => new AggregateModuleCatalog();// new DirectoryModuleCatalog() {ModulePath= @".\modules" };
-
-
+#if DEBUG
+        private delegate void RegisterModule(Type t);
+#endif
         protected override void ConfigureModuleCatalog()
         {
             base.ConfigureModuleCatalog();
@@ -80,12 +83,14 @@ namespace Webcorp.erp
             var erpmodtype = typeof(ErpApplicationModule);
             ModuleCatalog.AddModule(new ModuleInfo(erpmodtype.Name, erpmodtype.AssemblyQualifiedName));
 #if DEBUG
+            RegisterModule rm = delegate (Type t)
+              {
 
-            Type quotmodType = typeof(QuotationModule);
-            ModuleCatalog.AddModule(new ModuleInfo(quotmodType.Name, quotmodType.AssemblyQualifiedName));
-
-            Type artmodType = typeof(ArticleModule);
-            ModuleCatalog.AddModule(new ModuleInfo(artmodType.Name, artmodType.AssemblyQualifiedName));
+                  ModuleCatalog.AddModule(new ModuleInfo(t.Name, t.AssemblyQualifiedName));
+              };
+            rm(typeof(QuotationModule));
+            rm(typeof(ArticleModule));
+            rm(typeof(OneDCutModule));
 #else
             //Directory Modules dll 
             DirectoryModuleCatalog directoryCatalog = new DirectoryModuleCatalog() { ModulePath = @".\modules" };
