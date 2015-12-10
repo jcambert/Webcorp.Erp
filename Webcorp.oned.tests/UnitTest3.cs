@@ -10,6 +10,8 @@ using GAF.Extensions;
 using System.Diagnostics;
 using ReactiveUI;
 using System.Threading.Tasks;
+using Webcorp.Model;
+using Webcorp.Model.Quotation;
 
 namespace Webcorp.oned.tests
 {
@@ -78,11 +80,14 @@ namespace Webcorp.oned.tests
             var kernel = new StandardKernel(new OneDCutModule());
 
             kernel.Bind<IPopulation>().To<InitialBeamPopulation>().InSingletonScope();
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Beam, string>)).To(typeof(BeamInitializer));
+
             ISolver solver = kernel.Get<ISolver>();
             Assert.IsNotNull(solver);
             solver.Beams = kernel.Get<IPopulation>().Beams;
             solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
-
+            solver.Beam = kernel.Get<IPopulation>().Beam;
             solver.OnSolved += Solver_OnSolved;
             solver.Solve();
         }
@@ -97,7 +102,7 @@ namespace Webcorp.oned.tests
             Assert.IsNotNull(solver);
             solver.Beams = kernel.Get<IPopulation>().Beams;
             solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
-
+            
             solver.OnSolved += Solver_OnSolved;
             await solver.SolveAsync();
         }
@@ -110,9 +115,11 @@ namespace Webcorp.oned.tests
             Debug.WriteLine("Total Cut:" + e.TotalCut);
             Debug.WriteLine("Total Waste:" +e.TotalWaste);
             Debug.WriteLine("Total Stock:" + e.TotalStock);
+            Debug.WriteLine("Total Cutting Mass:" + e.TotalCuttingMass.ToString("#.00 [kg]"));
+            Debug.WriteLine("Total Cutting Cost:" + e.TotalCuttingCost.ToString("#.00 [euro]"));
             Debug.WriteLine(string.Format("Percentage Waste {0:P2} ",e.WastePercentage));
             Debug.WriteLine("Uncut Stock:" + e.TotalUncut);
-
+            
             if (!e.IsStockSuffisant)
             {
                 Debug.WriteLine("No stock to cut all need");
@@ -130,29 +137,45 @@ namespace Webcorp.oned.tests
                 Debug.WriteLine(cut);
             }
         }
+
+
+
     }
 
-    public class InitialBeamPopulation : IPopulation
+    public class InitialBeamPopulation : IPopulation,IInitializable
     {
         Stocks stocks;
         Beams beams = new Beams();
         public InitialBeamPopulation()
         {
+           
+        }
+       
+
+        public ReactiveList<BeamToCut> Beams => beams;
+
+        public ReactiveList<BeamStock> CuttingStock => stocks;
+
+        [Inject]
+        public IKernel Kernel { get; set; }
+
+        Beam _beam;
+        public Beam Beam => _beam;
+        
+
+        public void Initialize()
+        {
+            var mpp = Kernel.Get<IEntityProvider<Beam, string>>();
+            _beam = mpp.Find("IPE 220");
+            _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
             for (int i = 0; i < 10; i++)
             {
-                beams.Add(new Beam(3, 5));
-                beams.Add(new Beam(5, 1));
-                beams.Add(new Beam(5, 2));
+                beams.Add(new BeamToCut(3, 5));
+                beams.Add(new BeamToCut(5, 1));
+                beams.Add(new BeamToCut(5, 2));
             }
             int[] cuttingStock = new int[] { 20, 5, 105, 150, 30 };
             stocks = new Stocks(cuttingStock);
         }
-       
-
-        public ReactiveList<Beam> Beams => beams;
-
-        public ReactiveList<BeamStock> CuttingStock => stocks;
-        
-       
     }
 }

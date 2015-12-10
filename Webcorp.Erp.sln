@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lib.onedcut", "Webc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.oned.tests", "Webcorp.oned.tests\Webcorp.oned.tests.csproj", "{5298E7E1-148F-4CD6-8687-01CF9647265E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp.onedcut", "Webcorp.erp.onedcut\Webcorp.erp.onedcut.csproj", "{9B4057DD-9F8B-4926-8B15-74A6A745658E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,10 @@ Global
 		{5298E7E1-148F-4CD6-8687-01CF9647265E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5298E7E1-148F-4CD6-8687-01CF9647265E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5298E7E1-148F-4CD6-8687-01CF9647265E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,5 +205,6 @@ Global
 		{10B06FFD-161E-4ACF-95AB-548CA541536D} = {C6F9B8EB-F00C-4C82-8511-A18C1923A505}
 		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE} = {AA804EA0-6804-4236-BD77-97DEBC07BF2D}
 		{5298E7E1-148F-4CD6-8687-01CF9647265E} = {C6F9B8EB-F00C-4C82-8511-A18C1923A505}
+		{9B4057DD-9F8B-4926-8B15-74A6A745658E} = {2713B670-468A-4443-9DD2-FD311909E07A}
 	EndGlobalSection
 EndGlobal

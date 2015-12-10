@@ -84,7 +84,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Beam.cs" />
+    <Compile Include="BeamToCut.cs" />
     <Compile Include="Beams.cs" />
     <Compile Include="BeamStock.cs" />
     <Compile Include="CutBeam.cs" />
@@ -112,9 +112,17 @@
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
+      <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>
+      <Name>Webcorp.model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.reactive\Webcorp.reactive.csproj">
       <Project>{bea698e2-e36e-48c8-89a3-035ef4b13f5a}</Project>
       <Name>Webcorp.reactive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.unite\Webcorp.unite.csproj">
+      <Project>{3a221492-33fb-4ec2-92bf-6ab0d2ce9ab9}</Project>
+      <Name>Webcorp.unite</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

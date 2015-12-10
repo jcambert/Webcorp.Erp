@@ -22,13 +22,14 @@ namespace Webcorp.lib.onedcut
         private SwapMutate mutateOperator;
         private int cuttingWidth;
         private bool hasChanged,beamsChanged;
-        private ReactiveList<Beam> beams;
+        private ReactiveList<BeamToCut> beams;
         private ReactiveList<BeamStock> stocks;
+        private Beam beam;
         private Population initialPopulation;
         private FitnessFunction _fitnessfunction;
         public Solver()
         {
-            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true;beamsChanged=( _.PropertyName == "Beams" ||_.PropertyName=="Stocks"); }));
+            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true;beamsChanged=( _.PropertyName == "Beams" ||_.PropertyName=="Stocks" || _.PropertyName == "Beam"); }));
             
             
 
@@ -42,9 +43,11 @@ namespace Webcorp.lib.onedcut
 
         public int CuttingWidth { get { return cuttingWidth; } set { this.RaiseAndSetIfChanged(ref cuttingWidth, value); } }
 
-        public ReactiveList<Beam> Beams { get { return beams; } set { this.RaiseAndSetIfChanged(ref beams, value); } }
+        public ReactiveList<BeamToCut> Beams { get { return beams; } set { this.RaiseAndSetIfChanged(ref beams, value); } }
 
         public ReactiveList<BeamStock> Stocks { get { return stocks; } set { this.RaiseAndSetIfChanged(ref stocks, value); } }
+
+        public Beam Beam { get { return beam; } set { this.RaiseAndSetIfChanged(ref beam, value); } }
 
         [Inject]
         public ISolverParameter SolverParameter { get; set; }
@@ -149,6 +152,7 @@ namespace Webcorp.lib.onedcut
             if (totPop <= 0) throw new ArgumentException("Initial Total population count must be more than 0");
             if (Stocks.Count == 0) throw new ArgumentException("There is no stocks !");
             if (Beams.Count == 0) throw new ArgumentException("There is no beams !");
+            if (Beam == null) throw new ArgumentNullException("You must set the beam profile on solve in based on");
             Population population = new Population();
             for (int i = 0; i < totPop; i++)
             {
@@ -171,7 +175,7 @@ namespace Webcorp.lib.onedcut
             for (int i = 0; i < cuttingStock.Length; i++)
             {
                 var stock = cuttingStock[i];
-                var cutplan = new CutPlan(i, stock.Length);
+                var cutplan = new CutPlan(i, stock.Length,beam);
 
                 for (int j = 0; j < beams.Count; j++)
                 {

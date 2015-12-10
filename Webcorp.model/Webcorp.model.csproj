@@ -87,6 +87,11 @@
   <ItemGroup>
     <Compile Include="Article\Article.cs" />
     <Compile Include="Beam.cs" />
+    <Compile Include="generated\BeamInitializer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BeamInitializer.tt</DependentUpon>
+    </Compile>
     <Compile Include="generated\Delai.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -175,6 +180,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="generated\BeamInitializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BeamInitializer.cs</LastGenOutput>
+    </Content>
     <Content Include="generated\Delai.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Delai.cs</LastGenOutput>

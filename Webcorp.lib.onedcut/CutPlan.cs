@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.Model;
+using Webcorp.unite;
 
 namespace Webcorp.lib.onedcut
 {
@@ -13,11 +14,12 @@ namespace Webcorp.lib.onedcut
     {
         private List<CutBeam> _beams = new List<CutBeam>();
         private int _cutLength;
-
-        public CutPlan(int stockIndex,int stockLength)
+        private Beam _beam;
+        public CutPlan(int stockIndex,int stockLength, Beam beam)
         {
             this.StockIndex = stockIndex;
             this.StockLength = stockLength;
+            this._beam = beam;
         }
 
         public int StockIndex { get; private set; }
@@ -25,6 +27,12 @@ namespace Webcorp.lib.onedcut
         public int CutLength => _cutLength;
         public int Waste => StockLength - _cutLength;
         public List<CutBeam> Beams=> _beams;
+
+        public MassLinear MassLinear => _beam.MassLinear;
+
+        public Mass TotalCutMass => MassLinear * _cutLength;
+
+        public Currency TotalCutCost => _beam.CostLinear* _cutLength;
 
         public bool AddCut(int index, int qty, int length)
         {

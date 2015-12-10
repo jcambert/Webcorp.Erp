@@ -5,19 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.Model;
+using Webcorp.unite;
 
 namespace Webcorp.lib.onedcut
 {
     [DebuggerDisplay("Item Need={Need}")]
-    public class Beam : CustomReactiveObject
+    public class BeamToCut : Beam
     {
         private int _need;
         private int _length;
-        public Beam(int need, int length):this(need,length,0,0)
+        public BeamToCut(int need, int length):this(need,length,0,0)
         {
            
         }
-        public Beam(int need, int length,int removeStart,int removeEnd)
+        public BeamToCut(int need, int length,int removeStart,int removeEnd)
         {
             this._need = this.Need = need;
             this.Length = length;
@@ -33,6 +34,8 @@ namespace Webcorp.lib.onedcut
         public int RemoveEnd { get; private set; }
 
         public int TotalLength => _need *( Length+RemoveStart+RemoveEnd);
+
+        public Mass TotalMass => this.MassLinear * _need;
 
         public void Reset()
         {

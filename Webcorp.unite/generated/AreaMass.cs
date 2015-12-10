@@ -6,11 +6,11 @@
 //   Changes to this file may cause incorrect behavior and will be lost if 
 //   the code is regenerated. 
 // </auto-generated>
-// <copyright file="Currency.cs" company="Webcorp">
+// <copyright file="AreaMass.cs" company="Webcorp">
 //   Copyright (c) 2015 Webcorp contributors
 // </copyright>
 // <summary>
-//   Represents the currency quantity.
+//   Represents the area mass quantity.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -27,27 +27,20 @@ namespace Webcorp.unite
     using MongoDB.Bson.Serialization;
 
     /// <summary>
-    /// Represents the currency quantity.
+    /// Represents the area mass quantity.
     /// </summary>
     [DataContract]
 #if !PCL
     [Serializable]
-    [TypeConverter(typeof(UnitTypeConverter<Currency>))]
+    [TypeConverter(typeof(UnitTypeConverter<AreaMass>))]
 #endif
-    public partial class Currency : Unit<Currency>
+    public partial class AreaMass : Unit<AreaMass>
     {
         /// <summary>
-        /// The backing field for the <see cref="Euro" /> property.
+        /// The backing field for the <see cref="MeterSquarePerTon" /> property.
         /// </summary>
-		[Unit("euro", true)]
-		[Unit("eur")]
-		public static Currency Euro = new Currency(1);
-
-        /// <summary>
-        /// The backing field for the <see cref="FrancSuisse" /> property.
-        /// </summary>
-		[Unit("chf")]
-		public static Currency FrancSuisse = new Currency(0.91677212602022986044161280019245);
+		[Unit("m2/t", true)]
+		private static readonly AreaMass MeterSquarePerTonField = new AreaMass(1);
 
 		private readonly List<string> registeredSymbols;
 
@@ -58,27 +51,27 @@ namespace Webcorp.unite
         private double value;
 
 		/// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaMass"/> struct.
         /// </summary>
-        public Currency():this(0.0)
+        public AreaMass():this(0.0)
         {
             
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaMass"/> struct.
         /// </summary>
         /// <param name="value">
         /// The value. 
         /// </param>
-        public Currency(double value)
+        public AreaMass(double value)
         {
             this.value = value;
-			registeredSymbols = new List<string>() { "euro","eur","chf"};
+			registeredSymbols = new List<string>() { "m2/t"};
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaMass"/> struct.
         /// </summary>
         /// <param name="value">
         /// The value. 
@@ -86,14 +79,23 @@ namespace Webcorp.unite
         /// <param name="unitProvider">
         /// The unit provider. 
         /// </param>
-        public Currency(string value, IUnitProvider unitProvider = null)
+        public AreaMass(string value, IUnitProvider unitProvider = null)
         {
             this.value = Parse(value, unitProvider ?? UnitProvider.Default).value;
-			registeredSymbols = new List<string>() { "euro","eur","chf"};
+			registeredSymbols = new List<string>() { "m2/t"};
         }
 
         /// <summary>
-        /// Gets or sets the currency as a string.
+        /// Gets the "m2/t" unit.
+        /// </summary>
+		[Unit("m2/t", true)]
+		        public static AreaMass MeterSquarePerTon
+        {
+            get { return MeterSquarePerTonField; }
+        }
+
+        /// <summary>
+        /// Gets or sets the area mass as a string.
         /// </summary>
         /// <value>The string.</value>
         /// <remarks>
@@ -102,7 +104,7 @@ namespace Webcorp.unite
         //[XmlText]
         [DataMember]
 		//[BsonSerializer(typeof(UnitSerializer))]
-		//[BsonSerializer(typeof(CurrencySerializer))]
+		//[BsonSerializer(typeof(AreaMassSerializer))]
         public string FValue
         {
             get
@@ -118,7 +120,7 @@ namespace Webcorp.unite
         }
 
         /// <summary>
-        /// Gets the value of the currency in the base unit.
+        /// Gets the value of the area mass in the base unit.
         /// </summary>
         public override double Value
         {
@@ -141,16 +143,16 @@ namespace Webcorp.unite
         /// The unit provider. If not specified, the default <see cref="UnitProvider" /> is used.
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaMass"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IFormatProvider provider, IUnitProvider unitProvider)
+        public static AreaMass Parse(string input, IFormatProvider provider, IUnitProvider unitProvider)
         {
             if (unitProvider == null)
             {
                 unitProvider = provider as IUnitProvider ?? UnitProvider.Default;
             }
 
-            Currency value;
+            AreaMass value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -169,13 +171,13 @@ namespace Webcorp.unite
         /// An object that supplies culture-specific formatting information about <paramref name="input" />. If not specified, the culture of the default <see cref="UnitProvider" /> is used. 
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaMass"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IFormatProvider provider = null)
+        public static AreaMass Parse(string input, IFormatProvider provider = null)
         {
             var unitProvider = provider as IUnitProvider ?? UnitProvider.Default;
 
-            Currency value;
+            AreaMass value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -194,16 +196,16 @@ namespace Webcorp.unite
         /// The unit provider. If not specified, the default <see cref="UnitProvider" /> is used.
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaMass"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IUnitProvider unitProvider)
+        public static AreaMass Parse(string input, IUnitProvider unitProvider)
         {
             if (unitProvider == null)
             {
                 unitProvider = UnitProvider.Default;
             }
 
-            Currency value;
+            AreaMass value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -220,7 +222,7 @@ namespace Webcorp.unite
         /// <param name="unitProvider">The unit provider.</param>
         /// <param name="result">The result.</param>
         /// <returns><c>true</c> if the string was parsed, <c>false</c> otherwise.</returns>
-        public static bool TryParse(string input, IFormatProvider provider, IUnitProvider unitProvider, out Currency result)
+        public static bool TryParse(string input, IFormatProvider provider, IUnitProvider unitProvider, out AreaMass result)
         {
             if (unitProvider == null)
             {
@@ -235,9 +237,9 @@ namespace Webcorp.unite
         /// </summary>
         /// <param name="input">The JSON input.</param>
         /// <returns>
-        /// The <see cref="Currency"/> .
+        /// The <see cref="AreaMass"/> .
         /// </returns>
-        public static Currency ParseJson(string input)
+        public static AreaMass ParseJson(string input)
         {
             return Parse(input, CultureInfo.InvariantCulture);
         }
@@ -254,9 +256,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator +(Currency x, Currency y)
+        public static AreaMass operator +(AreaMass x, AreaMass y)
         {
-            return new Currency(x.value + y.value);
+            return new AreaMass(x.value + y.value);
         }
 
         /// <summary>
@@ -271,9 +273,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator /(Currency x, double y)
+        public static AreaMass operator /(AreaMass x, double y)
         {
-            return new Currency(x.value / y);
+            return new AreaMass(x.value / y);
         }
 
         /// <summary>
@@ -288,7 +290,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static double operator /(Currency x, Currency y)
+        public static double operator /(AreaMass x, AreaMass y)
         {
             return x.value / y.value;
         }
@@ -305,7 +307,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator ==(Currency x, Currency y)
+        public static bool operator ==(AreaMass x, AreaMass y)
         {
             return x.value.Equals(y.value);
         }
@@ -322,7 +324,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator >(Currency x, Currency y)
+        public static bool operator >(AreaMass x, AreaMass y)
         {
             return x.value > y.value;
         }
@@ -339,7 +341,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator >=(Currency x, Currency y)
+        public static bool operator >=(AreaMass x, AreaMass y)
         {
             return x.value >= y.value;
         }
@@ -356,7 +358,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator !=(Currency x, Currency y)
+        public static bool operator !=(AreaMass x, AreaMass y)
         {
             return !x.value.Equals(y.value);
         }
@@ -373,7 +375,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator <(Currency x, Currency y)
+        public static bool operator <(AreaMass x, AreaMass y)
         {
             return x.value < y.value;
         }
@@ -390,7 +392,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator <=(Currency x, Currency y)
+        public static bool operator <=(AreaMass x, AreaMass y)
         {
             return x.value <= y.value;
         }
@@ -407,9 +409,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator *(double x, Currency y)
+        public static AreaMass operator *(double x, AreaMass y)
         {
-            return new Currency(x * y.value);
+            return new AreaMass(x * y.value);
         }
 
         /// <summary>
@@ -424,9 +426,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator *(Currency x, double y)
+        public static AreaMass operator *(AreaMass x, double y)
         {
-            return new Currency(x.value * y);
+            return new AreaMass(x.value * y);
         }
 
         /// <summary>
@@ -441,9 +443,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator -(Currency x, Currency y)
+        public static AreaMass operator -(AreaMass x, AreaMass y)
         {
-            return new Currency(x.value - y.value);
+            return new AreaMass(x.value - y.value);
         }
 
         /// <summary>
@@ -455,9 +457,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator +(Currency x)
+        public static AreaMass operator +(AreaMass x)
         {
-            return new Currency(x.value);
+            return new AreaMass(x.value);
         }
 
         /// <summary>
@@ -469,21 +471,21 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator -(Currency x)
+        public static AreaMass operator -(AreaMass x)
         {
-            return new Currency(-x.value);
+            return new AreaMass(-x.value);
         }
 
         /// <summary>
-        /// Compares this instance to the specified <see cref="Currency"/> and returns an indication of their relative values.
+        /// Compares this instance to the specified <see cref="AreaMass"/> and returns an indication of their relative values.
         /// </summary>
         /// <param name="other">
-        /// The other <see cref="Currency"/> . 
+        /// The other <see cref="AreaMass"/> . 
         /// </param>
         /// <returns>
         /// A signed number indicating the relative values of this instance and the other value. 
         /// </returns>
-        public override int CompareTo(Currency other)
+        public override int CompareTo(AreaMass other)
         {
             return this.value.CompareTo(other.value);
         }
@@ -500,7 +502,7 @@ namespace Webcorp.unite
         /// </returns>
         public override int CompareTo(object obj)
         {
-            return this.CompareTo((Currency)obj);
+            return this.CompareTo((AreaMass)obj);
         }
 
         /// <summary>
@@ -510,7 +512,7 @@ namespace Webcorp.unite
         /// <returns>The amount of the specified unit.</returns>
 		public override double ConvertTo(IUnit unit)
         {
-            return this.ConvertTo((Currency)unit);
+            return this.ConvertTo((AreaMass)unit);
         }
 
         /// <summary>
@@ -522,7 +524,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The value in the specified unit. 
         /// </returns>
-        public double ConvertTo(Currency unit)
+        public double ConvertTo(AreaMass unit)
         {
             return this.value / unit.Value;
         }
@@ -538,24 +540,24 @@ namespace Webcorp.unite
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj is Currency)
+            if (obj is AreaMass)
             {
-                return this.Equals((Currency)obj);
+                return this.Equals((AreaMass)obj);
             }
 
             return false;
         }
 
         /// <summary>
-        /// Determines if the specified <see cref="Currency"/> is equal to this instance.
+        /// Determines if the specified <see cref="AreaMass"/> is equal to this instance.
         /// </summary>
         /// <param name="other">
-        /// The other <see cref="Currency"/> . 
+        /// The other <see cref="AreaMass"/> . 
         /// </param>
         /// <returns>
         /// True if the values are equal. 
         /// </returns>
-        public override bool Equals(Currency other)
+        public override bool Equals(AreaMass other)
         {
             return this.value.Equals(other.value);
         }
@@ -588,12 +590,12 @@ namespace Webcorp.unite
         /// <returns>The sum.</returns>
         public override IUnit Add(IUnit x)
         {
-            if (!(x is Currency))
+            if (!(x is AreaMass))
             {
                 throw new InvalidOperationException("Can only add quantities of the same types.");
             }
 
-            return new Currency(this.value + x.Value);
+            return new AreaMass(this.value + x.Value);
         }
 
         /// <summary>
@@ -682,13 +684,13 @@ namespace Webcorp.unite
         }
     }
 
-	public class CurrencySerializer:SerializerBase<Currency>{
-		public override Currency Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+	public class AreaMassSerializer:SerializerBase<AreaMass>{
+		public override AreaMass Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
             var up = UnitProvider.Default;
             IUnit result;
-            if(up.TryGetUnit(typeof(Currency), context.Reader.ReadString(), out result))
-                return (Currency)result;
+            if(up.TryGetUnit(typeof(AreaMass), context.Reader.ReadString(), out result))
+                return (AreaMass)result;
 
             return base.Deserialize(context, args);
         } 

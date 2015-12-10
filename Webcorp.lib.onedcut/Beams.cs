@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Webcorp.lib.onedcut
 {
-    public class Beams : ReactiveList<Beam>
+    public class Beams : ReactiveList<BeamToCut>
     {
         public Beams():base()
         {
 
         }
 
-        public Beams(IEnumerable<Beam> e):base(e)
+        public Beams(IEnumerable<BeamToCut> e):base(e)
         {
 
         }

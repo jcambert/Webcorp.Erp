@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Webcorp.Model;
 
 namespace Webcorp.lib.onedcut
 {
@@ -18,9 +19,11 @@ namespace Webcorp.lib.onedcut
 
         void Halt();
 
-        ReactiveList<Beam> Beams { get; set; }
+        ReactiveList<BeamToCut> Beams { get; set; }
 
         ReactiveList<BeamStock> Stocks { get; set; }
+
+        Beam Beam { get; set; }
 
         int ElitePercentage { get; set; }
 

@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Webcorp.unite;
 
 namespace Webcorp.lib.onedcut
 {
     public class SolverEventArgs:GaEventArgs
     {
-        public SolverEventArgs(Population population,int generation,long evaluations,ReactiveList<Beam> beams):base(population,generation,evaluations)
+        public SolverEventArgs(Population population,int generation,long evaluations,ReactiveList<BeamToCut> beams):base(population,generation,evaluations)
         {
+            _totalCuttingMass = new Mass(0);
+            _totalCuttingCost = new Currency(0);
             beams.ToList().ForEach(item => TotalToCut += item.TotalLength);
             foreach (var gene in Fittest.Genes)
             {
@@ -21,6 +24,8 @@ namespace Webcorp.lib.onedcut
                 _totalStock += cutplan.Waste == cutplan.StockLength ? 0 : cutplan.StockLength;
                 _totalCut += cutplan.CutLength;
                 _totalUncut += cutplan.Waste == cutplan.StockLength ? cutplan.StockLength : 0;
+                _totalCuttingMass += cutplan.TotalCutMass;
+                _totalCuttingCost += cutplan.TotalCutCost;
             }
             
         }
@@ -48,5 +53,12 @@ namespace Webcorp.lib.onedcut
         public int RestToCut => TotalToCut - TotalCut;
 
         public List<CutPlan> CutPlan { get; private set; } = new List<onedcut.CutPlan>();
+
+        Mass _totalCuttingMass;
+        public Mass TotalCuttingMass => _totalCuttingMass;
+
+        Currency _totalCuttingCost;
+        public Currency TotalCuttingCost => _totalCuttingCost;
+
     }
 }

@@ -6,11 +6,11 @@
 //   Changes to this file may cause incorrect behavior and will be lost if 
 //   the code is regenerated. 
 // </auto-generated>
-// <copyright file="Currency.cs" company="Webcorp">
+// <copyright file="AreaLinear.cs" company="Webcorp">
 //   Copyright (c) 2015 Webcorp contributors
 // </copyright>
 // <summary>
-//   Represents the currency quantity.
+//   Represents the area linear quantity.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -27,27 +27,20 @@ namespace Webcorp.unite
     using MongoDB.Bson.Serialization;
 
     /// <summary>
-    /// Represents the currency quantity.
+    /// Represents the area linear quantity.
     /// </summary>
     [DataContract]
 #if !PCL
     [Serializable]
-    [TypeConverter(typeof(UnitTypeConverter<Currency>))]
+    [TypeConverter(typeof(UnitTypeConverter<AreaLinear>))]
 #endif
-    public partial class Currency : Unit<Currency>
+    public partial class AreaLinear : Unit<AreaLinear>
     {
         /// <summary>
-        /// The backing field for the <see cref="Euro" /> property.
+        /// The backing field for the <see cref="MeterSquarePerMeter" /> property.
         /// </summary>
-		[Unit("euro", true)]
-		[Unit("eur")]
-		public static Currency Euro = new Currency(1);
-
-        /// <summary>
-        /// The backing field for the <see cref="FrancSuisse" /> property.
-        /// </summary>
-		[Unit("chf")]
-		public static Currency FrancSuisse = new Currency(0.91677212602022986044161280019245);
+		[Unit("m2/m", true)]
+		private static readonly AreaLinear MeterSquarePerMeterField = new AreaLinear(1);
 
 		private readonly List<string> registeredSymbols;
 
@@ -58,27 +51,27 @@ namespace Webcorp.unite
         private double value;
 
 		/// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaLinear"/> struct.
         /// </summary>
-        public Currency():this(0.0)
+        public AreaLinear():this(0.0)
         {
             
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaLinear"/> struct.
         /// </summary>
         /// <param name="value">
         /// The value. 
         /// </param>
-        public Currency(double value)
+        public AreaLinear(double value)
         {
             this.value = value;
-			registeredSymbols = new List<string>() { "euro","eur","chf"};
+			registeredSymbols = new List<string>() { "m2/m"};
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Currency"/> struct.
+        /// Initializes a new instance of the <see cref="AreaLinear"/> struct.
         /// </summary>
         /// <param name="value">
         /// The value. 
@@ -86,14 +79,23 @@ namespace Webcorp.unite
         /// <param name="unitProvider">
         /// The unit provider. 
         /// </param>
-        public Currency(string value, IUnitProvider unitProvider = null)
+        public AreaLinear(string value, IUnitProvider unitProvider = null)
         {
             this.value = Parse(value, unitProvider ?? UnitProvider.Default).value;
-			registeredSymbols = new List<string>() { "euro","eur","chf"};
+			registeredSymbols = new List<string>() { "m2/m"};
         }
 
         /// <summary>
-        /// Gets or sets the currency as a string.
+        /// Gets the "m2/m" unit.
+        /// </summary>
+		[Unit("m2/m", true)]
+		        public static AreaLinear MeterSquarePerMeter
+        {
+            get { return MeterSquarePerMeterField; }
+        }
+
+        /// <summary>
+        /// Gets or sets the area linear as a string.
         /// </summary>
         /// <value>The string.</value>
         /// <remarks>
@@ -102,7 +104,7 @@ namespace Webcorp.unite
         //[XmlText]
         [DataMember]
 		//[BsonSerializer(typeof(UnitSerializer))]
-		//[BsonSerializer(typeof(CurrencySerializer))]
+		//[BsonSerializer(typeof(AreaLinearSerializer))]
         public string FValue
         {
             get
@@ -118,7 +120,7 @@ namespace Webcorp.unite
         }
 
         /// <summary>
-        /// Gets the value of the currency in the base unit.
+        /// Gets the value of the area linear in the base unit.
         /// </summary>
         public override double Value
         {
@@ -141,16 +143,16 @@ namespace Webcorp.unite
         /// The unit provider. If not specified, the default <see cref="UnitProvider" /> is used.
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaLinear"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IFormatProvider provider, IUnitProvider unitProvider)
+        public static AreaLinear Parse(string input, IFormatProvider provider, IUnitProvider unitProvider)
         {
             if (unitProvider == null)
             {
                 unitProvider = provider as IUnitProvider ?? UnitProvider.Default;
             }
 
-            Currency value;
+            AreaLinear value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -169,13 +171,13 @@ namespace Webcorp.unite
         /// An object that supplies culture-specific formatting information about <paramref name="input" />. If not specified, the culture of the default <see cref="UnitProvider" /> is used. 
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaLinear"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IFormatProvider provider = null)
+        public static AreaLinear Parse(string input, IFormatProvider provider = null)
         {
             var unitProvider = provider as IUnitProvider ?? UnitProvider.Default;
 
-            Currency value;
+            AreaLinear value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -194,16 +196,16 @@ namespace Webcorp.unite
         /// The unit provider. If not specified, the default <see cref="UnitProvider" /> is used.
         /// </param>
         /// <returns>
-        /// A <see cref="Currency"/> that represents the quantity in <paramref name="input" />. 
+        /// A <see cref="AreaLinear"/> that represents the quantity in <paramref name="input" />. 
         /// </returns>
-        public static Currency Parse(string input, IUnitProvider unitProvider)
+        public static AreaLinear Parse(string input, IUnitProvider unitProvider)
         {
             if (unitProvider == null)
             {
                 unitProvider = UnitProvider.Default;
             }
 
-            Currency value;
+            AreaLinear value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
                 throw new FormatException("Invalid format.");
@@ -220,7 +222,7 @@ namespace Webcorp.unite
         /// <param name="unitProvider">The unit provider.</param>
         /// <param name="result">The result.</param>
         /// <returns><c>true</c> if the string was parsed, <c>false</c> otherwise.</returns>
-        public static bool TryParse(string input, IFormatProvider provider, IUnitProvider unitProvider, out Currency result)
+        public static bool TryParse(string input, IFormatProvider provider, IUnitProvider unitProvider, out AreaLinear result)
         {
             if (unitProvider == null)
             {
@@ -235,9 +237,9 @@ namespace Webcorp.unite
         /// </summary>
         /// <param name="input">The JSON input.</param>
         /// <returns>
-        /// The <see cref="Currency"/> .
+        /// The <see cref="AreaLinear"/> .
         /// </returns>
-        public static Currency ParseJson(string input)
+        public static AreaLinear ParseJson(string input)
         {
             return Parse(input, CultureInfo.InvariantCulture);
         }
@@ -254,9 +256,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator +(Currency x, Currency y)
+        public static AreaLinear operator +(AreaLinear x, AreaLinear y)
         {
-            return new Currency(x.value + y.value);
+            return new AreaLinear(x.value + y.value);
         }
 
         /// <summary>
@@ -271,9 +273,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator /(Currency x, double y)
+        public static AreaLinear operator /(AreaLinear x, double y)
         {
-            return new Currency(x.value / y);
+            return new AreaLinear(x.value / y);
         }
 
         /// <summary>
@@ -288,7 +290,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static double operator /(Currency x, Currency y)
+        public static double operator /(AreaLinear x, AreaLinear y)
         {
             return x.value / y.value;
         }
@@ -305,7 +307,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator ==(Currency x, Currency y)
+        public static bool operator ==(AreaLinear x, AreaLinear y)
         {
             return x.value.Equals(y.value);
         }
@@ -322,7 +324,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator >(Currency x, Currency y)
+        public static bool operator >(AreaLinear x, AreaLinear y)
         {
             return x.value > y.value;
         }
@@ -339,7 +341,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator >=(Currency x, Currency y)
+        public static bool operator >=(AreaLinear x, AreaLinear y)
         {
             return x.value >= y.value;
         }
@@ -356,7 +358,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator !=(Currency x, Currency y)
+        public static bool operator !=(AreaLinear x, AreaLinear y)
         {
             return !x.value.Equals(y.value);
         }
@@ -373,7 +375,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator <(Currency x, Currency y)
+        public static bool operator <(AreaLinear x, AreaLinear y)
         {
             return x.value < y.value;
         }
@@ -390,7 +392,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static bool operator <=(Currency x, Currency y)
+        public static bool operator <=(AreaLinear x, AreaLinear y)
         {
             return x.value <= y.value;
         }
@@ -407,9 +409,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator *(double x, Currency y)
+        public static AreaLinear operator *(double x, AreaLinear y)
         {
-            return new Currency(x * y.value);
+            return new AreaLinear(x * y.value);
         }
 
         /// <summary>
@@ -424,9 +426,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator *(Currency x, double y)
+        public static AreaLinear operator *(AreaLinear x, double y)
         {
-            return new Currency(x.value * y);
+            return new AreaLinear(x.value * y);
         }
 
         /// <summary>
@@ -441,9 +443,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator -(Currency x, Currency y)
+        public static AreaLinear operator -(AreaLinear x, AreaLinear y)
         {
-            return new Currency(x.value - y.value);
+            return new AreaLinear(x.value - y.value);
         }
 
         /// <summary>
@@ -455,9 +457,9 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator +(Currency x)
+        public static AreaLinear operator +(AreaLinear x)
         {
-            return new Currency(x.value);
+            return new AreaLinear(x.value);
         }
 
         /// <summary>
@@ -469,21 +471,21 @@ namespace Webcorp.unite
         /// <returns>
         /// The result of the operator. 
         /// </returns>
-        public static Currency operator -(Currency x)
+        public static AreaLinear operator -(AreaLinear x)
         {
-            return new Currency(-x.value);
+            return new AreaLinear(-x.value);
         }
 
         /// <summary>
-        /// Compares this instance to the specified <see cref="Currency"/> and returns an indication of their relative values.
+        /// Compares this instance to the specified <see cref="AreaLinear"/> and returns an indication of their relative values.
         /// </summary>
         /// <param name="other">
-        /// The other <see cref="Currency"/> . 
+        /// The other <see cref="AreaLinear"/> . 
         /// </param>
         /// <returns>
         /// A signed number indicating the relative values of this instance and the other value. 
         /// </returns>
-        public override int CompareTo(Currency other)
+        public override int CompareTo(AreaLinear other)
         {
             return this.value.CompareTo(other.value);
         }
@@ -500,7 +502,7 @@ namespace Webcorp.unite
         /// </returns>
         public override int CompareTo(object obj)
         {
-            return this.CompareTo((Currency)obj);
+            return this.CompareTo((AreaLinear)obj);
         }
 
         /// <summary>
@@ -510,7 +512,7 @@ namespace Webcorp.unite
         /// <returns>The amount of the specified unit.</returns>
 		public override double ConvertTo(IUnit unit)
         {
-            return this.ConvertTo((Currency)unit);
+            return this.ConvertTo((AreaLinear)unit);
         }
 
         /// <summary>
@@ -522,7 +524,7 @@ namespace Webcorp.unite
         /// <returns>
         /// The value in the specified unit. 
         /// </returns>
-        public double ConvertTo(Currency unit)
+        public double ConvertTo(AreaLinear unit)
         {
             return this.value / unit.Value;
         }
@@ -538,24 +540,24 @@ namespace Webcorp.unite
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj is Currency)
+            if (obj is AreaLinear)
             {
-                return this.Equals((Currency)obj);
+                return this.Equals((AreaLinear)obj);
             }
 
             return false;
         }
 
         /// <summary>
-        /// Determines if the specified <see cref="Currency"/> is equal to this instance.
+        /// Determines if the specified <see cref="AreaLinear"/> is equal to this instance.
         /// </summary>
         /// <param name="other">
-        /// The other <see cref="Currency"/> . 
+        /// The other <see cref="AreaLinear"/> . 
         /// </param>
         /// <returns>
         /// True if the values are equal. 
         /// </returns>
-        public override bool Equals(Currency other)
+        public override bool Equals(AreaLinear other)
         {
             return this.value.Equals(other.value);
         }
@@ -588,12 +590,12 @@ namespace Webcorp.unite
         /// <returns>The sum.</returns>
         public override IUnit Add(IUnit x)
         {
-            if (!(x is Currency))
+            if (!(x is AreaLinear))
             {
                 throw new InvalidOperationException("Can only add quantities of the same types.");
             }
 
-            return new Currency(this.value + x.Value);
+            return new AreaLinear(this.value + x.Value);
         }
 
         /// <summary>
@@ -682,13 +684,13 @@ namespace Webcorp.unite
         }
     }
 
-	public class CurrencySerializer:SerializerBase<Currency>{
-		public override Currency Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+	public class AreaLinearSerializer:SerializerBase<AreaLinear>{
+		public override AreaLinear Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
             var up = UnitProvider.Default;
             IUnit result;
-            if(up.TryGetUnit(typeof(Currency), context.Reader.ReadString(), out result))
-                return (Currency)result;
+            if(up.TryGetUnit(typeof(AreaLinear), context.Reader.ReadString(), out result))
+                return (AreaLinear)result;
 
             return base.Deserialize(context, args);
         } 

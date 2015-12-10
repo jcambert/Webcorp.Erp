@@ -67,6 +67,12 @@
     <Compile Include="generated\AreaCurrency.cs">
       <DependentUpon>_CodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="generated\AreaLinear.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\AreaMass.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="generated\Capacitance.cs">
       <DependentUpon>_CodeGenerator.tt</DependentUpon>
     </Compile>
@@ -173,6 +179,9 @@
       <DependentUpon>_CodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="generated\MassCurrency.cs">
+      <DependentUpon>_CodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="generated\MassLinear.cs">
       <DependentUpon>_CodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="generated\MassMomentOfInertia.cs">
@@ -288,6 +297,7 @@
     <Compile Include="operators\MassConcentration.cs" />
     <Compile Include="operators\MassConcentrationInWater.cs" />
     <Compile Include="operators\MassCurrency.cs" />
+    <Compile Include="operators\MassLinear.cs" />
     <Compile Include="operators\MassMomentOfInertia.cs" />
     <Compile Include="operators\Power.cs" />
     <Compile Include="operators\Pressure.cs" />

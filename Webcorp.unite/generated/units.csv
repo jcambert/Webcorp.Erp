@@ -15,8 +15,17 @@ Currency,FrancSuisse,chf,0.91677212602022986044161280019245
 MassCurrency,EuroKilogramme,euro/kg,1
 MassCurrency,EuroTonne,euro/tonne,0.001
 
+//Mass Linear
+MassLinear,KilogrammePerMeter,kg/m,1
+
 //AreaCurrency
 AreaCurrency,EuroSquareMetre,euro/m^2,1
+
+//Area Linear
+AreaLinear,MeterSquarePerMeter,m2/m,1
+
+//Area Mass
+AreaMass,MeterSquarePerTon,m2/t,1
 
 // Taux Horraire
 TauxHorraire,EuroHeure,euro/h,1
