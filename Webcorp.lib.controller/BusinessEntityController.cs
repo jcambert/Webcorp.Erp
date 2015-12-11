@@ -9,7 +9,7 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    public class BusinessEntityController<T, TKey> : EntityController<T, TKey>, IBusinessProvider<T, TKey>
+    public class BusinessEntityController<T, TKey> : EntityController<T, TKey>/*, IBusinessProvider<T, TKey>*/
         where T : IEntity<TKey>
     {
         private readonly IEnumerable<IBusinessController<T, TKey>> _business;

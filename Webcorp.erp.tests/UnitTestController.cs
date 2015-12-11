@@ -33,7 +33,7 @@ namespace Webcorp.erp.tests
         {
             Debug.WriteLine("ClassInit " + context.TestName);
             container = new StandardKernel(new TestModule(), new DalIoc());
-            var bap= container.Get<IBusinessAssemblyProvider>();
+            var bap= container.Get<IBusinessControllerAssemblyProvider>();
             bap.Assemblies.Add(Assembly.GetAssembly(typeof(AbstractBusinessController<>)));
             //container.Load(Assembly.GetExecutingAssembly());
         }
@@ -115,7 +115,7 @@ namespace Webcorp.erp.tests
             container.Unbind(typeof(IEntityController<>));
             container.Bind(typeof(IEntityController<>)).To(typeof(BusinessEntityController<>));
             var busprov = container.Get<IBusinessControllerProvider<Material>>();
-            var bap = container.Get<IBusinessAssemblyProvider>();
+            var bap = container.Get<IBusinessControllerAssemblyProvider>();
             Assert.IsNotNull(busprov);
             Assert.IsNotNull(bap);
             Assert.AreEqual(bap.BusinessControllers<Material>().Count, busprov.Controllers.ToList().Count);

@@ -73,6 +73,28 @@ namespace Webcorp.oned.tests
 
         }
 
+        [TestMethod]
+        public void TestCuttingPopulation()
+        {
+            var kernel = new StandardKernel(new OneDCutModule());
+
+            kernel.Bind<IPopulation>().To<InitialBeamPopulationWithNoError>().InSingletonScope();
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+            var population = kernel.Get<IPopulation>();
+            Assert.IsTrue(population.CuttingStock.Count() == 126);
+            Assert.IsTrue(population.CuttingStock.Length == 4125);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Must have same length")]
+        public void TestCuttingPopulationError()
+        {
+            var kernel = new StandardKernel(new OneDCutModule());
+
+            kernel.Bind<IPopulation>().To<InitialBeamPopulationWithError>().InSingletonScope();
+            var population = kernel.Get<IPopulation>();
+        }
 
         [TestMethod]
         public void TestCuttingBeamWithNinject()
@@ -81,7 +103,7 @@ namespace Webcorp.oned.tests
 
             kernel.Bind<IPopulation>().To<InitialBeamPopulation>().InSingletonScope();
             kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
-            kernel.Bind(typeof(IEntityProviderInitializable<Beam, string>)).To(typeof(BeamInitializer));
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
 
             ISolver solver = kernel.Get<ISolver>();
             Assert.IsNotNull(solver);
@@ -102,37 +124,57 @@ namespace Webcorp.oned.tests
             Assert.IsNotNull(solver);
             solver.Beams = kernel.Get<IPopulation>().Beams;
             solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
-            
+
             solver.OnSolved += Solver_OnSolved;
             await solver.SolveAsync();
         }
+
+
+        [TestMethod]
+        public void TestCuttingBeamWithNinjectWithBigData()
+        {
+            var kernel = new StandardKernel(new OneDCutModule());
+
+            kernel.Bind<IPopulation>().To<InitialBeamBigPopulation>().InSingletonScope();
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+            ISolver solver = kernel.Get<ISolver>();
+            Assert.IsNotNull(solver);
+            solver.Beams = kernel.Get<IPopulation>().Beams;
+            solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
+            solver.Beam = kernel.Get<IPopulation>().Beam;
+
+            solver.OnSolved += Solver_OnSolved;
+            solver.Solve();
+        }
+
         private void Solver_OnSolved(object sender, SolverEventArgs e)
         {
             var solver = sender as Solver;
             Debug.WriteLine("Best solution");
             Debug.WriteLine("----------------------------");
-            Debug.WriteLine("Total To Cut:" +e.TotalToCut);
+            Debug.WriteLine("Total To Cut:" + e.TotalToCut);
             Debug.WriteLine("Total Cut:" + e.TotalCut);
-            Debug.WriteLine("Total Waste:" +e.TotalWaste);
+            Debug.WriteLine("Total Waste:" + e.TotalWaste);
             Debug.WriteLine("Total Stock:" + e.TotalStock);
             Debug.WriteLine("Total Cutting Mass:" + e.TotalCuttingMass.ToString("#.00 [kg]"));
             Debug.WriteLine("Total Cutting Cost:" + e.TotalCuttingCost.ToString("#.00 [euro]"));
-            Debug.WriteLine(string.Format("Percentage Waste {0:P2} ",e.WastePercentage));
+            Debug.WriteLine(string.Format("Percentage Waste {0:P2} ", e.WastePercentage));
             Debug.WriteLine("Uncut Stock:" + e.TotalUncut);
-            
+
             if (!e.IsStockSuffisant)
             {
                 Debug.WriteLine("No stock to cut all need");
                 Debug.WriteLine(e.RestToCut + " rest tot cut");
             }
-            DebugCutPlan(e.CutPlan);  
+            DebugCutPlan(e.CutPlan);
         }
 
         private void DebugCutPlan(List<lib.onedcut.CutPlan> cutplan)
         {
-           
+
             Debug.WriteLine("**** Cutting plan ****");
-            foreach (var cut in cutplan.OrderBy(i=>i.StockIndex))
+            foreach (var cut in cutplan.OrderBy(i => i.StockIndex))
             {
                 Debug.WriteLine(cut);
             }
@@ -142,40 +184,129 @@ namespace Webcorp.oned.tests
 
     }
 
-    public class InitialBeamPopulation : IPopulation,IInitializable
+    public class InitialBeamPopulation : IPopulation, IInitializable
     {
         Stocks stocks;
         Beams beams = new Beams();
         public InitialBeamPopulation()
         {
-           
+
         }
-       
+
 
         public ReactiveList<BeamToCut> Beams => beams;
 
-        public ReactiveList<BeamStock> CuttingStock => stocks;
+        public Stocks CuttingStock => stocks;
 
         [Inject]
         public IKernel Kernel { get; set; }
 
-        Beam _beam;
-        public Beam Beam => _beam;
-        
+        Article _beam;
+        public Article Beam => _beam;
+
 
         public void Initialize()
         {
-            var mpp = Kernel.Get<IEntityProvider<Beam, string>>();
+            var mpp = Kernel.Get<IEntityProvider<Article, string>>();
             _beam = mpp.Find("IPE 220");
             _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
             for (int i = 0; i < 10; i++)
             {
-                beams.Add(new BeamToCut(3, 5));
-                beams.Add(new BeamToCut(5, 1));
-                beams.Add(new BeamToCut(5, 2));
+                beams.Add(new BeamToCut(3, 5, _beam));
+                beams.Add(new BeamToCut(5, 1, _beam));
+                beams.Add(new BeamToCut(5, 2, _beam));
             }
             int[] cuttingStock = new int[] { 20, 5, 105, 150, 30 };
             stocks = new Stocks(cuttingStock);
         }
     }
+
+    public class InitialBeamPopulationWithError : IPopulation, IInitializable
+    {
+
+        public InitialBeamPopulationWithError()
+        {
+
+        }
+
+        public Article Beam => null;
+
+        public ReactiveList<BeamToCut> Beams => null;
+
+        public Stocks CuttingStock => null;
+
+        public void Initialize()
+        {
+
+            int[] cuttingStockCount = new int[] { 1, 1, 1, 1 };
+            int[] cuttingStockLength = new int[] { 20, 5, 105, 150, 30 };
+            var stocks = new Stocks(cuttingStockCount, cuttingStockLength);
+        }
+    }
+
+    public class InitialBeamPopulationWithNoError : IPopulation, IInitializable
+    {
+
+        public InitialBeamPopulationWithNoError()
+        {
+
+        }
+
+        public Article Beam => null;
+
+        public ReactiveList<BeamToCut> Beams => null;
+
+        public Stocks CuttingStock
+        {
+            get; private set;
+        }
+
+        public void Initialize()
+        {
+
+            int[] cuttingStockCount = new int[] { 10, 8, 7, 1, 100 };
+            int[] cuttingStockLength = new int[] { 20, 5, 105, 150, 30 };
+            CuttingStock = new Stocks(cuttingStockLength, cuttingStockCount);
+        }
+    }
+
+
+    public class InitialBeamBigPopulation : IPopulation, IInitializable
+    {
+        Stocks stocks;
+        Beams beams = new Beams();
+        public InitialBeamBigPopulation()
+        {
+
+        }
+
+
+        public ReactiveList<BeamToCut> Beams => beams;
+
+        public Stocks CuttingStock => stocks;
+
+        [Inject]
+        public IKernel Kernel { get; set; }
+
+        Article _beam;
+        public Article Beam => _beam;
+
+
+        public void Initialize()
+        {
+            var mpp = Kernel.Get<IEntityProvider<Article, string>>();
+            _beam = mpp.Find("IPE 220");
+            _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
+            for (int i = 0; i < 1000; i++)
+            {
+                beams.Add(new BeamToCut(3, 5, _beam));
+                beams.Add(new BeamToCut(5, 1, _beam));
+                beams.Add(new BeamToCut(5, 2, _beam));
+            }
+            int[] cuttingStockCount = new int[] { 100, 80, 70, 10, 1000 };
+            int[] cuttingStockLength = new int[] { 20, 5, 105, 150, 30 };
+            stocks = new Stocks(cuttingStockLength, cuttingStockCount);
+        }
+    }
+
 }

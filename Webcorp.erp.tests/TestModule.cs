@@ -6,7 +6,7 @@ using Webcorp.Model.Quotation;
 
 namespace Webcorp.erp.tests
 {
-    public class TestModule:Ninject.Modules.NinjectModule
+    public class TestModule : Ninject.Modules.NinjectModule
     {
         public TestModule()
         {
@@ -16,11 +16,15 @@ namespace Webcorp.erp.tests
         {
             Bind(typeof(IEntityController<>)).To(typeof(EntityController<>));
             Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
+            Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();
+            Bind(typeof(IBusinessProvider<>)).To(typeof(BusinessProvider<>)).InSingletonScope();
             Bind(typeof(IBusinessAssemblyProvider)).To(typeof(BusinessAssemblyProvider)).InSingletonScope();
+            Bind(typeof(IBusinessHelper<>)).To(typeof(BusinessHelper<>)).InSingletonScope();
+
             Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
             Bind(typeof(IEntityProviderInitializable<VitesseDecoupeLaser, string>)).To(typeof(VitesseDecoupeLaserInitializer));
             Bind(typeof(IEntityProviderInitializable<PosteCharge, int>)).To(typeof(PosteChargeInitializer));
-            Bind(typeof(IEntityProviderInitializable<MaterialPrice,string>)).To(typeof(MaterialPriceInitializer));
+            Bind(typeof(IEntityProviderInitializable<MaterialPrice, string>)).To(typeof(MaterialPriceInitializer));
             Bind(typeof(IEntityProviderInitializable<Material, string>)).To(typeof(MaterialInitializer));
         }
     }

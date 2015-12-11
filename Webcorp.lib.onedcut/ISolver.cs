@@ -23,7 +23,7 @@ namespace Webcorp.lib.onedcut
 
         ReactiveList<BeamStock> Stocks { get; set; }
 
-        Beam Beam { get; set; }
+        Article Beam { get; set; }
 
         int ElitePercentage { get; set; }
 

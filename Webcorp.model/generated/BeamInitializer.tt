@@ -8,8 +8,8 @@
 using System.ComponentModel;
 using Webcorp.unite;
 namespace Webcorp.Model.Quotation{
-	public class BeamInitializer : IEntityProviderInitializable<Beam, string>{
-		public void InitializeProvider(EntityProvider<Beam, string> entityProvider)
+	public class BeamInitializer : IEntityProviderInitializable<Article, string>{
+		public void InitializeProvider(EntityProvider<Article, string> entityProvider)
         {
 				 
 <# 
@@ -33,7 +33,7 @@ namespace Webcorp.Model.Quotation{
 
 		 
 
-		  #>			entityProvider.Register(new Beam(){Code="<#=values[0]#>",Libelle="<#=values[0]#>",MassLinear=MassLinear.Parse("<#=values[1]#> kg/m"),AreaLinear= AreaLinear.Parse("<#=values[2]#> m2/m"),AreaMass= AreaMass.Parse("<#=values[3]#> m2/t")});		
+		  #>			entityProvider.Register(new Article(){Code="<#=values[0]#>",Libelle="<#=values[0]#>",MassLinear=MassLinear.Parse("<#=values[1]#> kg/m"),AreaLinear= AreaLinear.Parse("<#=values[2]#> m2/m"),AreaMass= AreaMass.Parse("<#=values[3]#> m2/t")});		
 <#
           
 		  generated.Add(name,0);

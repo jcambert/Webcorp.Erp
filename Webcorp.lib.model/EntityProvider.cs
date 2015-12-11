@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
-    public sealed class EntityProvider<T,TKey> : IEntityProvider<T,TKey>, IInitializable where T : Entity
+    public sealed class EntityProvider<T, TKey> : IEntityProvider<T, TKey>, IInitializable where T : Entity
     {
 
         private readonly Dictionary<TKey, T> cache = new Dictionary<TKey, T>();
-        
+
         private List<PropertyInfo> PropertyKeys { get; set; }
 
 
@@ -23,7 +23,7 @@ namespace Webcorp.Model
         }
 
         [Inject]
-        public EntityProvider(IEntityProviderInitializable<T,TKey> init)
+        public EntityProvider(IEntityProviderInitializable<T, TKey> init)
         {
             this.Initializer = init;
         }
@@ -31,25 +31,26 @@ namespace Webcorp.Model
         {
             entity.ThrowIfNull<ArgumentNullException>("entity cannot be null");
 
-            if ( typeof(TKey) == typeof(string))
+            if (typeof(TKey) == typeof(string))
             {
                 List<string> klvalue = new List<string>();
                 foreach (var key in PropertyKeys)
                 {
                     var tmp = key.GetValue(entity);
-                    tmp.ThrowIfNull<ArgumentNullException>("Key value for provided entity cannot be null Property:"+key.Name);
+                    tmp.ThrowIfNull<ArgumentNullException>("Key value for provided entity cannot be null Property:" + key.Name);
                     klvalue.Add(tmp.ToString());
                 }
-                TKey kklvalue =(TKey) Convert.ChangeType(string.Join("_", klvalue),typeof(TKey)) ;
+                TKey kklvalue = (TKey)Convert.ChangeType(string.Join("_", klvalue), typeof(TKey));
                 cache[kklvalue] = entity;
             }
             else
             {
                 foreach (var key in PropertyKeys)
                 {
-                    if (key.PropertyType == typeof(TKey)) {
+                    if (key.PropertyType == typeof(TKey))
+                    {
                         var kvalue = (TKey)key.GetValue(entity);
-                        kvalue.ThrowIfNull<ArgumentNullException>("Key value for provided entity cannot be null property:"+key.Name);
+                        kvalue.ThrowIfNull<ArgumentNullException>("Key value for provided entity cannot be null property:" + key.Name);
                         cache[kvalue] = entity;
                         break;
                     }
@@ -65,15 +66,16 @@ namespace Webcorp.Model
 
         public T Find(params string[] keys)
         {
-            (typeof(TKey) != typeof(string)).ThrowIf<ArgumentException>("Find method works only with key as string");            string kvalue = string.Join("_", keys.ToList());
-            return this[ (TKey) Convert.ChangeType( kvalue,typeof(TKey)) ] ;
+            (typeof(TKey) != typeof(string)).ThrowIf<ArgumentException>("Find method works only with key as string");
+            string kvalue = string.Join("_", keys.ToList());
+            return this[(TKey)Convert.ChangeType(kvalue, typeof(TKey))];
         }
 
         public void Initialize()
         {
             PropertyKeys = typeof(T).GetPropertiesSortedByFieldOrder<KeyProviderAttribute>();
             PropertyKeys.ThrowIfNull<ArgumentException>("a provided entity must have one KeyProviderAttribute");
-            if(Initializer!=null) Initializer.InitializeProvider(this);
+            if (Initializer != null) Initializer.InitializeProvider(this);
         }
 
         public T Find(TKey key)
@@ -84,5 +86,8 @@ namespace Webcorp.Model
         public List<TKey> Keys => cache.Keys.ToList();
 
         public IEntityProviderInitializable<T, TKey> Initializer { get; private set; }
+
+       
+
     }
 }

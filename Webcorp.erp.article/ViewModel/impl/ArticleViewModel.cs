@@ -1,4 +1,5 @@
-﻿using Webcorp.Model.Article;
+﻿
+using Webcorp.Model;
 using Webcorp.reactive;
 
 namespace Webcorp.erp.article.ViewModel.impl

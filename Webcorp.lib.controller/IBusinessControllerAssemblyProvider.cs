@@ -8,10 +8,10 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    public interface IBusinessAssemblyProvider
+    public interface IBusinessControllerAssemblyProvider
     {
         List<Assembly> Assemblies { get; }
 
-        List<Type> Businesses<T>() where T : IEntity<string>;
+        List<Type> BusinessControllers<T>() where T : IEntity<string>;
     }
 }

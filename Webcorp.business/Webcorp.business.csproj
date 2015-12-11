@@ -69,7 +69,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractBusiness.cs" />
     <Compile Include="AbstractBusinessController.cs" />
+    <Compile Include="MaterialBusiness.cs" />
     <Compile Include="MaterialBusinessController.cs" />
     <Compile Include="MaterialPriceBusinessController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

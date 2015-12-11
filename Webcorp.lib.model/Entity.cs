@@ -23,7 +23,7 @@ namespace Webcorp.Model
 
     [Serializable]
     [DataContract]
-
+    [BsonSerializer]
     public class CustomReactiveObject : ReactiveObject, IDisposable, IShouldDispose
     {
 
@@ -46,23 +46,22 @@ namespace Webcorp.Model
     [DataContract]
     [Serializable]
     [BsonIgnoreExtraElements(Inherited = true)]
-  
-    public  class Entity : CustomReactiveObject, IEntity
+
+    public class Entity : CustomReactiveObject, IEntity
     {
-       
+
 
         /// <summary>
         /// Gets or sets the id for this object (the primary record for an entity).
         /// </summary>
         /// <value>The id for this object (the primary record for an entity).</value>
         [DataMember]
-        //[BsonRepresentation(BsonType.ObjectId)]
         [BsonId(IdGenerator = typeof(ErpIdGenerator))]
         public virtual string Id { get; set; }
         [DataMember]
         [BsonDateTimeOptions(Representation = BsonType.DateTime)]
         [BsonIgnoreIfNull]
-        public virtual DateTime? CreatedOn { get; set; } 
+        public virtual DateTime? CreatedOn { get; set; }
         [DataMember]
         [BsonIgnoreIfNull]
         public string CreatedBy { get; set; }
@@ -76,8 +75,20 @@ namespace Webcorp.Model
         [BsonIgnore]
         [IgnoreDataMember]
         public bool IsSelected { get; set; }
-
-     //   public void OnPropertyChanged([CallerMemberName] string propertyName = "") { }
+        /// <summary>
+        ///  Determine si l'article a été modifié ou non
+        ///DO NOT SEND PropertyChanged event on this proprety 
+        /// </summary>
+        [BsonIgnore]
+        [IgnoreDataMember]
+        public bool IsChanged { get; set; }
+        /// <summary>
+        /// Determine si l'article est attacher au BusinessHelper
+        /// Pour declancher automatiquement le traitement métier
+        /// </summary>
+        [BsonIgnore]
+        [IgnoreDataMember]
+        public bool IsAttached { get; set; }
         
     }
 

@@ -10,11 +10,23 @@ namespace Webcorp.unite
     {
         public static Mass operator *(MassLinear m, int d)
         {
-            return new Mass(m.Value *d);
+            try {
+                return new Mass(m.Value * d);
+            }
+            catch
+            {
+                return new Mass(0);
+            }
         }
         public static Currency operator *(MassLinear m, MassCurrency d)
         {
-            return new Currency(m.Value * d.Value);
+            try {
+                return new Currency(m.Value * d.Value);
+            }
+            catch
+            {
+                return new Currency(0);
+            }
         }
     }
 }

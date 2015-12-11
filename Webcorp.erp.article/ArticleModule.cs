@@ -2,9 +2,9 @@
 using Webcorp.erp.article.ViewModel.impl;
 using Webcorp.erp.article.Views;
 using Webcorp.erp.common;
-using Webcorp.Model.Article;
 using Ninject;
 using Webcorp.reactive;
+using Webcorp.Model;
 
 namespace Webcorp.erp.article
 {

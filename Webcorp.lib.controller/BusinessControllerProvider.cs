@@ -17,7 +17,7 @@ namespace Webcorp.Controller
         public IKernel Container { get; set; }
 
         [Inject]
-        public IBusinessAssemblyProvider BusinessAssemblies{get;set;}
+        public IBusinessControllerAssemblyProvider BusinessAssemblies{get;set;}
 
         public IEnumerable<IBusinessController<T, string>> Controllers=> Container.GetAll<IBusinessController<T>>();
 

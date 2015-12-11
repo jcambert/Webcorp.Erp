@@ -14,8 +14,8 @@ namespace Webcorp.lib.onedcut
     {
         private List<CutBeam> _beams = new List<CutBeam>();
         private int _cutLength;
-        private Beam _beam;
-        public CutPlan(int stockIndex,int stockLength, Beam beam)
+        private Article _beam;
+        public CutPlan(int stockIndex,int stockLength, Article beam)
         {
             this.StockIndex = stockIndex;
             this.StockLength = stockLength;

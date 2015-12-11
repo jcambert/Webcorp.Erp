@@ -30,7 +30,12 @@ namespace Webcorp.Model
         string ModifiedBy { get; set; }
 
         bool IsSelected { get; set; }
-
+        bool IsChanged { get; set; }
+        /// <summary>
+        /// Determine si l'article est attacher au BusinessHelper
+        /// Pour declancher automatiquement le traitement métier
+        /// </summary>
+        bool IsAttached { get; set; }
     }
 
     /// <summary>

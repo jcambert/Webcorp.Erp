@@ -9,8 +9,8 @@ namespace Webcorp.lib.onedcut
     {
         // Population Population { get; }
         ReactiveList<BeamToCut> Beams { get; }
-        ReactiveList<BeamStock> CuttingStock { get; }
-        Beam Beam { get; }
+        Stocks CuttingStock { get; }
+        Article Beam { get; }
     }
 
 

@@ -25,15 +25,15 @@ namespace Webcorp.Controller
 
     }
 
-    public interface IBusinessProvider<T, TKey> where T : IEntity<TKey>
+    /*public interface IBusinessProvider<T, TKey> where T : IEntity<TKey>
     {
         IEnumerable<IBusinessController<T, TKey>> Business { get; }
     }
 
-    public interface IBusinessProvider<T> : IBusinessProvider<T, string> where T : IEntity<string>
+    public interface IBusinessProvider<T> : IBusinessControllerProvider<T, string> where T : IEntity<string>
     {
-    }
-
+    }*/
+    
     public class BusinessController<T, TKey> : IBusinessController<T, TKey> where T : IEntity<TKey>
     {
         public IPrincipal User { get; set; }

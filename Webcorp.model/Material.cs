@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.unite;
-
+using ReactiveUI;
 namespace Webcorp.Model
 {
     public class Material : Entity
@@ -16,7 +16,8 @@ namespace Webcorp.Model
 
         public string Symbol { get; set; }
 
-        public Density Density { get; set; }
+        Density _density;
+        public Density Density { get { return _density; } set { this.RaiseAndSetIfChanged(ref _density, value); } }
 
         public string[] Correspondance { get; set; }
     }

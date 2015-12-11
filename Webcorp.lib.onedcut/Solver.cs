@@ -24,7 +24,7 @@ namespace Webcorp.lib.onedcut
         private bool hasChanged,beamsChanged;
         private ReactiveList<BeamToCut> beams;
         private ReactiveList<BeamStock> stocks;
-        private Beam beam;
+        private Article beam;
         private Population initialPopulation;
         private FitnessFunction _fitnessfunction;
         public Solver()
@@ -47,7 +47,7 @@ namespace Webcorp.lib.onedcut
 
         public ReactiveList<BeamStock> Stocks { get { return stocks; } set { this.RaiseAndSetIfChanged(ref stocks, value); } }
 
-        public Beam Beam { get { return beam; } set { this.RaiseAndSetIfChanged(ref beam, value); } }
+        public Article Beam { get { return beam; } set { this.RaiseAndSetIfChanged(ref beam, value); } }
 
         [Inject]
         public ISolverParameter SolverParameter { get; set; }
@@ -157,8 +157,8 @@ namespace Webcorp.lib.onedcut
             for (int i = 0; i < totPop; i++)
             {
 #if DEBUG
-                Debug.WriteLine("************************************");
-                Debug.WriteLine("Create new Chromosome");
+                //Debug.WriteLine("************************************");
+                //Debug.WriteLine("Create new Chromosome");
 #endif
                 var chromosome = CreateChromosome();
 
@@ -188,14 +188,14 @@ namespace Webcorp.lib.onedcut
 
                 chromosome.Genes.Add(new Gene(cutplan));
 #if DEBUG
-                Debug.WriteLine("Creating gene");
-                Debug.WriteLine(cutplan);
+               //Debug.WriteLine("Creating gene");
+                //Debug.WriteLine(cutplan);
 #endif
             }
 #if DEBUG
             int reste = 0;
-            beams.ToList().ForEach(p => { reste += p.Need; Debug.WriteLine(p); });
-            Debug.WriteLine("Reste :" + reste);
+            beams.ToList().ForEach(p => { reste += p.Need; /*Debug.WriteLine(p);*/ });
+            //Debug.WriteLine("Reste :" + reste);
 #endif
             beams.ToList().ForEach(item => item.Reset());
             chromosome.Genes.ShuffleFast();
