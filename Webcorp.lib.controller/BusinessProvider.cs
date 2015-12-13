@@ -31,7 +31,7 @@ namespace Webcorp.Controller
         private void Register(Type t)
         {
 
-            Container.Bind(typeof(IBusinessController<T>)).To(t);
+            Container.Bind(typeof(IBusiness<T>)).To(t);
         }
 
       

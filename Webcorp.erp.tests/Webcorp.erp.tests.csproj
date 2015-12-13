@@ -115,6 +115,7 @@
     <Compile Include="TestBusiness.cs" />
     <Compile Include="TestCalculPrestations.cs" />
     <Compile Include="TestModule.cs" />
+    <Compile Include="TestMouvementStock.cs" />
     <Compile Include="UnitTestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

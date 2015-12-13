@@ -17,7 +17,7 @@ namespace Webcorp.Model
         public string Symbol { get; set; }
 
         Density _density;
-        public Density Density { get { return _density; } set { this.RaiseAndSetIfChanged(ref _density, value); } }
+        public Density Density { get { return _density; } set {  this.SetAndRaise(ref _density, value); } }
 
         public string[] Correspondance { get; set; }
     }

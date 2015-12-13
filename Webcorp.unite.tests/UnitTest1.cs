@@ -77,6 +77,10 @@ namespace Webcorp.unite.tests
             Debug.WriteLine( mp1.Cout.ToString("0.00 euro/kg"));
         }
 
-       
+        [TestMethod]
+        public void TestAreaLinear()
+        {
+            var a = AreaLinear.Parse("0.328 m2/m");
+        }
     }
 }

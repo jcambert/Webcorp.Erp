@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Diagnostics;
+using Webcorp.reactive;
 using Webcorp.unite;
 
 namespace Webcorp.Model
@@ -50,5 +51,7 @@ namespace Webcorp.Model
         public MassCurrency MassCurrency { get; set; }
 
         public Currency CostLinear => MassLinear * MassCurrency;
+        [BsonElement("mvtsto")]
+        public ReactiveCollection<MouvementStock> MouvementsStocks { get; set; } 
     }
 }

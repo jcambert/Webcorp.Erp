@@ -10,8 +10,8 @@ namespace Webcorp.Controller
 {
     public interface IBusiness<T, TKey> where T : IEntity<TKey>
     {
-        void OnChanging(T entity,string propertyName);
-        void OnChanged(T entity,string propertyName);
+        void OnChanging(T entity, string propertyName);
+        void OnChanged(T entity, string propertyName);
     }
 
     public interface IBusiness<T> : IBusiness<T, string> where T : IEntity<string>
@@ -70,8 +70,20 @@ namespace Webcorp.Controller
 
         public void Attach(T entity)
         {
-            entity.ShouldDispose(entity.Changing.Subscribe(_ => { BusinessProvider.Businesses.ForEach(b => b.OnChanging(entity,_.PropertyName));}));
-            entity.ShouldDispose(entity.Changed.Subscribe(_ => { BusinessProvider.Businesses.ForEach(b => b.OnChanged(entity, _.PropertyName)); entity.IsChanged = true; }));
+            entity.ShouldDispose(entity.Changing.Subscribe(
+                _ =>
+                {
+                    entity.EnableEvents = false;
+                    BusinessProvider.Businesses.ForEach(b => b.OnChanging(entity, _.PropertyName));
+                    entity.EnableEvents = true;
+                }));
+            entity.ShouldDispose(entity.Changed.Subscribe(_ => {
+                entity.EnableEvents = false;
+                BusinessProvider.Businesses.ForEach(b => b.OnChanged(entity, _.PropertyName));
+                entity.IsChanged = true;
+                entity.EnableEvents = true;
+            }));
         }
     }
+    
 }

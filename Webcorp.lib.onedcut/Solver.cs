@@ -49,6 +49,8 @@ namespace Webcorp.lib.onedcut
 
         public Article Beam { get { return beam; } set { this.RaiseAndSetIfChanged(ref beam, value); } }
 
+
+
         [Inject]
         public ISolverParameter SolverParameter { get; set; }
 

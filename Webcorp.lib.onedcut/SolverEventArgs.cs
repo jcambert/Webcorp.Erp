@@ -15,6 +15,7 @@ namespace Webcorp.lib.onedcut
         {
             _totalCuttingMass = new Mass(0);
             _totalCuttingCost = new Currency(0);
+            _totalWasteCost = new Currency(0);
             beams.ToList().ForEach(item => TotalToCut += item.TotalLength);
             foreach (var gene in Fittest.Genes)
             {
@@ -26,6 +27,7 @@ namespace Webcorp.lib.onedcut
                 _totalUncut += cutplan.Waste == cutplan.StockLength ? cutplan.StockLength : 0;
                 _totalCuttingMass += cutplan.TotalCutMass;
                 _totalCuttingCost += cutplan.TotalCutCost;
+                _totalWasteCost += cutplan.TotalWasteCost;
             }
             
         }
@@ -60,5 +62,7 @@ namespace Webcorp.lib.onedcut
         Currency _totalCuttingCost;
         public Currency TotalCuttingCost => _totalCuttingCost;
 
+        Currency _totalWasteCost;
+        public Currency TotalWasteCost => _totalWasteCost;
     }
 }

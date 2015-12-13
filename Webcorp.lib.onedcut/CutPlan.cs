@@ -34,6 +34,12 @@ namespace Webcorp.lib.onedcut
 
         public Currency TotalCutCost => _beam.CostLinear* _cutLength;
 
+        public Currency TotalWasteCost => IsWaste? _beam.CostLinear * Waste:new Currency(0);
+
+        public bool IsWaste => _cutLength > 0;
+
+        public bool IsUncut => !IsWaste;
+
         public bool AddCut(int index, int qty, int length)
         {
             if (qty == 0) return false;

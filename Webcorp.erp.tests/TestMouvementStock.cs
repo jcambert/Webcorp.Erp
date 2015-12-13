@@ -3,23 +3,20 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
-using Webcorp.Controller;
-using Webcorp.Model.Quotation;
+using System.Diagnostics;
 using Webcorp.Model;
-using System.Reflection;
-using Webcorp.Business;
+using Webcorp.Model.Quotation;
+using Webcorp.Controller;
 
 namespace Webcorp.erp.tests
 {
     /// <summary>
-    /// Description résumée pour TestBusiness
+    /// Description résumée pour TestMouvementStock
     /// </summary>
     [TestClass]
-    public class TestBusiness
+    public class TestMouvementStock
     {
-        static IKernel kernel;
-
-        public TestBusiness()
+        public TestMouvementStock()
         {
             //
             // TODO: ajoutez ici la logique du constructeur
@@ -49,12 +46,9 @@ namespace Webcorp.erp.tests
         // Vous pouvez utiliser les attributs supplémentaires suivants lorsque vous écrivez vos tests :
         //
         // Utilisez ClassInitialize pour exécuter du code avant d'exécuter le premier test de la classe
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
-        {
-            kernel = new StandardKernel(new TestModule());
-        }
-
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext) { }
+        //
         // Utilisez ClassCleanup pour exécuter du code une fois que tous les tests d'une classe ont été exécutés
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
@@ -68,25 +62,30 @@ namespace Webcorp.erp.tests
         // public void MyTestCleanup() { }
         //
         #endregion
+        static IKernel kernel;
 
-        [TestMethod]
-        public void TestBusiness1()
+
+
+        [ClassInitialize()]
+        public static void ClassInit(TestContext context)
         {
-           
-            var bap = kernel.Get<IBusinessAssemblyProvider>();
-            bap.Assemblies.Add(Assembly.GetAssembly(typeof(AbstractBusiness<>)));
-            var busprov = kernel.Get<IBusinessProvider<Material>>();
-            var bhelper = kernel.Get<IBusinessHelper<Material>>();
+            Debug.WriteLine("ClassInit " + context.TestName);
+            kernel = new StandardKernel(new TestModule());
 
+        }
+        [TestMethod]
+        public void TestMouvementStock1()
+        {
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
 
-            var material = bhelper.Create();
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IBusinessHelper<Article>>();
+            var _beam = mpp.Find("IPE 80");
+            Assert.IsNotNull(_beam);
+            bh.Attach(_beam);
 
-            material.Density = new unite.Density(3);
-
-            Assert.IsTrue(material.IsChanged);
-
-            Assert.AreEqual(material.Density.Value, (3.0 / 2));
-
+            _beam.MouvementsStocks.Add()
         }
     }
 }

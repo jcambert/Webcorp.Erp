@@ -121,6 +121,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TraitementSurface.tt</DependentUpon>
     </Compile>
+    <Compile Include="Mouvements.cs" />
+    <Compile Include="MouvementStock.cs" />
     <Compile Include="Quotation\CalculPrestation.cs" />
     <Compile Include="Quotation\CalculTranche.cs" />
     <Compile Include="Quotation\Format.cs" />

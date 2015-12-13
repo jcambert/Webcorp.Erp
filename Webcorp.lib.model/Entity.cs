@@ -89,6 +89,14 @@ namespace Webcorp.Model
         [BsonIgnore]
         [IgnoreDataMember]
         public bool IsAttached { get; set; }
+        /// <summary>
+        /// Enable or disable Events
+        /// </summary>
+        [BsonIgnore]
+        [IgnoreDataMember]
+        public bool EnableEvents { get; set; } = true;
+
+
         
     }
 

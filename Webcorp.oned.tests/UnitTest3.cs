@@ -155,10 +155,11 @@ namespace Webcorp.oned.tests
             Debug.WriteLine("----------------------------");
             Debug.WriteLine("Total To Cut:" + e.TotalToCut);
             Debug.WriteLine("Total Cut:" + e.TotalCut);
-            Debug.WriteLine("Total Waste:" + e.TotalWaste);
             Debug.WriteLine("Total Stock:" + e.TotalStock);
             Debug.WriteLine("Total Cutting Mass:" + e.TotalCuttingMass.ToString("#.00 [kg]"));
             Debug.WriteLine("Total Cutting Cost:" + e.TotalCuttingCost.ToString("#.00 [euro]"));
+            Debug.WriteLine("Total Waste Length:" + e.TotalWaste);
+            Debug.WriteLine("Total Waste Cost:" + e.TotalWasteCost.ToString("#.00 [euro]"));
             Debug.WriteLine(string.Format("Percentage Waste {0:P2} ", e.WastePercentage));
             Debug.WriteLine("Uncut Stock:" + e.TotalUncut);
 
@@ -295,16 +296,21 @@ namespace Webcorp.oned.tests
         public void Initialize()
         {
             var mpp = Kernel.Get<IEntityProvider<Article, string>>();
-            _beam = mpp.Find("IPE 220");
+            _beam = mpp.Find("IPE 80");
             _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
             for (int i = 0; i < 1000; i++)
             {
                 beams.Add(new BeamToCut(3, 5, _beam));
                 beams.Add(new BeamToCut(5, 1, _beam));
                 beams.Add(new BeamToCut(5, 2, _beam));
+                beams.Add(new BeamToCut(20, 15, _beam));
+                beams.Add(new BeamToCut(15, 10, _beam));
+                beams.Add(new BeamToCut(50, 20, _beam));
+
+
             }
-            int[] cuttingStockCount = new int[] { 100, 80, 70, 10, 1000 };
-            int[] cuttingStockLength = new int[] { 20, 5, 105, 150, 30 };
+            int[] cuttingStockCount = new int[] { 100, 200, 80, 1000, 100 };
+            int[] cuttingStockLength = new int[] { 200, 50, 1050, 1500, 300 };
             stocks = new Stocks(cuttingStockLength, cuttingStockCount);
         }
     }
