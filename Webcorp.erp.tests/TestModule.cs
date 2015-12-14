@@ -14,12 +14,13 @@ namespace Webcorp.erp.tests
 
         public override void Load()
         {
-            Bind(typeof(IEntityController<>)).To(typeof(EntityController<>));
-            Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
-            Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();
-            Bind(typeof(IBusinessProvider<>)).To(typeof(BusinessProvider<>)).InSingletonScope();
-            Bind(typeof(IBusinessAssemblyProvider)).To(typeof(BusinessAssemblyProvider)).InSingletonScope();
-            Bind(typeof(IBusinessHelper<>)).To(typeof(BusinessHelper<>)).InSingletonScope();
+            // Bind(typeof(IEntityController<>)).To(typeof(EntityController<>));
+            //Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
+            //Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();
+            //Bind(typeof(IBusinessProvider<>)).To(typeof(BusinessProvider<>)).InSingletonScope();
+            //Bind(typeof(IBusinessAssemblyProvider)).To(typeof(BusinessAssemblyProvider)).InSingletonScope();
+            //Bind(typeof(IBusinessHelper<>)).To(typeof(BusinessHelper<>)).InSingletonScope();
+            Bind(typeof(IArticleBusinessController<>)).To(typeof(ArticleBusinessController<>));
 
             Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
             Bind(typeof(IEntityProviderInitializable<VitesseDecoupeLaser, string>)).To(typeof(VitesseDecoupeLaserInitializer));

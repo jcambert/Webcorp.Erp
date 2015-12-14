@@ -32,7 +32,7 @@ namespace Webcorp.Model{
 			for(int i=0;i<cs.Length;i++)cs[i]="\""+cs[i]+"\"";
 			correspondance=",Correspondance=new string[]{"+ string.Join(",", cs)+"}";
 			}
-		  #>			entityProvider.Register(new Material(){Number="<#=values[0]#>",Group=MaterialGroup.<#=values[1]#>,Density=<#=values[2]#>*Density.KilogramPerCubicMetre, Symbol="<#=values[3]#>"<#=correspondance #> });
+		  #>			entityProvider.Register(new Material(){Code="<#=values[0]#>",Group=MaterialGroup.<#=values[1]#>,Density=<#=values[2]#>*Density.KilogramPerCubicMetre, Symbol="<#=values[3]#>"<#=correspondance #> });
 <#
           
 		  generated.Add(name,0);

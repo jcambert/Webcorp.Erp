@@ -74,21 +74,21 @@ namespace Webcorp.Model
         public string ModifiedBy { get; set; }
         [BsonIgnore]
         [IgnoreDataMember]
-        public bool IsSelected { get; set; }
+        public bool IsSelected { get; set; } = false;
         /// <summary>
         ///  Determine si l'article a été modifié ou non
         ///DO NOT SEND PropertyChanged event on this proprety 
         /// </summary>
         [BsonIgnore]
         [IgnoreDataMember]
-        public bool IsChanged { get; set; }
+        public bool IsChanged { get; set; } = false;
         /// <summary>
         /// Determine si l'article est attacher au BusinessHelper
         /// Pour declancher automatiquement le traitement métier
         /// </summary>
-        [BsonIgnore]
-        [IgnoreDataMember]
-        public bool IsAttached { get; set; }
+       // [BsonIgnore]
+       // [IgnoreDataMember]
+       // public bool IsAttached { get; set; }
         /// <summary>
         /// Enable or disable Events
         /// </summary>

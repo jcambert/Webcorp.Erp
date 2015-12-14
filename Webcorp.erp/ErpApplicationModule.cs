@@ -32,12 +32,12 @@ namespace Webcorp.erp
             
             
 
-            Kernel.Bind(typeof(IEntityController<>)).To(typeof(BusinessEntityController<>));
-            Kernel.Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
-            Kernel.Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();
-            Kernel.Bind(typeof(IBusinessProvider<>)).To(typeof(BusinessProvider<>)).InSingletonScope();
-            Kernel.Bind(typeof(IBusinessAssemblyProvider)).To(typeof(BusinessAssemblyProvider)).InSingletonScope();
-            Kernel.Bind(typeof(IBusinessHelper<>)).To(typeof(BusinessHelper<>)).InSingletonScope();
+            //Kernel.Bind(typeof(IEntityController<>)).To(typeof(BusinessEntityController<>));
+            //Kernel.Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
+            //Kernel.Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();
+           // Kernel.Bind(typeof(IBusinessProvider<>)).To(typeof(BusinessProvider<>)).InSingletonScope();
+           // Kernel.Bind(typeof(IBusinessAssemblyProvider)).To(typeof(BusinessAssemblyProvider)).InSingletonScope();
+            //Kernel.Bind(typeof(IBusinessHelper<>)).To(typeof(BusinessHelper<>)).InSingletonScope();
 
             Kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
             Kernel.Bind(typeof(IEntityProviderInitializable<VitesseDecoupeLaser, string>)).To(typeof(VitesseDecoupeLaserInitializer));

@@ -8,7 +8,7 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    public class BusinessControllerAssemblyProvider : IBusinessControllerAssemblyProvider
+   /* public class BusinessControllerAssemblyProvider : IBusinessControllerAssemblyProvider
     {
 
 
@@ -40,5 +40,5 @@ namespace Webcorp.Controller
 
             return result.Distinct().ToList() ;
         }
-    }
+    }*/
 }

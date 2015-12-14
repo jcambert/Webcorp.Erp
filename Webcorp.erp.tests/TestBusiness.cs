@@ -8,6 +8,8 @@ using Webcorp.Model.Quotation;
 using Webcorp.Model;
 using System.Reflection;
 using Webcorp.Business;
+using Webcorp.Dal;
+using System.Threading.Tasks;
 
 namespace Webcorp.erp.tests
 {
@@ -52,7 +54,7 @@ namespace Webcorp.erp.tests
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            kernel = new StandardKernel(new TestModule());
+            kernel = new StandardKernel(new TestModule(),new BusinessIoc(),new DalIoc());
         }
 
         // Utilisez ClassCleanup pour exécuter du code une fois que tous les tests d'une classe ont été exécutés
@@ -70,23 +72,35 @@ namespace Webcorp.erp.tests
         #endregion
 
         [TestMethod]
-        public void TestBusiness1()
+        public async Task TestBusiness1()
         {
            
-            var bap = kernel.Get<IBusinessAssemblyProvider>();
-            bap.Assemblies.Add(Assembly.GetAssembly(typeof(AbstractBusiness<>)));
-            var busprov = kernel.Get<IBusinessProvider<Material>>();
-            var bhelper = kernel.Get<IBusinessHelper<Material>>();
+            //var bap = kernel.Get<IBusinessAssemblyProvider>();
+            //bap.Assemblies.Add(Assembly.GetAssembly(typeof(AbstractBusiness<>)));
+           // var busprov = kernel.Get<IBusinessProvider<Material>>();
+            var bhelper = kernel.Get<IArticleBusinessHelper<Material>>();
 
 
             var material = bhelper.Create();
-
+            material.Code = "Temp material";
             material.Density = new unite.Density(3);
 
             Assert.IsTrue(material.IsChanged);
 
             Assert.AreEqual(material.Density.Value, (3.0 / 2));
 
+            await bhelper.Save();
+
+            Assert.IsFalse(material.IsChanged);
+
+             material.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            Assert.IsTrue(material.IsChanged);
+            await bhelper.Save();
+
+
+            material.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
         }
+
+       
     }
 }

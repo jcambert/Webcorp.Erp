@@ -7,6 +7,10 @@ using System.Diagnostics;
 using Webcorp.Model;
 using Webcorp.Model.Quotation;
 using Webcorp.Controller;
+using Webcorp.Business;
+using Webcorp.unite;
+using Webcorp.Dal;
+using System.Threading.Tasks;
 
 namespace Webcorp.erp.tests
 {
@@ -70,22 +74,109 @@ namespace Webcorp.erp.tests
         public static void ClassInit(TestContext context)
         {
             Debug.WriteLine("ClassInit " + context.TestName);
-            kernel = new StandardKernel(new TestModule());
+            kernel = new StandardKernel(new TestModule(),new BusinessIoc(),new DalIoc());
 
         }
         [TestMethod]
         public void TestMouvementStock1()
         {
-            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+           
             kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
 
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
-            var bh = kernel.Get<IBusinessHelper<Article>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             var _beam = mpp.Find("IPE 80");
-            Assert.IsNotNull(_beam);
+            _beam.MouvementsStocks.Clear();
             bh.Attach(_beam);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
 
-            _beam.MouvementsStocks.Add()
+            Assert.AreEqual(_beam.StockPhysique, 3);
+        }
+
+        [TestMethod]
+        public void TestMouvementStock2()
+        {
+
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var _beam = mpp.Find("IPE 80");
+            _beam.MouvementsStocks.Clear();
+            bh.Attach(_beam);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+
+            Assert.AreEqual(_beam.StockPhysique, 3);
+        }
+
+        [TestMethod]
+        public void TestMouvementStock3()
+        {
+
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var _beam = mpp.Find("IPE 80");
+            _beam.MouvementsStocks.Clear();
+            bh.Attach(_beam);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+
+            Assert.AreEqual(_beam.StockPhysique, 3);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("10/1/2015"), Quantite = 50, Sens = MouvementSens.Inventaire });
+            Assert.AreEqual(_beam.StockPhysique, 50);
+        }
+
+
+        [TestMethod]
+        public async Task TestMouvementStock4()
+        {
+
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var _beam = mpp.Find("IPE 80");
+            _beam.MouvementsStocks.Clear();
+            bh.Attach(_beam);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("10/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+
+            Assert.AreEqual(_beam.StockPhysique, 3);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("5/1/2015"), Quantite = 50, Sens = MouvementSens.Inventaire });
+            Assert.AreEqual(_beam.StockPhysique, 43);
+
+            Assert.AreEqual(_beam.MouvementsStocks.StockAtDate(DateTime.Parse("2/1/2015")), 10);
+
+           await bh.Save();
+        }
+
+        [TestMethod]
+        public async Task TestMouvementStock5()
+        {
+
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var _beam = mpp.Find("IPE 80");
+            _beam.MouvementsStocks.Clear();
+            bh.Attach(_beam);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("10/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+
+            Assert.AreEqual(_beam.StockPhysique, 3);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("5/1/2015"), Quantite = 50, Sens = MouvementSens.Inventaire });
+            Assert.AreEqual(_beam.StockPhysique, 43);
+
+            Assert.AreEqual(_beam.MouvementsStocks.StockAtDate(DateTime.Parse("2/1/2015")), 10);
+
+            _beam.MouvementsStocks.RemoveAt(0)//;
+
+            await bh.Save();
         }
     }
 }

@@ -122,6 +122,7 @@
       <DependentUpon>TraitementSurface.tt</DependentUpon>
     </Compile>
     <Compile Include="Mouvements.cs" />
+    <Compile Include="MouvementsStocks.cs" />
     <Compile Include="MouvementStock.cs" />
     <Compile Include="Quotation\CalculPrestation.cs" />
     <Compile Include="Quotation\CalculTranche.cs" />

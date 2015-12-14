@@ -7,7 +7,7 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    public class BusinessAssemblyProvider:IBusinessAssemblyProvider,IInitializable
+   /* public class BusinessAssemblyProvider:IBusinessAssemblyProvider,IInitializable
     {
         private readonly List<Type> _businesses;
         private readonly List<Assembly> assemblies;
@@ -44,5 +44,5 @@ namespace Webcorp.Controller
         {
          
         }
-    }
+    }*/
 }

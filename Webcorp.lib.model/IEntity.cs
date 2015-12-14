@@ -35,7 +35,7 @@ namespace Webcorp.Model
         /// Determine si l'article est attacher au BusinessHelper
         /// Pour declancher automatiquement le traitement métier
         /// </summary>
-        bool IsAttached { get; set; }
+        //bool IsAttached { get; set; }
     }
 
     /// <summary>

@@ -7,17 +7,16 @@ using Webcorp.unite;
 using ReactiveUI;
 namespace Webcorp.Model
 {
-    public class Material : Entity
+    public class Material : Article
     {
-        [KeyProvider]
-        public string Number { get; set; }
+     /*   [KeyProvider]
+        public string Number { get; set; }*/
 
         public MaterialGroup Group { get; set; }
 
         public string Symbol { get; set; }
 
-        Density _density;
-        public Density Density { get { return _density; } set {  this.SetAndRaise(ref _density, value); } }
+        
 
         public string[] Correspondance { get; set; }
     }

@@ -9,7 +9,7 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-
+/*
     public class BusinessControllerProvider<T> : IBusinessControllerProvider<T>, IInitializable where T : IEntity<string>
     {
 
@@ -37,5 +37,5 @@ namespace Webcorp.Controller
         }
 
        
-    }
+    }*/
 }

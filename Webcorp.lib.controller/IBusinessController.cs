@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Webcorp.Dal;
 using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    public interface IBusinessController<T, TKey> where T : IEntity<TKey>
+    public interface IBusinessController<T, TKey>:IEntityController<T,TKey> where T : IEntity<TKey>
     {
         IPrincipal User { get; set; }
 
@@ -34,9 +36,22 @@ namespace Webcorp.Controller
     {
     }*/
     
-    public class BusinessController<T, TKey> : IBusinessController<T, TKey> where T : IEntity<TKey>
+    public class BusinessController<T, TKey> :EntityController<T,TKey>,  IBusinessController<T, TKey> where T : IEntity<TKey>
     {
-        public IPrincipal User { get; set; }
+        [Inject]
+        public BusinessController(IRepository<T, TKey> repo) :base(repo)
+        {
+
+        }
+
+        public override async Task<ActionResult<T, TKey>> Post(T entity)
+        {
+            await OnBeforeUpsert(entity);
+            var result= await base.Post(entity);
+            await OnAfterUpsert(entity);
+            return result;
+        }
+        //public IPrincipal User { get; set; }
 
 #pragma warning disable CS1998 // Cette méthode async n'a pas d'opérateur 'await' et elle s'exécutera de façon synchrone
         public virtual async Task<ActionResult<T, TKey>> OnAfterDelete(T entity)
@@ -76,6 +91,7 @@ namespace Webcorp.Controller
                 entity.ModifiedBy = User != null ? (User.Identity.IsAuthenticated ? User?.Identity?.Name : "UNAUTH") : "UNAUTH";
                 entity.ModifiedOn = DateTime.Now;
             }
+            
             return ActionResult<T, TKey>.Ok(entity);
         }
 #pragma warning restore CS1998 // Cette méthode async n'a pas d'opérateur 'await' et elle s'exécutera de façon synchrone
@@ -84,6 +100,11 @@ namespace Webcorp.Controller
 
     public class BusinessController<T> : BusinessController<T, string>, IBusinessController<T> where T : IEntity<string>
     {
+        [Inject]
+        public BusinessController(IRepository<T> repo) : base(repo)
+        {
 
+        }
+        
     }
 }

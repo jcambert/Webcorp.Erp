@@ -21,5 +21,7 @@ namespace Webcorp.Model
         [BsonRequired]
         [BsonElement("mvtqte")]
         public int Quantite { get; set; }
+        [BsonElement("lassto")]
+        public int LastStock { get;  set; }
     }
 }
