@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Diagnostics;
 
 namespace Webcorp.Model
 {
@@ -10,8 +11,10 @@ namespace Webcorp.Model
         Sortie,
         Inventaire  
     }
+    [DebuggerDisplay("Quantite={Quantite},LastStock={LastStock}")]
     public class MouvementStock:CustomReactiveObject
     {
+
         [BsonRequired]
         [BsonElement("mvtsen")]
         public MouvementSens Sens { get; set; }

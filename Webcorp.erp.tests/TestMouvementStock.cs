@@ -155,7 +155,7 @@ namespace Webcorp.erp.tests
         }
 
         [TestMethod]
-        public async Task TestMouvementStock5()
+        public /*async Task*/ void TestMouvementStock5()
         {
 
             kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
@@ -165,18 +165,26 @@ namespace Webcorp.erp.tests
             var _beam = mpp.Find("IPE 80");
             _beam.MouvementsStocks.Clear();
             bh.Attach(_beam);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("10/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
-
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            Assert.AreEqual(_beam.StockPhysique, 10);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
             Assert.AreEqual(_beam.StockPhysique, 3);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("5/1/2015"), Quantite = 50, Sens = MouvementSens.Inventaire });
-            Assert.AreEqual(_beam.StockPhysique, 43);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("3/1/2015"), Quantite = 5, Sens = MouvementSens.Entree });
+            Assert.AreEqual(_beam.StockPhysique, 8);
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("4/1/2015"), Quantite = 20, Sens = MouvementSens.Sortie });
+            Assert.AreEqual(_beam.StockPhysique, -12);
 
-            Assert.AreEqual(_beam.MouvementsStocks.StockAtDate(DateTime.Parse("2/1/2015")), 10);
+            _beam.MouvementsStocks.RemoveAt(1);
+            Assert.AreEqual(_beam.StockPhysique, -5);
 
-            _beam.MouvementsStocks.RemoveAt(0)//;
+            _beam.MouvementsStocks.RemoveAt(0);
+            Assert.AreEqual(_beam.StockPhysique, -15);
 
-            await bh.Save();
+            _beam.MouvementsStocks.RemoveAt(1);
+            Assert.AreEqual(_beam.StockPhysique, 5);
+
+            
+            //await bh.Save();
         }
     }
 }

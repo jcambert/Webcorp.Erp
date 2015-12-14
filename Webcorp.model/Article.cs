@@ -1,14 +1,25 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using ReactiveUI;
+
 using System.Diagnostics;
 using Webcorp.reactive;
 using Webcorp.unite;
-
+using System.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Linq;
 namespace Webcorp.Model
 {
+    using ReactiveUI;   
     [DebuggerDisplay("Article Code={Code},Libelle={Libelle}")]
     public class Article:Entity
     {
+        MouvementsStocks _mvtStocks;
+        public Article()
+        {
+
+            this.Changed.Where(x => x.PropertyName == "MouvementsStocks").Subscribe(x => {  _mvtStocks.Article = this; });
+           // this.Changing.Subscribe(x => { }) ;
+        }
+
         [BsonRequired]
         [KeyProvider]
         [BsonElement("artcod")]
@@ -57,6 +68,8 @@ namespace Webcorp.Model
         public Currency CostLinear => MassLinear * MassCurrency;
         [BsonElement("mvtsto")]
         [BsonIgnoreIfNull]
-        public MouvementsStocks MouvementsStocks { get; set; } = new MouvementsStocks();
+        public MouvementsStocks MouvementsStocks { get { return _mvtStocks; } set { this.SetAndRaise(ref _mvtStocks, value); } }
+
+        public Nomenclatures Nomenclatures { get; set; } = new Nomenclatures();
     }
 }

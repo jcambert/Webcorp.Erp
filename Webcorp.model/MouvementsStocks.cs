@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace Webcorp.Model
         {
 
         }
+
+       
+        public Article Article { get; set; }
 
         public override void Add(MouvementStock item)
         {
@@ -39,6 +43,27 @@ namespace Webcorp.Model
                 item.LastStock = item.Sens == MouvementSens.Inventaire ? 0 : (mvto_.Sens == MouvementSens.Sortie ? -1 : 1) * mvto_.Quantite + mvto_.LastStock;
             }
             this.Insert(idx, item);
+        }
+
+        public override bool Remove(MouvementStock item)
+        {
+            return base.Remove(item);
+        }
+
+        public override void RemoveAt(int index)
+        {
+            if (index < Count - 1)
+            {
+                this[index + 1].LastStock = this[index].LastStock;
+                for (int i = index + 1; i < Count - 1; i++)
+                {
+                    var mvt = this[i];
+                    var mvto = this[i + 1];
+                    mvto.LastStock = mvto.Sens == MouvementSens.Inventaire ? 0 : (mvt.Sens == MouvementSens.Sortie ? -1 : 1) * mvt.Quantite + mvt.LastStock;
+
+                }
+            }
+            base.RemoveAt(index);
         }
 
         public int StockPhysique
