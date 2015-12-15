@@ -11,43 +11,7 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    /*  public interface IBusiness<T, TKey> where T : IEntity<TKey>
-      {
-          void OnChanging(T entity, string propertyName);
-          void OnChanged(T entity, string propertyName);
-      }
-
-      public interface IBusiness<T> : IBusiness<T, string> where T : IEntity<string>
-      {
-
-      }
-
-      public class Business<T, TKey> : IBusiness<T, TKey> where T : IEntity<TKey>
-      {
-          public virtual void OnChanged(T entity, string propertyName)
-          {
-              entity.IsChanged = true;
-          }
-
-          public virtual void OnChanging(T entity, string propertyName)
-          {
-
-          }
-      }
-
-      public class Business<T> : Business<T, string>, IBusiness<T, string> where T : IEntity<string>
-      {
-
-      }
-
-      public interface IBusinessProvider<T, TKey> where T : IEntity<TKey>
-      {
-          IEnumerable<IBusiness<T, TKey>> Businesses { get; }
-      }
-
-      public interface IBusinessProvider<T> : IBusinessProvider<T, string> where T : IEntity<string>
-      {
-      }*/
+    
 
     public interface IBusinessHelper<T> where T : Entity
     {
@@ -69,9 +33,7 @@ namespace Webcorp.Controller
 
         [Inject]
         public IKernel Kernel { get; set; }
-
-        /*  [Inject]
-          public IBusinessProvider<T> BusinessProvider { get; set; }*/
+        
         [Inject]
         public IBusinessController<T> Controller { get; set; }
 

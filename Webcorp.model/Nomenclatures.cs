@@ -5,7 +5,8 @@ namespace Webcorp.Model
 {
     public class Nomenclatures:ReactiveList<Nomenclature>
     {
-        [BsonIgnore]
-        public Article Parent { get; set; }
+
+       
+        
     }
 }
