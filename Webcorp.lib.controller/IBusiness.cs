@@ -15,6 +15,7 @@ namespace Webcorp.Controller
 
     public interface IBusinessHelper<T> where T : Entity
     {
+        
         T Create();
 
         void Detach(T entity);

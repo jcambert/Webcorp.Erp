@@ -88,7 +88,7 @@ namespace Webcorp.erp.tests
             sf.Libelle = "Libelle SF";
             await bh.Save();
 
-            pf.Nomenclatures.Add(new Nomenclature() { Ordre = 10, Code = sf.Id, Libelle = sf.Libelle, Quantite = 10 });
+            pf.Nomenclatures.Add(new Nomenclature() { Ordre = 10,Article=sf, Libelle = sf.Libelle, Quantite = 10 });
 
             await bh.Save();
         }

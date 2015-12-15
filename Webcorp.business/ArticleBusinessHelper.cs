@@ -13,6 +13,7 @@ namespace Webcorp.Business
 
     public interface IArticleBusinessHelper<T> : IBusinessHelper<T> where T : Article
     {
+
     }
 
     public class ArticleBusinessHelper<T> : BusinessHelper<T>, IArticleBusinessHelper<T> where T : Article

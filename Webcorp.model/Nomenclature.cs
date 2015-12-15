@@ -11,9 +11,11 @@ namespace Webcorp.Model
         string _code, _lib,_typ;
         TauxHorraire _th;
 
-        [BsonElement("code")]
-        [BsonRequired]
-        public string Code { get { return _code; } set { this.RaiseAndSetIfChanged(ref _code, value); } }
+        // [BsonElement("code")]
+        //[BsonRequired]
+        // public string Code { get { return _code; } set { this.RaiseAndSetIfChanged(ref _code, value); } }
+        Article _article;
+        public Article Article { get { return _article; } set { this.RaiseAndSetIfChanged(ref _article, value); } }
 
         [BsonElement("ordre")]
         public int Ordre { get { return _ordre; } set { this.RaiseAndSetIfChanged(ref _ordre, value); } }
