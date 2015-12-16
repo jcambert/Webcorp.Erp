@@ -203,8 +203,8 @@ namespace Webcorp.erp.tests
 
             var op3 = new Operation(e) { Poste = pcp.Find(215), Nombre = 1 };
             var decoupe = new OperationLaser(op3) { Epaisseur = 1, Gaz = GazDecoupe.Oxygene, Longueur = 600 * Length.Millimetre, NombreAmorcage = 3, NombrePetitDiametre = 2 ,SqueletteX=20*Length.Millimetre,SqueletteY=20*Length.Millimetre,Pince=0*Length.Millimetre};
-            decoupe.FormatPiece = new Format() { Longueur = 200 * Length.Millimetre, Largeur = 100 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre, Matiere = mp.Find("1.0035") };
-            decoupe.FormatTole = new Format() { Longueur = 222  * Length.Millimetre, Largeur = 125 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre, Matiere = mp.Find("1.0035"),PrixMatiere=mpp.Find("1.0035") };
+            decoupe.FormatPiece = new Format() { Longueur = 200 * Length.Millimetre, Largeur = 100 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre,/* Matiere = mp.Find("1.0035")*/ };
+            decoupe.FormatTole = new Format() { Longueur = 222  * Length.Millimetre, Largeur = 125 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre,/* Matiere = mp.Find("1.0035"),PrixMatiere=mpp.Find("1.0035")*/ };
 
             decoupe.Laser = vdlp.Find(215, MaterialGroup.P, 1, GazDecoupe.Oxygene);
             
@@ -236,7 +236,7 @@ namespace Webcorp.erp.tests
             var mpp = container.Get<IEntityProvider<MaterialPrice, string>>();
             var mp = container.Get<IEntityProvider<Material, string>>();
 
-            var format= new Format() { Longueur = 222 * Length.Millimetre, Largeur = 125 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre, Matiere = mp.Find("1.0035"), PrixMatiere = mpp.Find("1.0035") };
+            var format= new Format() { Longueur = 222 * Length.Millimetre, Largeur = 125 * Length.Millimetre, Epaisseur = 1 * Length.Millimetre, /*Matiere = mp.Find("1.0035"), PrixMatiere = mpp.Find("1.0035")*/ };
 
             Assert.AreEqual(format.Poids.ConvertTo(Mass.Kilogram), (222 * 125 * 1 * 7.8)/1000000);
             Debug.WriteLine(format.Poids.ToString("0.00 [kg]"));

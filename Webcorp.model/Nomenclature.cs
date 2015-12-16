@@ -15,6 +15,7 @@ namespace Webcorp.Model
         //[BsonRequired]
         // public string Code { get { return _code; } set { this.RaiseAndSetIfChanged(ref _code, value); } }
         Article _article;
+        [BsonElement("article")]
         public Article Article { get { return _article; } set { this.RaiseAndSetIfChanged(ref _article, value); } }
 
         [BsonElement("ordre")]

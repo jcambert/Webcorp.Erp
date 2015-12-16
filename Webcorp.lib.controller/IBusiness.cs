@@ -38,7 +38,7 @@ namespace Webcorp.Controller
         [Inject]
         public IBusinessController<T> Controller { get; set; }
 
-        public T Create()
+        public virtual T Create()
         {
             T result = Kernel.Get<T>();
             Attach(result);

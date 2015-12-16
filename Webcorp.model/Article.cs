@@ -1,26 +1,62 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
 using System.Diagnostics;
-using Webcorp.reactive;
 using Webcorp.unite;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Reactive.Linq;
+using System;
+using ReactiveUI;
+using Webcorp.Model.Quotation;
+
 namespace Webcorp.Model
 {
-    using ReactiveUI;   
     [DebuggerDisplay("Article Code={Code},Libelle={Libelle}")]
     public class Article:Entity
     {
-        MouvementsStocks _mvtStocks=new MouvementsStocks();
+
+        Nomenclatures _nomenclatures ;
+        MouvementsStocks _mvtStocks;
+        Format _format ;
+        Currency _tarif0;
+        string _material;
         public Article()
         {
 
-           // this.Changed.Where(x => x.PropertyName == "MouvementsStocks").Subscribe(x => {  _mvtStocks.Article = this; });
-           // this.Changing.Subscribe(x => { }) ;
+            // this.Changed.Where(x => x.PropertyName == "MouvementsStocks").Subscribe(x => {  _mvtStocks.Article = this; });
+            // this.Changing.Subscribe(x => { }) ;
 
+            _source = ArticleSource.Interne;
+          /*  _nomenclatures = new Nomenclatures(this);
+            ShouldDispose(MouvementsStocks.CountChanged.Subscribe(_ => { IsChanged = true; }));
+            ShouldDispose(MouvementsStocks.ItemChanged.Subscribe(_ => IsChanged = true));
+            ShouldDispose(MouvementsStocks.ItemsAdded.Subscribe(_ =>
+            {
+                StockPhysique = MouvementsStocks.StockPhysique;
+
+            }));
+            ShouldDispose(MouvementsStocks.ItemsRemoved.Subscribe(_ =>
+            {
+                StockPhysique = MouvementsStocks.StockPhysique;
+
+            }));
             
+            ShouldDispose(this.ObservableForProperty(x => x.NomenclatureVersion).Subscribe(_ => UpdateCout()));
+            ShouldDispose(Nomenclatures.CountChanged.Subscribe(_ =>
+            {
+                IsChanged = true;
+                UpdateCout();
+            }));
+            ShouldDispose(Nomenclatures.ItemChanged.Where(x => x.PropertyName == "Source").Select(x => x.Sender).Subscribe(_ =>
+            {
+                IsChanged = true;
+                UpdateCout();
+
+            }));*/
         }
+
+        
+        
+        ArticleSource _source;
         string _code, _libelle;
         [BsonRequired]
         [KeyProvider]
@@ -31,54 +67,78 @@ namespace Webcorp.Model
         public string Libelle { get { return _libelle; } set { this.SetAndRaise(ref _libelle, value); } } 
         [BsonRequired]
         [BsonElement("typart")]
-        public string TypeArticle { get; set; }
-        [BsonElement("gesto")]
-        public bool GererEnstock { get; set; } = true;
-        [BsonElement("artfan")]
-        public bool ArticleFantome { get; set; } = false;
-        [BsonElement("stoneg")]
-        public bool AutoriseStockNegatif { get; set; } = true;
-        [BsonElement("geslot")]
-        public bool GestionParLot { get; set; } = false;
-        [BsonElement("stomin")]
-        public int StockMini { get; set; } = 0;
-        [BsonElement("stomax")]
-        public int StockMaxi { get; set; } = 0;
-        [BsonElement("lotapp")]
-        public int QuantiteMiniReappro { get; set; } = 0;
-        [BsonElement("stophy")]
-        public int StockPhysique { get; set; } = 0;
-        [BsonElement("stores")]
-        public int StockReservee { get; set; } = 0;
-        [BsonElement("stoatt")]
-        public int StockAttendu { get; set; } = 0;
+        public ArticleType TypeArticle { get; set; }
+        [BsonRequired]
+        [BsonElement("source")]
+        public ArticleSource Source { get { return _source; } set { this.SetAndRaise(ref _source, value); } }
 
-        public int StockDisponible => StockPhysique - StockReservee;
+        [BsonElement("artmat")]
+        [BsonIgnoreIfNull]
+        public string Material { get{ return _material; } set { this.SetAndRaise(ref _material, value); } }
+
+        [BsonElement("gesto")]
+        [BsonIgnoreIfNull]
+        public bool? GererEnstock { get; set; } = null;
+        [BsonElement("artfan")]
+        [BsonIgnoreIfNull]
+        public bool? ArticleFantome { get; set; } = null;
+        [BsonElement("stoneg")]
+        [BsonIgnoreIfNull]
+        public bool? AutoriseStockNegatif { get; set; } = null;
+        [BsonElement("geslot")]
+        [BsonIgnoreIfNull]
+        public bool? GestionParLot { get; set; } = null;
+        [BsonElement("stomin")]
+        [BsonIgnoreIfNull]
+        public int? StockMini { get; set; } = null;
+        [BsonElement("stomax")]
+        [BsonIgnoreIfNull]
+        public int? StockMaxi { get; set; } = null;
+        [BsonElement("lotapp")]
+        [BsonIgnoreIfNull]
+        public int? QuantiteMiniReappro { get; set; } = null;
+        [BsonElement("stophy")]
+        [BsonIgnoreIfNull]
+        public int? StockPhysique { get; set; } = null;
+        [BsonElement("stores")]
+        [BsonIgnoreIfNull]
+        public int? StockReservee { get; set; } = null;
+        [BsonElement("stoatt")]
+        [BsonIgnoreIfNull]
+        public int? StockAttendu { get; set; } = null;
+
+        public int? StockDisponible => StockPhysique - StockReservee;
 
         [BsonElement("ctprep")]
-        public Currency CoutPreparation { get; set; } = new Currency();
+        [BsonIgnoreIfNull]
+        public Currency CoutPreparation { get; set; } = null;
         [BsonElement("ctmp")]
-        public Currency CoutMP { get; set; } = new Currency();
+        [BsonIgnoreIfNull]
+        public Currency CoutMP { get; set; } = null;
         [BsonElement("ctmo")]
-        public Currency CoutMO { get; set; } = new Currency();
+        [BsonIgnoreIfNull]
+        public Currency CoutMO { get; set; } = null;
         [BsonElement("ctst")]
-        public Currency CoutST { get; set; } = new Currency();
+        [BsonIgnoreIfNull]
+        public Currency CoutST { get; set; } =null;
         [BsonElement("ctfg")]
-        public Currency CoutFG { get; set; } = new Currency();
+        [BsonIgnoreIfNull]
+        public Currency CoutFG { get; set; } = null;
 
         public Currency CoutTotal => CoutMP + CoutMO+CoutST+CoutFG;
 
-        Density _density=new Density(0);
-        [BsonElement("density")]
-        public Density Density { get { return _density; } set { this.SetAndRaise(ref _density, value); } } 
+       
+        [BsonElement("format")]
         [BsonIgnoreIfNull]
-        public MassLinear MassLinear { get; set; }
+        public Format Format { get { return _format; } set { this.SetAndRaise(ref _format, value); } }
         [BsonIgnoreIfNull]
-        public AreaLinear AreaLinear { get; set; }
+        public MassLinear MassLinear { get; set; } = null;
         [BsonIgnoreIfNull]
-        public AreaMass AreaMass { get; set; }
+        public AreaLinear AreaLinear { get; set; } = null;
         [BsonIgnoreIfNull]
-        public MassCurrency MassCurrency { get; set; }
+        public AreaMass AreaMass { get; set; } = null;
+        [BsonIgnoreIfNull]
+        public MassCurrency MassCurrency { get; set; } = null;
         [BsonIgnore]
         public Currency CostLinear => MassLinear * MassCurrency;
         [BsonElement("mvtsto")]
@@ -86,8 +146,13 @@ namespace Webcorp.Model
         public MouvementsStocks MouvementsStocks { get { return _mvtStocks; } set { this.SetAndRaise(ref _mvtStocks, value); } }
         [BsonIgnoreIfNull]
         [BsonElement("nomenc")]
-        public Nomenclatures Nomenclatures { get; set; } = new Nomenclatures();
+        public Nomenclatures Nomenclatures { get { return _nomenclatures; } set { this.SetAndRaise(ref _nomenclatures, value); } }
         [BsonElement("vernom")]
-        public int NomenclatureVersion { get; set; }
+        [BsonIgnoreIfNull]
+        public int? NomenclatureVersion { get; set; } = null;
+
+        [BsonElement("tarif0")]
+        [BsonIgnoreIfNull]
+        public Currency Tarif0 { get { return _tarif0; } set { this.SetAndRaise(ref _tarif0, value); } }
     }
 }

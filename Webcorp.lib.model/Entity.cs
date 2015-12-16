@@ -6,7 +6,6 @@ using System;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-
 namespace Webcorp.Model
 {
 
@@ -30,8 +29,7 @@ namespace Webcorp.Model
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         public virtual void Dispose()
-        {
-           
+        { 
             _disposables.Dispose();
         }
 

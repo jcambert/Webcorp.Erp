@@ -9,6 +9,8 @@ using Webcorp.Dal;
 using Webcorp.Model;
 using Webcorp.Model.Quotation;
 using System.Threading.Tasks;
+using Splat;
+using Webcorp.Controller;
 
 namespace Webcorp.erp.tests
 {
@@ -80,16 +82,72 @@ namespace Webcorp.erp.tests
         {
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
-            var pf = bh.Create();
-            var sf = bh.Create();
+            var pf = bh.Create(ArticleType.ProduitFini);
+            var sf = bh.Create(ArticleType.ProduitSemiFini);
             pf.Code = "PF";
             pf.Libelle = "Libelle PF";
             sf.Code = "SF";
             sf.Libelle = "Libelle SF";
-            await bh.Save();
+            
 
             pf.Nomenclatures.Add(new Nomenclature() { Ordre = 10,Article=sf, Libelle = sf.Libelle, Quantite = 10 });
 
+            await bh.Save();
+        }
+
+        [TestMethod]
+        public async Task TestNomenclature2()
+        {
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var pf = bh.Create(ArticleType.ProduitFini);
+            var sf = bh.Create(ArticleType.ProduitSemiFini);
+            var ssf = bh.Create(ArticleType.ProduitSemiFini);
+            pf.Code = "PF";
+            pf.Libelle = "Libelle PF";
+            sf.Code = "SF";
+            sf.Libelle = "Libelle SF";
+            ssf.Code = "SSF";
+            ssf.Libelle = "Libelle SSF";
+
+            sf.Nomenclatures.Add(new Nomenclature() { Ordre = 20, Article = ssf, Libelle = ssf.Libelle, Quantite = 20 });
+            pf.Nomenclatures.Add(new Nomenclature() { Ordre = 10, Article = sf, Libelle = sf.Libelle, Quantite = 10 });
+
+            await bh.Save();
+        }
+
+       
+         [TestMethod]
+        public async Task TestNomenclature3()
+        {
+
+            var logger = new DebugLogger() { Level = LogLevel.Error };
+            Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
+            var ctrl = kernel.Get<IBusinessController<Article>>();
+            var mpp = kernel.Get<IEntityProvider<Article, string>>();
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var pf = bh.Create(ArticleType.ProduitFini);
+            var sf = bh.Create(ArticleType.ProduitSemiFini);
+            var ssf = bh.Create(ArticleType.ProduitSemiFini);
+            pf.Code = "PF";
+            pf.Libelle = "Libelle PF";
+            sf.Code = "SF";
+            sf.Libelle = "Libelle SF";
+            ssf.Code = "SSF";
+            ssf.Libelle = "Libelle SSF";
+
+            sf.Nomenclatures.Add(new Nomenclature() { Ordre = 20, Article = ssf, Libelle = ssf.Libelle, Quantite = 20 });
+            pf.Nomenclatures.Add(new Nomenclature() { Ordre = 10, Article = sf, Libelle = sf.Libelle, Quantite = 10 });
+           
+            await bh.Save();
+
+            var ret = await ctrl.Get(pf.Id);
+            Assert.IsNotNull(ret);
+
+
+            sf.Source = ArticleSource.Externe;
+            sf.Libelle = "Other Libelle SF";
+            Assert.IsTrue(pf.IsChanged);
             await bh.Save();
         }
     }

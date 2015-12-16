@@ -133,6 +133,7 @@ namespace Webcorp.Dal
         /// <param name="id">The entity's id.</param>
         public virtual async Task<bool> Delete(TKey id)
         {
+           
 
             var result = await this.collection.DeleteOneAsync(Builders<T>.Filter.Eq("_id", id));
             return result.DeletedCount == 1;
@@ -165,6 +166,13 @@ namespace Webcorp.Dal
         /// <param name="predicate"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null) => await this.collection.Find(predicate).ToListAsync();
+
+        /// <summary>
+        /// Find all documents according to filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<T>> Find(FilterDefinition<T> filter) =>await  this.collection.Find(filter).ToListAsync();
 
         /// <summary>
         /// Deletes all entities in the repository.
@@ -207,6 +215,8 @@ namespace Webcorp.Dal
         /// </summary>
         /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.collection.AsQueryable<T>().GetEnumerator();
+
+        
 
 
 

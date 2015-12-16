@@ -12,5 +12,10 @@ namespace Webcorp.unite
         {
             this.value = value;
         }
+
+        public static Currency operator +(Currency x, double y)
+        {
+            return new Currency(x.value + y);
+        }
     }
 }

@@ -45,6 +45,14 @@ namespace Webcorp.Dal
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
+        /// Find All documents according to Filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<IEnumerable<T>> Find(FilterDefinition<T> filter);
+
+
+        /// <summary>
         /// Adds the new entity in the repository.
         /// </summary>
         /// <param name="entity">The entity to add.</param>

@@ -6,7 +6,10 @@ namespace Webcorp.Model
     public class Nomenclatures:ReactiveList<Nomenclature>
     {
 
-       
+        public Nomenclatures()
+        {
+            ChangeTrackingEnabled = true;
+        }
         
     }
 }

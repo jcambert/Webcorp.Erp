@@ -112,6 +112,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DebugLogger.cs" />
     <Compile Include="TestBusiness.cs" />
     <Compile Include="TestCalculPrestations.cs" />
     <Compile Include="TestModule.cs" />

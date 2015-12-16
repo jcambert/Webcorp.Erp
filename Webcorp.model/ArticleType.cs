@@ -9,8 +9,18 @@ namespace Webcorp.Model
 {
     public enum ArticleType
     {
-        [Description]
+        [Description("Produit Fini")]
         ProduitFini,
-        ProduitSemiFini
+        [Description("Produit Semi-Fini")]
+        ProduitSemiFini,
+        [Description("Matière Premiere")]
+        MatièrePremiere,
+        [Description("Libellé")]
+        Libelle,
+        [Description("Frais Generaux")]
+        FraisGeneraux,
+        [Description("Sous-Traitance")]
+        SousTraitance
+
     }
 }

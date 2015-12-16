@@ -78,29 +78,54 @@ namespace Webcorp.erp.tests
             //var bap = kernel.Get<IBusinessAssemblyProvider>();
             //bap.Assemblies.Add(Assembly.GetAssembly(typeof(AbstractBusiness<>)));
            // var busprov = kernel.Get<IBusinessProvider<Material>>();
-            var bhelper = kernel.Get<IArticleBusinessHelper<Material>>();
+            var bhelper = kernel.Get<IArticleBusinessHelper<Article>>();
 
 
-            var material = bhelper.Create();
-            material.Code = "Temp material";
-            material.Density = new unite.Density(3);
+            var art = bhelper.Create(ArticleType.MatièrePremiere);
+            art.Code = "Temp material";
 
-            Assert.IsTrue(material.IsChanged);
+            Assert.IsTrue(art.IsChanged);
 
-            Assert.AreEqual(material.Density.Value, (3.0 / 2));
+           
 
             await bhelper.Save();
 
-            Assert.IsFalse(material.IsChanged);
+            Assert.IsFalse(art.IsChanged);
 
-             material.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
-            Assert.IsTrue(material.IsChanged);
+            art.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            Assert.IsTrue(art.IsChanged);
             await bhelper.Save();
 
 
-            material.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+            art.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
         }
 
-       
+        [TestMethod]
+        public async Task TestArticleFraisGeneraux()
+        {
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var ctrl = kernel.Get<IBusinessController<Article>>();
+            var art=bh.Create(ArticleType.FraisGeneraux);
+            art.Code = "FAD";
+            art.Libelle = "Frais Administratif";
+            art.Tarif0 = new unite.Currency("45 euro");
+            await bh.Save();
+
+            art.Tarif0 =art.Tarif0+ 20.0;
+
+            await bh.Save();
+
+            var ret =await ctrl.Get(art.Id);
+
+            Assert.AreEqual(ret.Tarif0, new unite.Currency(45 + 20));
+        }
+
+        [TestMethod]
+        public void TestArticleProduitFini()
+        {
+            var bh = kernel.Get<IArticleBusinessHelper<Article>>();
+            var ctrl = kernel.Get<IBusinessController<Article>>();
+            var art = bh.Create(ArticleType.ProduitFini);
+        }
     }
 }
