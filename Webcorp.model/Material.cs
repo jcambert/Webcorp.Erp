@@ -5,10 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Webcorp.unite;
 using ReactiveUI;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Webcorp.Model
 {
     public class Material : Entity
     {
+        [BsonId(IdGenerator = typeof(EntityIdGenerator))]
+        public override string Id { get; set; }
+
         [KeyProvider]
         public string Code { get; set; }
 

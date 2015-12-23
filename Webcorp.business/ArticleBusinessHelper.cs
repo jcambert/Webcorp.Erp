@@ -9,13 +9,17 @@ using Webcorp.Model;
 using ReactiveUI;
 using MongoDB.Driver;
 using System.Reactive.Linq;
+using Webcorp.Dal;
+using System.Linq.Expressions;
+
 namespace Webcorp.Business
 {
 
-    public interface IArticleBusinessHelper<T> : IBusinessHelper<T> where T : Article
+    public interface IArticleBusinessHelper<T> : IBusinessHelper<T>, IActionRepository<T> where T : Article
     {
         T Create(ArticleType type);
         // void ChangeSource(T article, ArticleSource source);
+        //Task<T> Get(string id);
     }
 
     public class ArticleBusinessHelper<T> : BusinessHelper<T>, IArticleBusinessHelper<T> where T : Article
@@ -38,7 +42,7 @@ namespace Webcorp.Business
 
 
             base.Attach(entity);
-            if (entity.Source == ArticleSource.Interne) Detach(entity);
+           // if (entity.Source == ArticleSource.Interne) Detach(entity);
             if (entity.MouvementsStocks.IsNotNull())
             {
                 entity.ShouldDispose(entity.MouvementsStocks.CountChanged.Subscribe(_ => { entity.IsChanged = true; }));
@@ -64,18 +68,32 @@ namespace Webcorp.Business
                     entity.IsChanged = true;
                     UpdateCout(entity);
                 }));
-                entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Where(x => x.PropertyName == "Source").Select(x => x.Sender).Subscribe(_ =>
-                     {
-                         entity.IsChanged = true;
-                         UpdateCout(entity);
+                /*entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Where(x => x.PropertyName == "Source").Select(x => x.Sender).Subscribe(_ =>
+                    {
+                        entity.IsChanged = true;
+                        SourceChanged(entity);
 
-                     }));
+                    }));*/
+                entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Subscribe(_ =>
+                {
+                   
+                    entity.IsChanged = true;
+                    UpdateCout(entity);
+
+                }));
             }
 
+           /* entity.Changed.Where(x => x.PropertyName == "Source").Subscribe(_ =>
+            {
+                SourceChanged(_.Sender as T);
+            });*/
+
+            
         }
 
         private void UpdateCout(T article)
         {
+
             article.CoutMP = new unite.Currency(0);
             foreach (var nome in article.Nomenclatures.Where(v => v.Version == article.NomenclatureVersion))
             {
@@ -83,7 +101,7 @@ namespace Webcorp.Business
             }
         }
 
-        private void SourceChanged(T article)
+      /*  private void SourceChanged(T article)
         {
 
             if (article.Source == ArticleSource.Externe)
@@ -96,16 +114,18 @@ namespace Webcorp.Business
             {
                 Detach(article);
             }
-        }
+        }*/
 
         public T Create(ArticleType type)
         {
             T result = Kernel.Get<T>();
             result.TypeArticle = type;
 
-
-            if (result.TypeArticle == ArticleType.ProduitFini || result.IsAbstract())
-                result.Source = ArticleSource.Externe;
+#if DEBUG
+            result.Societe = "999";
+#endif
+          /*  if (result.TypeArticle == ArticleType.ProduitFini || result.IsAbstract())
+                result.Source = ArticleSource.Externe;*/
 
             if (result.IsMakeable() && result.Nomenclatures.IsNull())
             {
@@ -144,5 +164,63 @@ namespace Webcorp.Business
         }
 
 
+        public  async Task<T> GetById(string id)
+        {
+            T result = await Controller.Repository.GetById(id);
+            result.ShouldDispose(result.Nomenclatures.ItemRequested.Subscribe(async x => {
+                x.Article = await this.Controller.Repository.GetById(x.ArticleId);
+            }));
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null)
+        {
+            return await Controller.Repository.Find(predicate);
+        }
+
+        public async Task<IEnumerable<T>> Find(FilterDefinition<T> filter)
+        {
+            return await Controller.Repository.Find(filter);
+        }
+
+        public async Task<bool> Upsert(T entity)
+        {
+            return await Controller.Repository.Upsert(entity);
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            return await Controller.Repository.Delete(id);
+        }
+
+        public async Task<bool> Delete(T entity)
+        {
+            return await Controller.Repository.Delete(entity);
+        }
+
+        public async Task<bool> Delete(Expression<Func<T, bool>> predicate = null)
+        {
+            return await Controller.Repository.Delete(predicate);
+        }
+
+        public async Task<bool> DeleteAll()
+        {
+            return await Controller.Repository.DeleteAll();
+        }
+
+        public Task<long> Count(Expression<Func<T, bool>> predicate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<long> CountAll()
+        {
+            return await Controller.Repository.CountAll();
+        }
+
+        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
+        {
+            return await Controller.Repository.Exists(predicate);
+        }
     }
 }

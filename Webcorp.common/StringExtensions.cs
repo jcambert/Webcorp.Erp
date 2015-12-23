@@ -23,5 +23,13 @@ public static class StringExtensions
     {
         return s + arg;
     }
+
+    public static string Left(this string s,int len)
+    {
+        if (s.IsNullOrEmpty()) return string.Empty;
+        if (s.Trim().Length <= len) return s;
+
+        return s.Substring(0, len);
+    }
 }
 

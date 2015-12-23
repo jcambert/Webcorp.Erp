@@ -89,6 +89,8 @@
     <Compile Include="ArticleExtensions.cs" />
     <Compile Include="ArticleSource.cs" />
     <Compile Include="ArticleType.cs" />
+    <Compile Include="Commande.cs" />
+    <Compile Include="ErpEntity.cs" />
     <Compile Include="generated\BeamInitializer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

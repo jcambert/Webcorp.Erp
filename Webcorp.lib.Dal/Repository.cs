@@ -28,7 +28,7 @@ namespace Webcorp.Dal
         public Repository(IDbContext context)
         {
             this.context = context;
-
+            
             this.CollectionName = Util<TKey>.GetCollectionName<T>();
             this.collection = this.context.Database.GetCollection<T>(this.CollectionName);
         }
@@ -89,16 +89,18 @@ namespace Webcorp.Dal
 
                 try
                 {
+                    
                     await this.collection.InsertOneAsync(entity);
                 }
-
+                
 #pragma warning disable CS0168 // La variable est déclarée mais jamais utilisée
                 catch (Exception ex)
 #pragma warning restore CS0168 // La variable est déclarée mais jamais utilisée
                 {
-#if DEBUG
                     _lastError = ex;
-                    if (Debugger.IsAttached) Debugger.Break();
+#if DEBUG
+
+                   // if (Debugger.IsAttached) Debugger.Break();
 #endif
                     return false;
                    

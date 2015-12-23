@@ -7,11 +7,12 @@ using System.Reactive.Linq;
 using System;
 using ReactiveUI;
 using Webcorp.Model.Quotation;
+using MongoDB.Bson.Serialization;
 
 namespace Webcorp.Model
 {
-    [DebuggerDisplay("Article Code={Code},Libelle={Libelle}")]
-    public class Article:Entity
+    [DebuggerDisplay("Societe={Societe} Code={Code},Libelle={Libelle}")]
+    public class Article:ErpEntity
     {
 
         Nomenclatures _nomenclatures ;
@@ -25,7 +26,7 @@ namespace Webcorp.Model
             // this.Changed.Where(x => x.PropertyName == "MouvementsStocks").Subscribe(x => {  _mvtStocks.Article = this; });
             // this.Changing.Subscribe(x => { }) ;
 
-            _source = ArticleSource.Interne;
+            //_source = ArticleSource.Interne;
           /*  _nomenclatures = new Nomenclatures(this);
             ShouldDispose(MouvementsStocks.CountChanged.Subscribe(_ => { IsChanged = true; }));
             ShouldDispose(MouvementsStocks.ItemChanged.Subscribe(_ => IsChanged = true));
@@ -54,9 +55,12 @@ namespace Webcorp.Model
             }));*/
         }
 
-        
-        
-        ArticleSource _source;
+
+       
+        [BsonId(IdGenerator = typeof(ArticleIdGenerator))]
+        public override string Id { get; set; }
+
+       
         string _code, _libelle;
         [BsonRequired]
         [KeyProvider]
@@ -68,10 +72,12 @@ namespace Webcorp.Model
         [BsonRequired]
         [BsonElement("typart")]
         public ArticleType TypeArticle { get; set; }
-        [BsonRequired]
+        /*[BsonRequired]
         [BsonElement("source")]
-        public ArticleSource Source { get { return _source; } set { this.SetAndRaise(ref _source, value); } }
-
+        public ArticleSource Source {
+            get { return _source; }
+            set { this.SetAndRaise(ref _source, value); } }
+*/
         [BsonElement("artmat")]
         [BsonIgnoreIfNull]
         public string Material { get{ return _material; } set { this.SetAndRaise(ref _material, value); } }
@@ -154,5 +160,21 @@ namespace Webcorp.Model
         [BsonElement("tarif0")]
         [BsonIgnoreIfNull]
         public Currency Tarif0 { get { return _tarif0; } set { this.SetAndRaise(ref _tarif0, value); } }
+    }
+
+    public class ArticleIdGenerator : IIdGenerator
+    {
+
+        public object GenerateId(object container, object document)
+        {
+            var art = document as Article;
+            return string.Format("{0}-{1}", art.Societe, art.Code);
+            //return "" + Guid.NewGuid().ToString();
+        }
+
+        public bool IsEmpty(object id)
+        {
+            return id == null || String.IsNullOrEmpty(id.ToString());
+        }
     }
 }

@@ -17,11 +17,13 @@ namespace Webcorp.Model.Quotation
         [BsonIgnoreIfNull]
         public Length Epaisseur { get { return _epaisseur; } set { this.RaiseAndSetIfChanged(ref _epaisseur, value); } }
         
-/*
+
         [BsonIgnoreIfNull]
         public MaterialPrice PrixMatiere { get; set; }
-        */
-       /* [BsonIgnore]
+
+        public Material Matiere { get; set; }
+
+        [BsonIgnore]
         public Mass Poids
         {
             get
@@ -35,7 +37,7 @@ namespace Webcorp.Model.Quotation
                     return new Mass(0);
                 }
             }
-        }*/
+        }
 
 
         [BsonIgnore]
@@ -68,7 +70,7 @@ namespace Webcorp.Model.Quotation
             }
         }
 
-        /*[BsonIgnore]
+        [BsonIgnore]
         public Currency CoutMatiere
         {
             get
@@ -82,7 +84,7 @@ namespace Webcorp.Model.Quotation
                     return new Currency(0);
                 }
             }
-        }*/
+        }
 
     }
 }

@@ -9,6 +9,9 @@ namespace Webcorp.Model.Quotation
     [Serializable]
     public class Quotation:Entity
     {
+        [BsonId(IdGenerator = typeof(EntityIdGenerator))]
+        public override string Id { get; set; }
+
         public int Numero { get; set; }
 
         public string Client { get; set; }

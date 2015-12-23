@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace Webcorp.lib.onedcut
             this.RemoveEnd = removeEnd;
             this._beam = beam;
         }
+
+        [BsonId(IdGenerator = typeof(EntityIdGenerator))]
+        public override string Id { get; set; }
+
         public int Length { get { return _length + RemoveStart + RemoveEnd; } set { _length = value; } }
 
         public int Need;

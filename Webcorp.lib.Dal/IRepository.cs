@@ -10,25 +10,9 @@ using Webcorp.Model;
 
 namespace Webcorp.Dal
 {
-    public interface IRepository<T, TKey> : IQueryable<T>
-        where T : IEntity<TKey>
+
+    public interface IActionRepository<T,TKey> where T : IEntity<TKey>
     {
-
-        /// <summary>
-        /// Get Last error
-        /// </summary>
-        Exception LastError { get; }
-
-        /// <summary>
-        /// Gets the Mongo collection (to perform advanced operations).
-        /// </summary>
-        /// <remarks>
-        /// One can argue that exposing this property (and with that, access to it's Database property for instance
-        /// (which is a "parent")) is not the responsibility of this class. Use of this property is highly discouraged;
-        /// for most purposes you can use the MongoRepositoryManager&lt;T&gt;
-        /// </remarks>
-        /// <value>The Mongo collection (to perform advanced operations).</value>
-        IMongoCollection<T> Collection { get; }
 
         /// <summary>
         /// Returns the T by its given id.
@@ -59,7 +43,7 @@ namespace Webcorp.Dal
         /// <returns>The added entity including its new ObjectId.</returns>
         Task<bool> Upsert(T entity);
 
-      
+
 
         /// <summary>
         /// Deletes an entity from the repository by its id.
@@ -77,7 +61,7 @@ namespace Webcorp.Dal
         /// Deletes the entities matching the predicate.
         /// </summary>
         /// <param name="predicate">The expression.</param>
-        Task<bool>Delete(Expression<Func<T, bool>> predicate=null);
+        Task<bool> Delete(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// Deletes all entities in the repository.
@@ -98,8 +82,38 @@ namespace Webcorp.Dal
         /// <param name="predicate">The expression.</param>
         /// <returns>True when an entity matching the predicate exists, false otherwise.</returns>
         Task<bool> Exists(Expression<Func<T, bool>> predicate);
+    }
+    public interface IRepository<T, TKey> : IQueryable<T>,IActionRepository<T,TKey>
+        where T : IEntity<TKey>
+    {
+
+        /// <summary>
+        /// Get Last error
+        /// </summary>
+        Exception LastError { get; }
+
+        /// <summary>
+        /// Gets the Mongo collection (to perform advanced operations).
+        /// </summary>
+        /// <remarks>
+        /// One can argue that exposing this property (and with that, access to it's Database property for instance
+        /// (which is a "parent")) is not the responsibility of this class. Use of this property is highly discouraged;
+        /// for most purposes you can use the MongoRepositoryManager&lt;T&gt;
+        /// </remarks>
+        /// <value>The Mongo collection (to perform advanced operations).</value>
+        IMongoCollection<T> Collection { get; }
+
 
     }
+
+    /// <summary>
+    /// IRepository definition.
+    /// </summary>
+    /// <typeparam name="T">The type contained in the repository.</typeparam>
+    /// <remarks>Entities are assumed to use strings for Id's.</remarks>
+    public interface IActionRepository<T> : IActionRepository<T, string>
+        where T : IEntity<string>
+    { }
 
     /// <summary>
     /// IRepository definition.
@@ -109,4 +123,6 @@ namespace Webcorp.Dal
     public interface IRepository<T> : IQueryable<T>, IRepository<T, string>
         where T : IEntity<string>
     { }
+
+
 }

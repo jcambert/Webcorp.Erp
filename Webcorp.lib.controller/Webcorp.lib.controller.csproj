@@ -114,6 +114,7 @@
     <Compile Include="BusinessEntityController.cs" />
     <Compile Include="BusinessProvider.cs" />
     <Compile Include="EntityController.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IBusiness.cs" />
     <Compile Include="IBusinessAssemblyProvider.cs" />
     <Compile Include="IBusinessControllerAssemblyProvider.cs" />

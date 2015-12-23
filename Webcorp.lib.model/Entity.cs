@@ -46,7 +46,7 @@ namespace Webcorp.Model
     [Serializable]
     [BsonIgnoreExtraElements(Inherited = true)]
 
-    public class Entity : CustomReactiveObject, IEntity
+    public abstract class Entity : CustomReactiveObject, IEntity
     {
 
 
@@ -54,9 +54,10 @@ namespace Webcorp.Model
         /// Gets or sets the id for this object (the primary record for an entity).
         /// </summary>
         /// <value>The id for this object (the primary record for an entity).</value>
-        [DataMember]
-        [BsonId(IdGenerator = typeof(ErpIdGenerator))]
-        public virtual string Id { get; set; }
+        //[DataMember]
+        //[BsonId(IdGenerator = typeof(EntityIdGenerator))]
+        [BsonIgnore]
+        public abstract string Id { get; set; }
         [DataMember]
         [BsonDateTimeOptions(Representation = BsonType.DateTime)]
         [BsonIgnoreIfNull]
@@ -99,12 +100,12 @@ namespace Webcorp.Model
         
     }
 
-    public class ErpIdGenerator : IIdGenerator
+    public class EntityIdGenerator : IIdGenerator
     {
 
         public object GenerateId(object container, object document)
         {
-
+            
             return "" + Guid.NewGuid().ToString();
         }
 

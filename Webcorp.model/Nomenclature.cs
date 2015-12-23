@@ -1,22 +1,34 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Webcorp.unite;
 using ReactiveUI;
+using System;
+using System.Linq;
+using System.Reactive.Linq;
+using Webcorp.unite;
+
 namespace Webcorp.Model
 {
-    public class Nomenclature:CustomReactiveObject
+    public class Nomenclature : CustomReactiveObject
     {
-        int  _ordre,_trans;
+        int _ordre, _trans;
         double _qte;
         Time _prep, _exe;
-        string _code, _lib,_typ;
+        string  _lib, _typ;
         TauxHorraire _th;
 
-        // [BsonElement("code")]
-        //[BsonRequired]
-        // public string Code { get { return _code; } set { this.RaiseAndSetIfChanged(ref _code, value); } }
+        public Nomenclature(Article article)
+        {
+            ArticleId = article.Id;
+            Article = article;
+        }
+
         Article _article;
+        [BsonIgnore]
+        public Article Article { get { return _article; } set { this.RaiseAndSetIfChanged(ref _article, value); }}
+
+        string _id;
         [BsonElement("article")]
-        public Article Article { get { return _article; } set { this.RaiseAndSetIfChanged(ref _article, value); } }
+        [BsonIgnoreIfNull]
+        public string ArticleId { get { return _id; } set { this.RaiseAndSetIfChanged(ref _id, value); } }
 
         [BsonElement("ordre")]
         public int Ordre { get { return _ordre; } set { this.RaiseAndSetIfChanged(ref _ordre, value); } }
@@ -28,7 +40,7 @@ namespace Webcorp.Model
         [BsonElement("prep")]
         [BsonIgnoreIfNull]
         public unite.Time Preparation { get { return _prep; } set { this.RaiseAndSetIfChanged(ref _prep, value); } }
-        
+
         [BsonElement("exec")]
         [BsonIgnoreIfNull]
         public unite.Time Execution { get { return _exe; } set { this.RaiseAndSetIfChanged(ref _exe, value); } }
@@ -47,13 +59,13 @@ namespace Webcorp.Model
 
         [BsonElement("type")]
         [BsonIgnoreIfNull]
-        public  string Type { get { return _typ; } set { this.RaiseAndSetIfChanged(ref _typ, value); } }
+        public string Type { get { return _typ; } set { this.RaiseAndSetIfChanged(ref _typ, value); } }
 
         [BsonElement("version")]
         public int Version { get; set; }
 
         bool _isActive = true;
         [BsonElement("active")]
-        public bool IsActive { get { return _isActive; } set { this.RaiseAndSetIfChanged(ref _isActive, value); } } 
+        public bool IsActive { get { return _isActive; } set { this.RaiseAndSetIfChanged(ref _isActive, value); } }
     }
 }

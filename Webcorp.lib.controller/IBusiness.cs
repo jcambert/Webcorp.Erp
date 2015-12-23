@@ -11,11 +11,11 @@ using Webcorp.Model;
 
 namespace Webcorp.Controller
 {
-    
+
 
     public interface IBusinessHelper<T> where T : Entity
     {
-        
+
         T Create();
 
         void Detach(T entity);
@@ -26,7 +26,7 @@ namespace Webcorp.Controller
 
         void OnChanged(T entity, string propertyName);
 
-        Task Save();
+        Task<List<ActionResult<T, string>>> Save();
     }
     public class BusinessHelper<T> : IBusinessHelper<T> where T : Entity
     {
@@ -34,7 +34,7 @@ namespace Webcorp.Controller
 
         [Inject]
         public IKernel Kernel { get; set; }
-        
+
         [Inject]
         public IBusinessController<T> Controller { get; set; }
 
@@ -80,13 +80,16 @@ namespace Webcorp.Controller
             entity.IsChanged = true;
         }
 
-        public virtual async Task Save()
+        public virtual async Task<List<ActionResult<T, string>>> Save()
         {
-
+            List<ActionResult<T, string>> results = new List<ActionResult<T, string>>();
             foreach (var item in attached.Where(r => r.IsChanged))
             {
-                await Controller.Post(item);
+                var result = await Controller.Post(item);
+                results.Add(result);
             }
+            results.ThrowIfHasError(" when saving. See Internal errors");
+            return results;
         }
         public bool IsAttached(T entity)
         {
