@@ -15,7 +15,7 @@ public static class ReflectionExtensions
         parameters = parameters ?? new object[] { };
         parameters.ThrowIfNull<ArgumentNullException>("parameters cannot be null");
         (types.Length != parameters.Length).ThrowIf<ArgumentException>("types and parameters must have same length");
-        return Create<T>(types);
+        return Create<T>(types,parameters);
     }
 
     private static T Create<T>( Type[] types, params object[] parameters)
@@ -23,7 +23,7 @@ public static class ReflectionExtensions
         try
         {
             var ctor = typeof(T).GetConstructor(types);
-            return (T)ctor.Invoke(new object[] { });
+            return (T)ctor.Invoke(parameters);
         }
         catch (Exception)
         {

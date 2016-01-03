@@ -17,13 +17,34 @@ namespace Webcorp.Business
 
     public interface IArticleBusinessHelper<T> : IBusinessHelper<T>, IActionRepository<T> where T : Article
     {
-        T Create(ArticleType type);
-        // void ChangeSource(T article, ArticleSource source);
-        //Task<T> Get(string id);
+       Task<T>Create(ArticleType type);
+        void AddMouvementStock(T entity,DateTime date,int quantity,MouvementSens sens,string reference);
+        void AddBesoin(T entity, DateTime now, int quantite, string reference, TypeBesoin tb);
     }
 
     public class ArticleBusinessHelper<T> : BusinessHelper<T>, IArticleBusinessHelper<T> where T : Article
     {
+
+        public ArticleBusinessHelper([Named("ArticleController")]IBusinessController<T> ctrl) : base(ctrl)
+        {
+
+        }
+
+       
+
+        public void AddMouvementStock(T entity, DateTime date, int quantity, MouvementSens sens,string reference)
+        {
+            var mvt = new MouvementStock() {Date=date,Quantite=quantity,Sens=sens,Reference=reference };
+            entity.MouvementsStocks.Add(mvt);
+            entity.IsChanged = true;
+        }
+
+        public void AddBesoin(T entity, DateTime now, int quantity, string reference,TypeBesoin tb)
+        {
+            var besoin = new Besoin() {Date=now,QuantiteBesoin=quantity,Reference=reference,TypeBesoin=tb };
+            entity.Besoins.Add(besoin);
+            entity.IsChanged = true;
+        }
 
         public override void OnChanged(T article, string propertyName)
         {
@@ -55,6 +76,12 @@ namespace Webcorp.Business
                 entity.ShouldDispose(entity.MouvementsStocks.ItemsRemoved.Subscribe(_ =>
                 {
                     entity.StockPhysique = entity.MouvementsStocks.StockPhysique;
+
+                }));
+
+                entity.ShouldDispose(entity.MouvementsStocks.ItemsRemoved.Subscribe(_ =>
+                {
+                    //entity.StockReservee = entity.Besoins.StockReservee;
 
                 }));
             }
@@ -101,31 +128,15 @@ namespace Webcorp.Business
             }
         }
 
-      /*  private void SourceChanged(T article)
-        {
 
-            if (article.Source == ArticleSource.Externe)
-            {
-                Attach(article);
-                //  var builder = Builders<T>.Filter;
-                //var parents = await this.Controller.Repository.Find(builder.Eq("nomenc.article.artcod", article.Code));
-            }
-            else
-            {
-                Detach(article);
-            }
-        }*/
 
-        public T Create(ArticleType type)
+        public async Task<T> Create(ArticleType type)
         {
-            T result = Kernel.Get<T>();
+            T result = await base.CreateAsync();
             result.TypeArticle = type;
+            result.Societe = AuthService.Utilisateur.Societe;
 
-#if DEBUG
-            result.Societe = "999";
-#endif
-          /*  if (result.TypeArticle == ArticleType.ProduitFini || result.IsAbstract())
-                result.Source = ArticleSource.Externe;*/
+
 
             if (result.IsMakeable() && result.Nomenclatures.IsNull())
             {
@@ -153,8 +164,12 @@ namespace Webcorp.Business
 
             }
 
+            if (result.IsMakeable() && result.Productions.IsNull())
+                result.Productions = new Productions();
+
             if (result.IsStockable() && result.MouvementsStocks.IsNull())
                 result.MouvementsStocks = new MouvementsStocks();
+
 
 
 
@@ -167,6 +182,7 @@ namespace Webcorp.Business
         public  async Task<T> GetById(string id)
         {
             T result = await Controller.Repository.GetById(id);
+            Attach(result);
             result.ShouldDispose(result.Nomenclatures.ItemRequested.Subscribe(async x => {
                 x.Article = await this.Controller.Repository.GetById(x.ArticleId);
             }));
@@ -222,5 +238,7 @@ namespace Webcorp.Business
         {
             return await Controller.Repository.Exists(predicate);
         }
+
+       
     }
 }

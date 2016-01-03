@@ -93,15 +93,10 @@ namespace Webcorp.Dal
                     await this.collection.InsertOneAsync(entity);
                 }
                 
-#pragma warning disable CS0168 // La variable est déclarée mais jamais utilisée
                 catch (Exception ex)
-#pragma warning restore CS0168 // La variable est déclarée mais jamais utilisée
                 {
                     _lastError = ex;
-#if DEBUG
 
-                   // if (Debugger.IsAttached) Debugger.Break();
-#endif
                     return false;
                    
                 }

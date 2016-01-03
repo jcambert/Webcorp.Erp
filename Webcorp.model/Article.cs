@@ -8,52 +8,22 @@ using System;
 using ReactiveUI;
 using Webcorp.Model.Quotation;
 using MongoDB.Bson.Serialization;
+using Webcorp.common;
 
 namespace Webcorp.Model
 {
-    [DebuggerDisplay("Societe={Societe} Code={Code},Libelle={Libelle}")]
+    [DebuggerDisplay("Societe={Societe} Code={Code},Libelle={Libelle}"),CollectionName("article")]
     public class Article:ErpEntity
     {
 
         Nomenclatures _nomenclatures ;
         MouvementsStocks _mvtStocks;
+        Besoins _besoins;
+        Productions _productions;
         Format _format ;
         Currency _tarif0;
         string _material;
-        public Article()
-        {
-
-            // this.Changed.Where(x => x.PropertyName == "MouvementsStocks").Subscribe(x => {  _mvtStocks.Article = this; });
-            // this.Changing.Subscribe(x => { }) ;
-
-            //_source = ArticleSource.Interne;
-          /*  _nomenclatures = new Nomenclatures(this);
-            ShouldDispose(MouvementsStocks.CountChanged.Subscribe(_ => { IsChanged = true; }));
-            ShouldDispose(MouvementsStocks.ItemChanged.Subscribe(_ => IsChanged = true));
-            ShouldDispose(MouvementsStocks.ItemsAdded.Subscribe(_ =>
-            {
-                StockPhysique = MouvementsStocks.StockPhysique;
-
-            }));
-            ShouldDispose(MouvementsStocks.ItemsRemoved.Subscribe(_ =>
-            {
-                StockPhysique = MouvementsStocks.StockPhysique;
-
-            }));
-            
-            ShouldDispose(this.ObservableForProperty(x => x.NomenclatureVersion).Subscribe(_ => UpdateCout()));
-            ShouldDispose(Nomenclatures.CountChanged.Subscribe(_ =>
-            {
-                IsChanged = true;
-                UpdateCout();
-            }));
-            ShouldDispose(Nomenclatures.ItemChanged.Where(x => x.PropertyName == "Source").Select(x => x.Sender).Subscribe(_ =>
-            {
-                IsChanged = true;
-                UpdateCout();
-
-            }));*/
-        }
+      
 
 
        
@@ -72,12 +42,7 @@ namespace Webcorp.Model
         [BsonRequired]
         [BsonElement("typart")]
         public ArticleType TypeArticle { get; set; }
-        /*[BsonRequired]
-        [BsonElement("source")]
-        public ArticleSource Source {
-            get { return _source; }
-            set { this.SetAndRaise(ref _source, value); } }
-*/
+
         [BsonElement("artmat")]
         [BsonIgnoreIfNull]
         public string Material { get{ return _material; } set { this.SetAndRaise(ref _material, value); } }
@@ -150,6 +115,8 @@ namespace Webcorp.Model
         [BsonElement("mvtsto")]
         [BsonIgnoreIfNull]
         public MouvementsStocks MouvementsStocks { get { return _mvtStocks; } set { this.SetAndRaise(ref _mvtStocks, value); } }
+        [BsonElement("besoins"),BsonIgnoreIfNull]
+        public Besoins Besoins { get { return _besoins; } set { this.SetAndRaise(ref _besoins, value); } }
         [BsonIgnoreIfNull]
         [BsonElement("nomenc")]
         public Nomenclatures Nomenclatures { get { return _nomenclatures; } set { this.SetAndRaise(ref _nomenclatures, value); } }
@@ -160,6 +127,8 @@ namespace Webcorp.Model
         [BsonElement("tarif0")]
         [BsonIgnoreIfNull]
         public Currency Tarif0 { get { return _tarif0; } set { this.SetAndRaise(ref _tarif0, value); } }
+        [BsonElement("prod"),BsonIgnoreIfNull]
+        public Productions Productions { get { return _productions; } set { this.SetAndRaise(ref _productions, value); } }
     }
 
     public class ArticleIdGenerator : IIdGenerator

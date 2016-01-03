@@ -81,7 +81,7 @@ namespace Webcorp.erp.tests
             var bhelper = kernel.Get<IArticleBusinessHelper<Article>>();
 
 
-            var art = bhelper.Create(ArticleType.MatièrePremiere);
+            var art =await bhelper.Create(ArticleType.MatièrePremiere);
             art.Code = "Temp material";
 
             Assert.IsTrue(art.IsChanged);
@@ -105,7 +105,7 @@ namespace Webcorp.erp.tests
         {
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             var ctrl = kernel.Get<IBusinessController<Article>>();
-            var art=bh.Create(ArticleType.FraisGeneraux);
+            var art=await bh.Create(ArticleType.FraisGeneraux);
             art.Code = "FAD";
             art.Libelle = "Frais Administratif";
             art.Tarif0 = new unite.Currency("45 euro");

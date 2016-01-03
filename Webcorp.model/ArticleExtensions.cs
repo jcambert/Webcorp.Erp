@@ -18,6 +18,7 @@ namespace Webcorp.Model
             return (entity?.GererEnstock ?? false) && (entity.TypeArticle == ArticleType.SousTraitance || entity.TypeArticle == ArticleType.MatièrePremiere || IsMakeable(entity));
         }
 
+
         public static bool IsAbstract<T>(this T entity) where T : Article
         {
             return entity.TypeArticle == ArticleType.FraisGeneraux || entity.TypeArticle == ArticleType.Libelle;

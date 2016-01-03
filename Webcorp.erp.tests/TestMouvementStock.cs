@@ -165,13 +165,13 @@ namespace Webcorp.erp.tests
             var _beam = mpp.Find("IPE 80");
             _beam.MouvementsStocks.Clear();
             bh.Attach(_beam);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("1/1/2015"), Quantite = 10, Sens = MouvementSens.Entree,Genre=MouvementGenre.Fabrication,CreerPar=Helper.CurrentUser });
             Assert.AreEqual(_beam.StockPhysique, 10);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("2/1/2015"), Quantite = 7, Sens = MouvementSens.Sortie, Genre = MouvementGenre.Expedition, CreerPar = Helper.CurrentUser });
             Assert.AreEqual(_beam.StockPhysique, 3);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("3/1/2015"), Quantite = 5, Sens = MouvementSens.Entree });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("3/1/2015"), Quantite = 5, Sens = MouvementSens.Entree, Genre = MouvementGenre.Fabrication, CreerPar = Helper.CurrentUser });
             Assert.AreEqual(_beam.StockPhysique, 8);
-            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("4/1/2015"), Quantite = 20, Sens = MouvementSens.Sortie });
+            _beam.MouvementsStocks.Add(new MouvementStock() { Date = DateTime.Parse("4/1/2015"), Quantite = 20, Sens = MouvementSens.Sortie, Genre = MouvementGenre.Expedition, CreerPar = Helper.CurrentUser });
             Assert.AreEqual(_beam.StockPhysique, -12);
 
             _beam.MouvementsStocks.RemoveAt(1);

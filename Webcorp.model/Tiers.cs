@@ -14,12 +14,14 @@ namespace Webcorp.Model
 
     public abstract class Tiers:ErpEntity
     {
-        [BsonId(IdGenerator = typeof(EntityIdGenerator))]
+        [BsonId(IdGenerator = typeof(EntityIdGenerator)),BsonIgnoreIfNull]
         public override string Id { get; set; }
 
         [KeyProvider]
+        [BsonElement("nom")]
         public string Nom { get; set; }
 
+        [BsonIgnoreIfNull]
         public Addresse Adresse { get; set; }
     }
 

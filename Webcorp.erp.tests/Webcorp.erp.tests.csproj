@@ -115,9 +115,12 @@
     <Compile Include="DebugLogger.cs" />
     <Compile Include="TestBusiness.cs" />
     <Compile Include="TestCalculPrestations.cs" />
+    <Compile Include="TestCommandes.cs" />
+    <Compile Include="TestDal.cs" />
     <Compile Include="TestModule.cs" />
     <Compile Include="TestMouvementStock.cs" />
     <Compile Include="TestNomenclature.cs" />
+    <Compile Include="TestParametre.cs" />
     <Compile Include="UnitTestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -160,7 +163,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,70 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Runtime.Remoting.Messaging" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+using System.ComponentModel;
+using System.Collections.Generic;
+using Webcorp.Model;
+namespace Webcorp.Business{
+<#
+	var lines1=File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Host.TemplateFile),"pparametres.csv"));
+#>
+	public class PParametres{
+<#
+	foreach (var line in lines1) {
+  		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
+		      continue;
+		  }
+		  if(line=="*EXIT*")break;
+		  var values=line.Split(',');
+#>
+		public const string <#= values[1].Trim().Replace(" ","").ToUpper() #> = "<#= values[0] #>";
+<#
+
+	}
+#>
+	
+	}
+
+	public class PParametresInitializer {
+		public List<PParametre> StandardPParametres()
+        {
+			var result=new List<PParametre>();
+<# 
+	
+	
+
+	var generated = new Dictionary<string,int>();
+	foreach (var line in lines1) {
+  		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
+		      continue;
+		  }
+		  if(line=="*EXIT*")break;
+		     
+		  
+		  var name = line;
+		  if (generated.ContainsKey(name)) {
+			  continue;
+		  }
+		  var values=line.Split(',');
+		  if(values.Length!=3 && values.Length!=4 ) continue;
+
+		  string extra="";
+		  if(values.Length==4)
+			extra=string.Format(",Aide=\"{0}\"",values[3]);
+		 
+
+		  #>			result.Add(new PParametre(){Id="<#=values[0]#>",Description="<#=values[1]#>",TypeParametre=(TypeParametre)<#=values[2]#><#=extra#>});		
+<#
+          
+		  generated.Add(name,0);
+	}
+#>
+			return result;
+		}
+		
+	}
+}

@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Webcorp.common;
 using Webcorp.Model;
 
 namespace Webcorp.Dal
@@ -24,7 +25,8 @@ namespace Webcorp.Dal
         /// <returns>Returns the default connectionstring from the App.config or Web.config file.</returns>
         public static string GetDefaultConnectionString()
         {
-            try {
+            try
+            {
                 return ConfigurationManager.ConnectionStrings[DefaultConnectionstringName].ConnectionString;
             }
             catch
@@ -74,7 +76,7 @@ namespace Webcorp.Dal
         /// </summary>
         /// <param name="url">The url to use to get the database from.</param>
         /// <returns>Returns a MongoDatabase from the specified url.</returns>
-        internal static IMongoDatabase GetDatabaseFromUrl(MongoUrl url,string databaseName="")
+        internal static IMongoDatabase GetDatabaseFromUrl(MongoUrl url, string databaseName = "")
         {
             return GetDatabaseFromSettings(MongoClientSettings.FromUrl(url), databaseName);
         }
@@ -143,6 +145,12 @@ namespace Webcorp.Dal
         public static string GetCollectionName<T>() where T : IEntity<U>
         {
             string collectionName;
+            CollectionNameAttribute attr;
+            if (typeof(T).HasCustomAttribute<CollectionNameAttribute>(out attr))
+            {
+                collectionName = attr.Name;
+                return collectionName;
+            }
             if (typeof(T).BaseType.Equals(typeof(object)))
             {
                 collectionName = GetCollectioNameFromInterface<T>();

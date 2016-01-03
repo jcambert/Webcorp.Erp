@@ -36,5 +36,31 @@ public static class ObjectExtension
 
         return result;
     }
+
+    public static bool HasCustomAttribute<T>(this Type type,out T attr) where T : class
+    {
+        /*   var a = System.Attribute.GetCustomAttributes<(type);
+
+           return a.Any<T>();*/
+
+        var a = type.GetCustomAttributes(false);
+        
+        var res=false;
+        foreach (var item in a)
+        {
+            if (item.GetType() == typeof(T))
+            {
+                attr = item as T;
+                return true;
+            }
+        }
+        attr =default(T);
+        return res;
+    }
+
+    public static T GetCustomAttribute<T>(this Type type) where T : class
+    {
+        return type.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+    }
 }
 

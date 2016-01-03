@@ -12,7 +12,7 @@ namespace Webcorp.Controller
 {
     public interface IBusinessController<T, TKey>:IEntityController<T,TKey> where T : IEntity<TKey>
     {
-        IPrincipal User { get; set; }
+      //  IUser User { get; set; }
 
         Task<ActionResult<T,TKey>> OnBeforeUpsert(T entity);
         Task<ActionResult<T, TKey>> OnAfterUpsert(T entity);

@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +9,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.common;
+using Webcorp.Controller;
 using Webcorp.Model;
 
-namespace Webcorp.Controller
+namespace Webcorp.Business
 {
 
-/*
+
     public interface IBusinessHelper<T> where T : Entity
     {
 
@@ -29,22 +32,37 @@ namespace Webcorp.Controller
         void OnChanged(T entity, string propertyName);
 
         Task<List<ActionResult<T, string>>> Save();
+
+        Task<ActionResult<T, string>> Save(T entity);
+
+        IAuthenticationService AuthService { get; set; }
     }
     public class BusinessHelper<T> : IBusinessHelper<T> where T : Entity
     {
-
+        WeakList<T> attached = new WeakList<T>();
+        private IIdGenerator _idgen;
         public BusinessHelper(IBusinessController<T> controller)
         {
             this.Controller = controller;
+
+            var tmp = typeof(T).GetProperty("Id").GetCustomAttributes(false);
+            var attr = tmp.Where(a => a is BsonIdAttribute).FirstOrDefault() as BsonIdAttribute;
+            var gentype = attr.IdGenerator;
+            _idgen = Activator.CreateInstance(gentype) as IIdGenerator;
         }
-        WeakList<T> attached = new WeakList<T>();
+
+        public string GenerateId( T entity)
+        {
+            return _idgen.GenerateId(this.Controller.Repository.Collection, entity) as string;
+        }
+        
 
         [Inject]
         public IKernel Kernel { get; set; }
 
-      
+        [Inject]
+        public IAuthenticationService AuthService { get; set; }
 
-        // [Inject]
         public IBusinessController<T> Controller { get; private set; }
 
         public virtual T Create()
@@ -55,20 +73,18 @@ namespace Webcorp.Controller
 
             return result;
         }
-
-        public async Task<T> CreateAsync()
+        public virtual async Task<T> CreateAsync()
         {
             Task<T> t = Task.Factory.StartNew(() =>
             {
-                T result =Create();
+                T result = Create();
 
                 return result;
             });
-           
+
             return await t;
 
         }
-        
 
         public virtual void Attach(T entity)
         {
@@ -104,6 +120,12 @@ namespace Webcorp.Controller
             entity.IsChanged = true;
         }
 
+        public virtual async Task<ActionResult<T,string>>Save(T entity)
+        {
+            return await Controller.Post(entity);
+           
+        }
+
         public virtual async Task<List<ActionResult<T, string>>> Save()
         {
             List<ActionResult<T, string>> results = new List<ActionResult<T, string>>();
@@ -121,5 +143,5 @@ namespace Webcorp.Controller
         }
 
     }
-    */
+
 }

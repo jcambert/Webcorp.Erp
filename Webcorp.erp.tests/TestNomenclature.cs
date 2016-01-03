@@ -83,8 +83,8 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = bh.Create(ArticleType.ProduitFini);
-            var sf = bh.Create(ArticleType.ProduitSemiFini);
+            var pf = await bh.Create(ArticleType.ProduitFini);
+            var sf = await bh.Create(ArticleType.ProduitSemiFini);
             pf.Code = "PF";
             pf.Libelle = "Libelle PF";
             sf.Code = "SF";
@@ -104,9 +104,9 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = bh.Create(ArticleType.ProduitFini);
-            var sf = bh.Create(ArticleType.ProduitSemiFini);
-            var ssf = bh.Create(ArticleType.ProduitSemiFini);
+            var pf = await bh.Create(ArticleType.ProduitFini);
+            var sf = await bh.Create(ArticleType.ProduitSemiFini);
+            var ssf =await  bh.Create(ArticleType.ProduitSemiFini);
             pf.Code = "PF";
             pf.Libelle = "Libelle PF";
             sf.Code = "SF";
@@ -138,9 +138,9 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = bh.Create(ArticleType.ProduitFini);
-            var sf = bh.Create(ArticleType.ProduitSemiFini);
-            var ssf = bh.Create(ArticleType.ProduitSemiFini);
+            var pf = await bh.Create(ArticleType.ProduitFini);
+            var sf = await bh.Create(ArticleType.ProduitSemiFini);
+            var ssf = await bh.Create(ArticleType.ProduitSemiFini);
 
             
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webcorp.Dal
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
+ /*   [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public sealed class CollectionNameAttribute:Attribute
     {
         public CollectionNameAttribute(string value)
@@ -15,5 +15,5 @@ namespace Webcorp.Dal
         }
 
         public string Name { get; private set; }
-    }
+    }*/
 }

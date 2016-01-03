@@ -11,6 +11,16 @@ namespace Webcorp.Model
         Sortie,
         Inventaire  
     }
+
+    public enum MouvementGenre
+    {
+        Expedition,
+        Fabrication,
+        Reception,
+        Consommation,
+        Manuel,
+        Inventaire
+    }
     [DebuggerDisplay("Quantite={Quantite},LastStock={LastStock}")]
     public class MouvementStock:CustomReactiveObject
     {
@@ -26,5 +36,13 @@ namespace Webcorp.Model
         public int Quantite { get; set; }
         [BsonElement("lassto")]
         public int LastStock { get;  set; }
+        [BsonElement("mvtref"),BsonIgnoreIfNull]
+        public string Reference { get; set; }
+        [BsonElement("mvtgen"),BsonRequired]
+        public MouvementGenre Genre { get; set; }
+        [BsonElement("crepar"),BsonRequired]
+        public string CreerPar { get; set; }
+        [BsonElement("crele"), BsonRequired]
+        public DateTime CreerLe { get; set; } = DateTime.Now;
     }
 }
