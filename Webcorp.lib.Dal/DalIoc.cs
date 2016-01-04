@@ -15,6 +15,8 @@ namespace Webcorp.Dal
             Bind<IDbContext>().To<DbContext>();
             Bind(typeof(IRepository<>)).To(typeof(Repository<>));
             Bind(typeof(IRepository<,>)).To(typeof(Repository<,>));
+
+            Bind(typeof(IDbSet<>)).To(typeof(DbSet<>));
         }
     }
 }

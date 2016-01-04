@@ -2,8 +2,13 @@
 
 using Webcorp.unite;
 using ReactiveUI;
+using System;
+using System.Runtime.Serialization;
+
 namespace Webcorp.Model.Quotation
 {
+    [DataContract]
+    [Serializable]
     public class Format:CustomReactiveObject
     {
         Length _longueur, _largeur, _epaisseur;

@@ -83,5 +83,16 @@ namespace Webcorp.erp.tests
             
             
         }
+
+        
+
+        [TestMethod]
+        public async Task TestDBContext()
+        {
+            var ctx = kernel.Get<IDbContext>();
+            var entry=ctx.Upsert(new Article());
+            Assert.IsTrue(entry.State == EntityState.Added);
+            await ctx.SaveChangesAsync();
+        }
     }
 }

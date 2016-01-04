@@ -2,10 +2,13 @@
 using ReactiveUI;
 using System;
 using System.Reactive.Subjects;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
+    [DataContract]
+    [Serializable]
     public class Nomenclatures:ReactiveList<Nomenclature>
     {
         Lazy<Subject<Nomenclature>> _itemRequested;

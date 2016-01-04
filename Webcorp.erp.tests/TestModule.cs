@@ -14,6 +14,7 @@ namespace Webcorp.erp.tests
 
         public override void Load()
         {
+            
             // Bind(typeof(IEntityController<>)).To(typeof(EntityController<>));
             //Bind(typeof(IBusinessControllerProvider<>)).To(typeof(BusinessControllerProvider<>)).InSingletonScope();
             //Bind(typeof(IBusinessControllerAssemblyProvider)).To(typeof(BusinessControllerAssemblyProvider)).InSingletonScope();

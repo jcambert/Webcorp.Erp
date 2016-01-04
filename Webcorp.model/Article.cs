@@ -9,10 +9,13 @@ using ReactiveUI;
 using Webcorp.Model.Quotation;
 using MongoDB.Bson.Serialization;
 using Webcorp.common;
+using System.Runtime.Serialization;
 
 namespace Webcorp.Model
 {
     [DebuggerDisplay("Societe={Societe} Code={Code},Libelle={Libelle}"),CollectionName("article")]
+    [DataContract]
+    [Serializable]
     public class Article:ErpEntity
     {
 

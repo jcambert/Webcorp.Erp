@@ -79,11 +79,6 @@ namespace Webcorp.Business
 
                 }));
 
-                entity.ShouldDispose(entity.MouvementsStocks.ItemsRemoved.Subscribe(_ =>
-                {
-                    //entity.StockReservee = entity.Besoins.StockReservee;
-
-                }));
             }
 
             if (entity.Nomenclatures.IsNotNull())
@@ -95,12 +90,7 @@ namespace Webcorp.Business
                     entity.IsChanged = true;
                     UpdateCout(entity);
                 }));
-                /*entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Where(x => x.PropertyName == "Source").Select(x => x.Sender).Subscribe(_ =>
-                    {
-                        entity.IsChanged = true;
-                        SourceChanged(entity);
 
-                    }));*/
                 entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Subscribe(_ =>
                 {
                    
