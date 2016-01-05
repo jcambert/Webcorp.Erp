@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using Ninject;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,7 +29,7 @@ namespace Webcorp.Dal
         public Repository(IDbContext context)
         {
             this.context = context;
-            
+
             this.CollectionName = Util<TKey>.GetCollectionName<T>();
             this.collection = this.context.Database.GetCollection<T>(this.CollectionName);
         }
@@ -62,10 +63,10 @@ namespace Webcorp.Dal
         /// <returns>The Entity T.</returns>
         public virtual async Task<T> GetById(TKey id)
         {
-          /*  if (typeof(T).IsSubclassOf(typeof(Entity)))
-            {
-                return await this.GetById(new ObjectId(id as string));
-            }*/
+            /*  if (typeof(T).IsSubclassOf(typeof(Entity)))
+              {
+                  return await this.GetById(new ObjectId(id as string));
+              }*/
             return await this.collection.Find(entity => entity.Id.Equals(id)).FirstOrDefaultAsync();
         }
 
@@ -89,19 +90,18 @@ namespace Webcorp.Dal
 
                 try
                 {
-                    
-                    await this.collection.InsertOneAsync(entity);
+
+                    return await this.Add(entity);
                 }
-                
+
                 catch (Exception ex)
                 {
                     _lastError = ex;
 
                     return false;
-                   
+
                 }
-               
-                return true;
+
             }
             else
             {
@@ -112,17 +112,35 @@ namespace Webcorp.Dal
                 return result.ModifiedCount == 1;
             }
 
-            //
-            /* var id =  result.UpsertedId.AsObjectId ;
-             if (typeof(T).IsSubclassOf(typeof(Entity)))
-                 (entity as Entity).Id = id.ToString();*/
-
-
-
-            //return true;
         }
 
+        public virtual async Task<bool> Add(T entity)
+        {
+            try
+            {
 
+                await this.collection.InsertOneAsync(entity);
+            }
+
+            catch (Exception ex)
+            {
+                _lastError = ex;
+
+                return false;
+
+            }
+
+            return true;
+        }
+
+        public virtual async Task<bool> Update(T entity,ReactiveList<KeyValue> properties)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", entity.Id);
+            var updateBuilder = Builders<T>.Update;
+            UpdateDefinition<T> update = updateBuilder.Set(properties[0].Key, properties[0].Value);
+            var result = await this.collection.UpdateOneAsync(filter, update);
+            return result.ModifiedCount == 1;
+        }
 
         /// <summary>
         /// Deletes an entity from the repository by its id.
@@ -130,7 +148,7 @@ namespace Webcorp.Dal
         /// <param name="id">The entity's id.</param>
         public virtual async Task<bool> Delete(TKey id)
         {
-           
+
 
             var result = await this.collection.DeleteOneAsync(Builders<T>.Filter.Eq("_id", id));
             return result.DeletedCount == 1;
@@ -154,6 +172,7 @@ namespace Webcorp.Dal
             var count = await this.collection.CountAsync(predicate);
             var result = await this.Collection.DeleteManyAsync(predicate);
             return result.DeletedCount == count;
+
         }
 
 
@@ -169,7 +188,7 @@ namespace Webcorp.Dal
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<T>> Find(FilterDefinition<T> filter) =>await  this.collection.Find(filter).ToListAsync();
+        public virtual async Task<IEnumerable<T>> Find(FilterDefinition<T> filter) => await this.collection.Find(filter).ToListAsync();
 
         /// <summary>
         /// Deletes all entities in the repository.
@@ -213,7 +232,7 @@ namespace Webcorp.Dal
         /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.collection.AsQueryable<T>().GetEnumerator();
 
-        
+
 
 
 

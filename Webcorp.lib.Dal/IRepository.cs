@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,9 @@ namespace Webcorp.Dal
         /// <returns>The added entity including its new ObjectId.</returns>
         Task<bool> Upsert(T entity);
 
+        Task<bool> Add(T entity);
 
+        Task<bool> Update(T entity, ReactiveList<KeyValue> properties);
 
         /// <summary>
         /// Deletes an entity from the repository by its id.

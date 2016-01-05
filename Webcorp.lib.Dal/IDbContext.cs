@@ -17,7 +17,11 @@ namespace Webcorp.Dal
 
         int SaveChanges();
 
+        IRepository<T> Repository<T>() where T : IEntity;
+
         Task<int> SaveChangesAsync(CancellationToken token=default(CancellationToken));
+
+        Task<int> SaveChangesAsync<TEntity>(TEntity entity, CancellationToken token = default(CancellationToken)) where TEntity : IEntity;
 
         EntityEntry Upsert<TEntity>(TEntity entity) where TEntity : IEntity;
 
@@ -25,6 +29,10 @@ namespace Webcorp.Dal
 
         TEntity Attach<TEntity>(TEntity entity) where TEntity : IEntity;
 
-        
+        int Count<TEntity>() where TEntity : IEntity;
+
+        EntityEntry Entry<TEntity>(TEntity entity) where TEntity : IEntity;
+
+        int DeleteAll<TEntity>() where TEntity : IEntity;
     }
 }

@@ -45,7 +45,7 @@ namespace Webcorp.Model
     [DataContract]
     [Serializable]
     [BsonIgnoreExtraElements(Inherited = true)]
-
+   
     public abstract class Entity : CustomReactiveObject, IEntity
     {
 

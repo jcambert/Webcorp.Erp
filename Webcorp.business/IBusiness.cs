@@ -1,15 +1,19 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Webcorp.common;
 using Webcorp.Controller;
+using Webcorp.Dal;
 using Webcorp.Model;
 
 namespace Webcorp.Business
@@ -22,27 +26,48 @@ namespace Webcorp.Business
         T Create();
 
         Task<T> CreateAsync();
-
-        void Detach(T entity);
-
+        
         void Attach(T entity);
 
         void OnChanging(T entity, string propertyName);
 
         void OnChanged(T entity, string propertyName);
 
-        Task<List<ActionResult<T, string>>> Save();
+        Task<int> Save();
 
-        Task<ActionResult<T, string>> Save(T entity);
+        Task<int> Save(T entity);
+
+        Task<int> DeleteAll();
+
+        Task<T> GetById(string id);
+
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null);
+
+        Task<IEnumerable<T>> Find(FilterDefinition<T> filter);
+
+        Task<bool> Delete(string id);
+
+        Task<bool> Delete(T entity);
+
+        Task<bool> Delete(Expression<Func<T, bool>> predicate = null);
+
+        Task<long> Count(Expression<Func<T, bool>> predicate = null);
+
+        Task<bool> Exists(Expression<Func<T, bool>> predicate);
 
         IAuthenticationService AuthService { get; set; }
+
+        IDbContext DbContext { get; set; }
+
+
     }
     public class BusinessHelper<T> : IBusinessHelper<T> where T : Entity
     {
-        WeakList<T> attached = new WeakList<T>();
+        //WeakList<T> attached = new WeakList<T>();
         private IIdGenerator _idgen;
         public BusinessHelper(IBusinessController<T> controller)
         {
+            Contract.Requires(controller != null);
             this.Controller = controller;
 
             var tmp = typeof(T).GetProperty("Id").GetCustomAttributes(false);
@@ -51,11 +76,12 @@ namespace Webcorp.Business
             _idgen = Activator.CreateInstance(gentype) as IIdGenerator;
         }
 
-        public string GenerateId( T entity)
+        public string GenerateId(T entity)
         {
+            Contract.Requires(entity != null);
             return _idgen.GenerateId(this.Controller.Repository.Collection, entity) as string;
         }
-        
+
 
         [Inject]
         public IKernel Kernel { get; set; }
@@ -65,11 +91,15 @@ namespace Webcorp.Business
 
         public IBusinessController<T> Controller { get; private set; }
 
+        [Inject]
+        public IDbContext DbContext { get; set; }
+
         public virtual T Create()
         {
+            Contract.Ensures(Contract.Result<T>() != null);
             T result = Kernel.Get<T>();
             result.IsChanged = true;
-            Attach(result);
+            // Attach(result);
 
             return result;
         }
@@ -88,6 +118,7 @@ namespace Webcorp.Business
 
         public virtual void Attach(T entity)
         {
+            Contract.Requires(entity != null);
             if (IsAttached(entity)) return;
             entity.ShouldDispose(entity.Changing.Subscribe(
                 _ =>
@@ -102,46 +133,98 @@ namespace Webcorp.Business
                 this.OnChanged(entity, _.PropertyName);
                 entity.EnableEvents = true;
             }));
-            attached.Add(entity);
+            DbContext.Upsert(entity);
+            // attached.Add(entity);
         }
 
-        public void Detach(T entity)
-        {
-            attached.Remove(entity);
-        }
 
         public virtual void OnChanging(T entity, string propertyName)
         {
-
+            Contract.Requires(entity != null);
+            Contract.Requires(propertyName != null);
         }
 
         public virtual void OnChanged(T entity, string propertyName)
         {
+            Contract.Requires(entity != null);
+            Contract.Requires(propertyName != null);
             entity.IsChanged = true;
         }
 
-        public virtual async Task<ActionResult<T,string>>Save(T entity)
+        public virtual async Task<int> Save(T entity)
         {
-            return await Controller.Post(entity);
-           
+            Contract.Requires(entity != null);
+            return await DbContext.SaveChangesAsync(entity);
+
+        }
+        public virtual async Task<int> Save()
+        {
+            return await DbContext.SaveChangesAsync();
+
         }
 
-        public virtual async Task<List<ActionResult<T, string>>> Save()
-        {
-            List<ActionResult<T, string>> results = new List<ActionResult<T, string>>();
-            foreach (var item in attached.Where(r => r.IsChanged))
-            {
-                var result = await Controller.Post(item);
-                results.Add(result);
-            }
-            results.ThrowIfHasError(" when saving. See Internal errors");
-            return results;
-        }
         public bool IsAttached(T entity)
         {
-            return attached.Contains(entity);
+            Contract.Requires(entity != null);
+            return DbContext.Entry(entity) != null;
         }
 
+
+        public virtual async Task<int> DeleteAll()
+        {
+
+            Task<int> t = Task.Factory.StartNew(() =>
+            {
+                return DbContext.DeleteAll<T>();
+
+
+            });
+
+           return  await t;
+        }
+
+        public virtual async Task<T> GetById(string id)
+        {
+            Contract.Requires(id != null);
+            var result= await DbContext.Repository<T>().GetById(id);
+            Attach(result);
+            return result;
+        }
+
+        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null)
+        {
+            return await DbContext.Repository<T>().Find(predicate);
+        }
+
+        public virtual async Task<IEnumerable<T>> Find(FilterDefinition<T> filter)
+        {
+            return await DbContext.Repository<T>().Find(filter);
+        }
+
+        public virtual async Task<bool> Delete(string id)
+        {
+            return await DbContext.Repository<T>().Delete(id);
+        }
+
+        public virtual async Task<bool> Delete(T entity)
+        {
+            return await DbContext.Repository<T>().Delete(entity);
+        }
+
+        public virtual async Task<bool> Delete(Expression<Func<T, bool>> predicate = null)
+        {
+            return await DbContext.Repository<T>().Delete(predicate);
+        }
+
+        public virtual async Task<long> Count(Expression<Func<T, bool>> predicate = null)
+        {
+            return await DbContext.Repository<T>().Count();
+        }
+
+        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
+        {
+            return await DbContext.Repository<T>().Exists(predicate);
+        }
     }
 
 }

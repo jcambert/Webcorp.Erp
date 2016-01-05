@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Webcorp.Model
 {
-    [DataContract]
+    [DataContract,KnownType(typeof(Article))]
     [Serializable]
     public abstract class ErpEntity:Entity
     {

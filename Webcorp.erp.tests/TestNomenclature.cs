@@ -83,11 +83,9 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = await bh.Create(ArticleType.ProduitFini);
-            var sf = await bh.Create(ArticleType.ProduitSemiFini);
-            pf.Code = "PF";
+            var pf = await bh.Create("PF",ArticleType.ProduitFini);
+            var sf = await bh.Create("SF",ArticleType.ProduitSemiFini);
             pf.Libelle = "Libelle PF";
-            sf.Code = "SF";
             sf.Libelle = "Libelle SF";
             
 
@@ -104,14 +102,11 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = await bh.Create(ArticleType.ProduitFini);
-            var sf = await bh.Create(ArticleType.ProduitSemiFini);
-            var ssf =await  bh.Create(ArticleType.ProduitSemiFini);
-            pf.Code = "PF";
+            var pf = await bh.Create("PF",ArticleType.ProduitFini);
+            var sf = await bh.Create("SF",ArticleType.ProduitSemiFini);
+            var ssf =await  bh.Create("SSF",ArticleType.ProduitSemiFini);
             pf.Libelle = "Libelle PF";
-            sf.Code = "SF";
             sf.Libelle = "Libelle SF";
-            ssf.Code = "SSF";
             ssf.Libelle = "Libelle SSF";
             
             await bh.Save();
@@ -138,17 +133,11 @@ namespace Webcorp.erp.tests
             var mpp = kernel.Get<IEntityProvider<Article, string>>();
             var bh = kernel.Get<IArticleBusinessHelper<Article>>();
             await bh.DeleteAll();
-            var pf = await bh.Create(ArticleType.ProduitFini);
-            var sf = await bh.Create(ArticleType.ProduitSemiFini);
-            var ssf = await bh.Create(ArticleType.ProduitSemiFini);
-
-            
-
-            pf.Code = "PF";
+            var pf = await bh.Create("PF",ArticleType.ProduitFini);
+            var sf = await bh.Create("SF",ArticleType.ProduitSemiFini);
+            var ssf = await bh.Create("SSF",ArticleType.ProduitSemiFini);
             pf.Libelle = "Libelle PF";
-            sf.Code = "SF";
             sf.Libelle = "Libelle SF";
-            ssf.Code = "SSF";
             ssf.Libelle = "Libelle SSF";
 
             sf.Nomenclatures.Add(new Nomenclature(ssf) { Ordre = 20,  Libelle = ssf.Libelle, Quantite = 20 });

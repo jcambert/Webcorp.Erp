@@ -35,11 +35,11 @@ namespace Webcorp.Dal
             if (databaseName.IsNullOrEmpty()) databaseName = url.DatabaseName;
             if (databaseName.IsNullOrEmpty()) databaseName = Util.GetDefaultDatabaseName();
             databaseName.ThrowIfNullOrEmpty("You must specify a database name in App.config AppSetting section with key=MongoDatabaseName");
-            database = Util.GetDatabaseFromUrl(url,databaseName);
-            
-           
+            database = Util.GetDatabaseFromUrl(url, databaseName);
+
+
         }
-       
+
 
 
 
@@ -52,11 +52,17 @@ namespace Webcorp.Dal
             database = Util.GetDatabaseFromUrl(url);
         }
 
-       public IDbSet<T> Set<T> () where T : IEntity
+        Dictionary<Type, IDbSet> _sets = new Dictionary<Type, IDbSet>();
+        public IDbSet<T> Set<T>() where T : IEntity
         {
+            var result= Kernel.Get<IDbSet<T>>();
+            if (!_sets.ContainsKey(typeof(T))) _sets[typeof(T)] = result;
+            return result;
+        }
 
-               return Kernel.Get(typeof(IDbSet<T>)) as IDbSet<T>;
-
+        public IRepository<T> Repository<T>() where T : IEntity
+        {
+            return Kernel.Get<IRepository<T>>();
         }
 
         public IMongoDatabase Database => database;
@@ -75,9 +81,22 @@ namespace Webcorp.Dal
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken token)
+        public async Task<int> SaveChangesAsync(CancellationToken token=default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var result = 0;
+            //IEnumerable<IDbSet> _sets =Kernel.GetAll(typeof(IDbSet<>)).Cast<IDbSet>();
+            foreach (var set in _sets.Values)
+            {
+                if (token.IsCancellationRequested) break;
+                result += await set.SaveChanges(token);
+            }
+
+            return 0;
+        }
+
+        public async Task<int> SaveChangesAsync<TEntity>(TEntity entity, CancellationToken token = default(CancellationToken)) where TEntity : IEntity
+        {
+            return await Set<TEntity>().SaveChanges(entity,token);
         }
 
         public EntityEntry Upsert<TEntity>(TEntity entity) where TEntity : IEntity
@@ -90,11 +109,18 @@ namespace Webcorp.Dal
             return Set<TEntity>().Remove(entity);
         }
 
+      
+
         public TEntity Attach<TEntity>(TEntity entity) where TEntity : IEntity
         {
             return Set<TEntity>().Attach(entity);
         }
 
+
+        public int Count<TEntity>() where TEntity : IEntity
+        {
+            return Set<TEntity>().Entries.Count();
+        }
         public void Dispose()
         {
             Dispose(disposing: true);
@@ -105,7 +131,19 @@ namespace Webcorp.Dal
 
         protected virtual void Dispose(bool disposing)
         {
-            
+
+        }
+
+        public EntityEntry Entry<TEntity>(TEntity entity) where TEntity : IEntity
+        {
+            return Set<TEntity>().Entry(entity);
+        }
+
+        public int DeleteAll<TEntity>() where TEntity : IEntity
+        {
+            var entries = Set<TEntity>().Entries;
+            entries.Values.ForEach(v => v.MarkDeleted = true);
+            return entries.Count;
         }
     }
 }

@@ -7,6 +7,8 @@ using Webcorp.Dal;
 using Webcorp.Model;
 using System.Threading.Tasks;
 using System.Linq;
+using Webcorp.Business;
+
 namespace Webcorp.erp.tests
 {
     /// <summary>
@@ -64,7 +66,28 @@ namespace Webcorp.erp.tests
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            kernel = new StandardKernel(new TestModule(), new DalIoc());
+            kernel = new StandardKernel(new TestModule(), new DalIoc(),new BusinessIoc());
+
+            var auth = kernel.Get<IAuthenticationService>();
+            var uh = kernel.Get<IUtilisateurBusinessHelper<Utilisateur>>();
+            uh.DeleteAll().Wait();
+
+            uh.Create("999", "jcambert", "korben90", "Ambert", "Jean-Christophe", "jc.ambert@gmail.com")
+
+                .ContinueWith(x =>
+                {
+                    uh.AddRole(x.Result, "Administrateur");
+                })
+                .ContinueWith(x =>
+                {
+                    uh.Save();
+                }).ContinueWith(x =>
+                {
+                    var islogin = auth.Login("999", "jcambert", "korben90");
+                    Assert.IsTrue(islogin.Result);
+
+                }).Wait()
+                ;
         }
         #endregion
 
@@ -87,12 +110,47 @@ namespace Webcorp.erp.tests
         
 
         [TestMethod]
-        public async Task TestDBContext()
+        public void TestDBContext()
         {
             var ctx = kernel.Get<IDbContext>();
-            var entry=ctx.Upsert(new Article());
+            ctx.Repository<Article>().DeleteAll().Wait();
+            var article = new Article() { Code = "Code", Societe = "999" };
+            var entry=ctx.Upsert(article);
+            
             Assert.IsTrue(entry.State == EntityState.Added);
-            await ctx.SaveChangesAsync();
+            ctx.SaveChangesAsync().Wait();
+            Assert.IsTrue(entry.State == EntityState.Unchanged);
+
+            ((Article)entry.Entity).Libelle = "Nouveau libelle";
+            Assert.IsTrue(entry.State == EntityState.Modified);
+
+            ctx.SaveChangesAsync().Wait();
+            Assert.IsTrue(entry.State == EntityState.Unchanged);
+
+            ctx.Remove(article);
+            ctx.SaveChangesAsync().Wait();
+
+            Assert.AreEqual(ctx.Count<Article>(), 0);
+
+
+            
+        }
+
+        [TestMethod]
+        public async Task TestDBContext1()
+        {
+            var ctx = kernel.Get<IDbContext>();
+            ctx.Repository<Article>().DeleteAll().Wait();
+            var ah = kernel.Get<IArticleBusinessHelper<Article>>();
+            var art0 = await ah.Create("Code Article",ArticleType.FraisGeneraux);
+
+            var entry = ctx.Entry(art0);
+            Assert.IsNotNull(entry);
+            Assert.IsTrue(entry.State == EntityState.Added);
+            art0.Save().Wait();
+
+            Assert.IsTrue(entry.State == EntityState.Unchanged);
+            Assert.AreEqual(ctx.Count<Article>(), 1);
         }
     }
 }

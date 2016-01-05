@@ -25,7 +25,7 @@ namespace Webcorp.Business
             return _helper as IArticleBusinessHelper<T>;
         }
 
-        public static async Task<ActionResult<T, string>> Save<T>(this T entity) where T : Article
+        public static async Task<int> Save<T>(this T entity) where T : Article
         {
            return await Helper<T>().Save(entity);
         }

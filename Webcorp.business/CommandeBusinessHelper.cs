@@ -12,10 +12,11 @@ using Ninject;
 using System.Security.Permissions;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using ReactiveUI;
 
 namespace Webcorp.Business
 {
-    public interface ICommandeBusinessHelper<T> : IBusinessHelper<T>, IActionRepository<T> where T : Commande
+    public interface ICommandeBusinessHelper<T> : IBusinessHelper<T> where T : Commande
     {
         Task<T> Create(CommandeType type);
 
@@ -42,7 +43,7 @@ namespace Webcorp.Business
             result.Statut = StatutCommande.Creer;
 
 
-
+            Attach(result);
             return result;
         }
 
@@ -77,60 +78,7 @@ namespace Webcorp.Business
             await ph.Save();
             return param.ValeurEntier ?? 0;
         }
-        public async Task<long> Count(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Count(predicate);
-        }
-
-        public async Task<long> CountAll()
-        {
-            return await Controller.Repository.CountAll();
-        }
-
-
-        public async Task<bool> Delete(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Delete(predicate);
-        }
-
-        public async Task<bool> Delete(T entity)
-        {
-            return await Controller.Repository.Delete(entity);
-        }
-
-        public async Task<bool> Delete(string id)
-        {
-            return await Controller.Repository.Delete(id);
-        }
-
-        public async Task<bool> DeleteAll()
-        {
-            return await Controller.Repository.DeleteAll();
-        }
-
-        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
-        {
-            return await Controller.Repository.Exists(predicate);
-        }
-
-        public async Task<IEnumerable<T>> Find(FilterDefinition<T> filter)
-        {
-            return await Controller.Repository.Find(filter);
-        }
-
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Find(predicate);
-        }
-
-        public async Task<T> GetById(string id)
-        {
-            return await Controller.Repository.GetById(id);
-        }
-
-        public async Task<bool> Upsert(T entity)
-        {
-            return await Controller.Repository.Upsert(entity);
-        }
+      
+ 
     }
 }

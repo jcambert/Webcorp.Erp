@@ -121,7 +121,7 @@
     <Compile Include="TestMouvementStock.cs" />
     <Compile Include="TestNomenclature.cs" />
     <Compile Include="TestParametre.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestUtilisateur.cs" />
     <Compile Include="UnitTestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

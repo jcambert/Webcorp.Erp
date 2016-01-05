@@ -30,107 +30,112 @@ namespace Webcorp.Model
 
 
        
-        [BsonId(IdGenerator = typeof(ArticleIdGenerator))]
+        [BsonId(IdGenerator = typeof(ArticleIdGenerator)), DataMember(Name = "id")]
         public override string Id { get; set; }
 
        
         string _code, _libelle;
         [BsonRequired]
         [KeyProvider]
-        [BsonElement("artcod")]
+        [BsonElement("artcod"), DataMember(Name = "artcod")]
         public string Code { get { return _code; } set { this.SetAndRaise(ref _code, value); } }
         [BsonIgnoreIfNull]
-        [BsonElement("artlib")]
+        [BsonElement("artlib"), DataMember(Name = "artlib")]
         public string Libelle { get { return _libelle; } set { this.SetAndRaise(ref _libelle, value); } } 
         [BsonRequired]
-        [BsonElement("typart")]
+        [BsonElement("typart"), DataMember(Name = "typart")]
         public ArticleType TypeArticle { get; set; }
 
-        [BsonElement("artmat")]
+        [BsonElement("artmat"), DataMember(Name = "aertmat")]
         [BsonIgnoreIfNull]
         public string Material { get{ return _material; } set { this.SetAndRaise(ref _material, value); } }
 
-        [BsonElement("gesto")]
+        [BsonElement("gesto"), DataMember(Name = "gesto")]
         [BsonIgnoreIfNull]
         public bool? GererEnstock { get; set; } = null;
-        [BsonElement("artfan")]
+        [BsonElement("artfan"), DataMember(Name = "artfan")]
         [BsonIgnoreIfNull]
         public bool? ArticleFantome { get; set; } = null;
-        [BsonElement("stoneg")]
+        [BsonElement("stoneg"), DataMember(Name = "stoneg")]
         [BsonIgnoreIfNull]
         public bool? AutoriseStockNegatif { get; set; } = null;
-        [BsonElement("geslot")]
+        [BsonElement("geslot"), DataMember(Name = "geslot")]
         [BsonIgnoreIfNull]
         public bool? GestionParLot { get; set; } = null;
-        [BsonElement("stomin")]
+        [BsonElement("stomin"), DataMember(Name = "stomin")]
         [BsonIgnoreIfNull]
         public int? StockMini { get; set; } = null;
-        [BsonElement("stomax")]
+        [BsonElement("stomax"), DataMember(Name = "stomax")]
         [BsonIgnoreIfNull]
         public int? StockMaxi { get; set; } = null;
-        [BsonElement("lotapp")]
+        [BsonElement("lotapp"), DataMember(Name = "lotapp")]
         [BsonIgnoreIfNull]
         public int? QuantiteMiniReappro { get; set; } = null;
-        [BsonElement("stophy")]
+        [BsonElement("stophy"), DataMember(Name = "stophy")]
         [BsonIgnoreIfNull]
         public int? StockPhysique { get; set; } = null;
-        [BsonElement("stores")]
+        [BsonElement("stores"), DataMember(Name = "stores")]
         [BsonIgnoreIfNull]
         public int? StockReservee { get; set; } = null;
-        [BsonElement("stoatt")]
+        [BsonElement("stoatt"), DataMember(Name = "stoatt")]
         [BsonIgnoreIfNull]
         public int? StockAttendu { get; set; } = null;
 
         public int? StockDisponible => StockPhysique - StockReservee;
 
-        [BsonElement("ctprep")]
+        [BsonElement("ctprep"), DataMember(Name = "ctprep")]
         [BsonIgnoreIfNull]
         public Currency CoutPreparation { get; set; } = null;
-        [BsonElement("ctmp")]
+        [BsonElement("ctmp"), DataMember(Name = "ctmp")]
         [BsonIgnoreIfNull]
         public Currency CoutMP { get; set; } = null;
-        [BsonElement("ctmo")]
+        [BsonElement("ctmo"), DataMember(Name = "ctmo")]
         [BsonIgnoreIfNull]
         public Currency CoutMO { get; set; } = null;
-        [BsonElement("ctst")]
+        [BsonElement("ctst"),DataMember(Name ="ctst")]
         [BsonIgnoreIfNull]
         public Currency CoutST { get; set; } =null;
-        [BsonElement("ctfg")]
+        [BsonElement("ctfg"),DataMember(Name ="ctfg")]
         [BsonIgnoreIfNull]
         public Currency CoutFG { get; set; } = null;
 
+        [IgnoreDataMember]
         public Currency CoutTotal => CoutMP + CoutMO+CoutST+CoutFG;
 
        
-        [BsonElement("format")]
+        [BsonElement("format"), DataMember(Name = "format")]
         [BsonIgnoreIfNull]
         public Format Format { get { return _format; } set { this.SetAndRaise(ref _format, value); } }
+        [BsonElement("masslinear"), DataMember(Name = "masslinear")]
         [BsonIgnoreIfNull]
         public MassLinear MassLinear { get; set; } = null;
+        [BsonElement("arealinear"), DataMember(Name = "arealinear")]
         [BsonIgnoreIfNull]
         public AreaLinear AreaLinear { get; set; } = null;
+        [BsonElement("areamass"), DataMember(Name = "areamass")]
         [BsonIgnoreIfNull]
         public AreaMass AreaMass { get; set; } = null;
+        [BsonElement("masscurrency"), DataMember(Name = "masscurency")]
         [BsonIgnoreIfNull]
         public MassCurrency MassCurrency { get; set; } = null;
         [BsonIgnore]
         public Currency CostLinear => MassLinear * MassCurrency;
         [BsonElement("mvtsto")]
-        [BsonIgnoreIfNull]
+        [BsonIgnoreIfNull,DataMember(Name ="mvtsto")]
         public MouvementsStocks MouvementsStocks { get { return _mvtStocks; } set { this.SetAndRaise(ref _mvtStocks, value); } }
-        [BsonElement("besoins"),BsonIgnoreIfNull]
+        [BsonElement("besoins"),BsonIgnoreIfNull,DataMember(Name ="besoins")]
         public Besoins Besoins { get { return _besoins; } set { this.SetAndRaise(ref _besoins, value); } }
         [BsonIgnoreIfNull]
-        [BsonElement("nomenc")]
+        [BsonElement("nomenc"),DataMember(Name ="nomenc")]
         public Nomenclatures Nomenclatures { get { return _nomenclatures; } set { this.SetAndRaise(ref _nomenclatures, value); } }
-        [BsonElement("vernom")]
+        [BsonElement("vernom"), DataMember(Name = "vernom")]
         [BsonIgnoreIfNull]
         public int? NomenclatureVersion { get; set; } = null;
 
-        [BsonElement("tarif0")]
+        [BsonElement("tarif0"),DataMember(Name ="tarif0")]
         [BsonIgnoreIfNull]
         public Currency Tarif0 { get { return _tarif0; } set { this.SetAndRaise(ref _tarif0, value); } }
-        [BsonElement("prod"),BsonIgnoreIfNull]
+        [BsonElement("prod"),BsonIgnoreIfNull,DataMember(Name ="prod")]
         public Productions Productions { get { return _productions; } set { this.SetAndRaise(ref _productions, value); } }
     }
 

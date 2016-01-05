@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Ninject;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +17,7 @@ namespace Webcorp.Business
 {
  
 
-    public interface IUtilisateurBusinessHelper<T> : IBusinessHelper<T>, IActionRepository<T> where T : Utilisateur
+    public interface IUtilisateurBusinessHelper<T> : IBusinessHelper<T> where T : Utilisateur
     {
         Task<T> Create(string societe,string id, string password, string nom, string prenom = "", string email = "");
         void AddRole(T user, string role);
@@ -39,73 +40,20 @@ namespace Webcorp.Business
             result.Nom = nom;
             result.Prenom = prenom;
             result.Email = email;
+            Attach(result);
             return result;
         }
 
         public void AddRole(T user,string role)
         {
             user.Roles.Add(role);
+            user.IsChanged = true;
         }
 
         public void RemoveRole(T user,string role)
         {
             user.Roles.Remove(role);
-        }
-
-        public async Task<long> Count(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Count(predicate);
-        }
-
-        public async Task<long> CountAll()
-        {
-            return await Controller.Repository.CountAll();
-        }
-
-
-        public async Task<bool> Delete(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Delete(predicate);
-        }
-
-        public async Task<bool> Delete(T entity)
-        {
-            return await Controller.Repository.Delete(entity);
-        }
-
-        public async Task<bool> Delete(string id)
-        {
-            return await Controller.Repository.Delete(id);
-        }
-
-        public async Task<bool> DeleteAll()
-        {
-            return await Controller.Repository.DeleteAll();
-        }
-
-        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
-        {
-            return await Controller.Repository.Exists(predicate);
-        }
-
-        public async Task<IEnumerable<T>> Find(FilterDefinition<T> filter)
-        {
-            return await Controller.Repository.Find(filter);
-        }
-
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Find(predicate);
-        }
-
-        public async Task<T> GetById(string id)
-        {
-            return await Controller.Repository.GetById(id);
-        }
-
-        public async Task<bool> Upsert(T entity)
-        {
-            return await Controller.Repository.Upsert(entity);
-        }
+            user.IsChanged = true;
+        }    
     }
 }

@@ -11,14 +11,16 @@ using MongoDB.Driver;
 using System.Reactive.Linq;
 using Webcorp.Dal;
 using System.Linq.Expressions;
+using System.Security.Permissions;
+using System.Diagnostics.Contracts;
 
 namespace Webcorp.Business
 {
 
-    public interface IArticleBusinessHelper<T> : IBusinessHelper<T>, IActionRepository<T> where T : Article
+    public interface IArticleBusinessHelper<T> : IBusinessHelper<T> where T : Article
     {
-       Task<T>Create(ArticleType type);
-        void AddMouvementStock(T entity,DateTime date,int quantity,MouvementSens sens,string reference);
+        Task<T> Create(string code, ArticleType type);
+        void AddMouvementStock(T entity, DateTime date, int quantity, MouvementSens sens, string reference);
         void AddBesoin(T entity, DateTime now, int quantite, string reference, TypeBesoin tb);
     }
 
@@ -30,40 +32,31 @@ namespace Webcorp.Business
 
         }
 
-       
 
-        public void AddMouvementStock(T entity, DateTime date, int quantity, MouvementSens sens,string reference)
+
+        public void AddMouvementStock(T entity, DateTime date, int quantity, MouvementSens sens, string reference)
         {
-            var mvt = new MouvementStock() {Date=date,Quantite=quantity,Sens=sens,Reference=reference };
+            Contract.Requires(entity != null);
+            var mvt = new MouvementStock() { Date = date, Quantite = quantity, Sens = sens, Reference = reference };
             entity.MouvementsStocks.Add(mvt);
             entity.IsChanged = true;
         }
 
-        public void AddBesoin(T entity, DateTime now, int quantity, string reference,TypeBesoin tb)
+        public void AddBesoin(T entity, DateTime now, int quantity, string reference, TypeBesoin tb)
         {
-            var besoin = new Besoin() {Date=now,QuantiteBesoin=quantity,Reference=reference,TypeBesoin=tb };
+            Contract.Requires(entity != null);
+            var besoin = new Besoin() { Date = now, QuantiteBesoin = quantity, Reference = reference, TypeBesoin = tb };
             entity.Besoins.Add(besoin);
             entity.IsChanged = true;
         }
 
-        public override void OnChanged(T article, string propertyName)
-        {
-            base.OnChanged(article, propertyName);
 
-
-        }
-
-        public override void OnChanging(T Article, string propertyName)
-        {
-            base.OnChanging(Article, propertyName);
-        }
 
         public override void Attach(T entity)
         {
 
 
             base.Attach(entity);
-           // if (entity.Source == ArticleSource.Interne) Detach(entity);
             if (entity.MouvementsStocks.IsNotNull())
             {
                 entity.ShouldDispose(entity.MouvementsStocks.CountChanged.Subscribe(_ => { entity.IsChanged = true; }));
@@ -93,26 +86,26 @@ namespace Webcorp.Business
 
                 entity.ShouldDispose(entity.Nomenclatures.ItemChanged.Subscribe(_ =>
                 {
-                   
+
                     entity.IsChanged = true;
                     UpdateCout(entity);
 
                 }));
             }
 
-           /* entity.Changed.Where(x => x.PropertyName == "Source").Subscribe(_ =>
-            {
-                SourceChanged(_.Sender as T);
-            });*/
+            /* entity.Changed.Where(x => x.PropertyName == "Source").Subscribe(_ =>
+             {
+                 SourceChanged(_.Sender as T);
+             });*/
 
-            
+
         }
 
-        private void UpdateCout(T article)
+        private void UpdateCout(T entity)
         {
-
-            article.CoutMP = new unite.Currency(0);
-            foreach (var nome in article.Nomenclatures.Where(v => v.Version == article.NomenclatureVersion))
+            Contract.Requires(entity != null);
+            entity.CoutMP = new unite.Currency(0);
+            foreach (var nome in entity.Nomenclatures.Where(v => v.Version == entity.NomenclatureVersion))
             {
 
             }
@@ -120,9 +113,13 @@ namespace Webcorp.Business
 
 
 
-        public async Task<T> Create(ArticleType type)
+        [PrincipalPermission(SecurityAction.Demand, Authenticated = true)]
+        public async Task<T> Create(string code, ArticleType type)
         {
+            Contract.Requires(code != null);
+            Contract.Requires(code.Trim().Length > 0);
             T result = await base.CreateAsync();
+            result.Code = code;
             result.TypeArticle = type;
             result.Societe = AuthService.Utilisateur.Societe;
 
@@ -169,66 +166,17 @@ namespace Webcorp.Business
         }
 
 
-        public  async Task<T> GetById(string id)
+        public override async Task<T> GetById(string id)
         {
-            T result = await Controller.Repository.GetById(id);
-            Attach(result);
-            result.ShouldDispose(result.Nomenclatures.ItemRequested.Subscribe(async x => {
+            
+            T result = await base.GetById(id);
+           
+            result.ShouldDispose(result.Nomenclatures.ItemRequested.Subscribe(async x =>
+            {
                 x.Article = await this.Controller.Repository.GetById(x.ArticleId);
             }));
             return result;
         }
-
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Find(predicate);
-        }
-
-        public async Task<IEnumerable<T>> Find(FilterDefinition<T> filter)
-        {
-            return await Controller.Repository.Find(filter);
-        }
-
-        public async Task<bool> Upsert(T entity)
-        {
-            return await Controller.Repository.Upsert(entity);
-        }
-
-        public async Task<bool> Delete(string id)
-        {
-            return await Controller.Repository.Delete(id);
-        }
-
-        public async Task<bool> Delete(T entity)
-        {
-            return await Controller.Repository.Delete(entity);
-        }
-
-        public async Task<bool> Delete(Expression<Func<T, bool>> predicate = null)
-        {
-            return await Controller.Repository.Delete(predicate);
-        }
-
-        public async Task<bool> DeleteAll()
-        {
-            return await Controller.Repository.DeleteAll();
-        }
-
-        public Task<long> Count(Expression<Func<T, bool>> predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<long> CountAll()
-        {
-            return await Controller.Repository.CountAll();
-        }
-
-        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
-        {
-            return await Controller.Repository.Exists(predicate);
-        }
-
-       
+        
     }
 }

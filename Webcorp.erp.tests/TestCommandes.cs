@@ -121,7 +121,7 @@ namespace Webcorp.erp.tests
                 Assert.IsNotNull(cde);
 
                 ch.Save().Wait();
-            }catch(Exception ex)
+            }catch(Exception )
             {
 
             }
@@ -143,8 +143,8 @@ namespace Webcorp.erp.tests
         {
 
 
-            try
-            {
+          //  try
+          //  {
 
                 var ch = kernel.Get<ICommandeBusinessHelper<Commande>>();
                 var bh = kernel.Get<IArticleBusinessHelper<Article>>();
@@ -152,24 +152,19 @@ namespace Webcorp.erp.tests
                 bh.DeleteAll().Wait();
 
               
-                var pf = await bh.Create(ArticleType.ProduitFini);
-                var sf = await bh.Create(ArticleType.ProduitSemiFini);
-                var ssf = await bh.Create(ArticleType.ProduitSemiFini);
-
-
-
-                pf.Code = "PF";
+                var pf = await bh.Create("PF",ArticleType.ProduitFini);
+                var sf = await bh.Create("SF",ArticleType.ProduitSemiFini);
+                var ssf = await bh.Create("SSF",ArticleType.ProduitSemiFini);
+                
                 pf.Libelle = "Libelle PF";
-                sf.Code = "SF";
                 sf.Libelle = "Libelle SF";
-                ssf.Code = "SSF";
                 ssf.Libelle = "Libelle SSF";
-                await bh.Save();
+                bh.Save().Wait();
 
                 sf.Nomenclatures.Add(new Nomenclature(ssf) { Ordre = 20, Libelle = ssf.Libelle, Quantite = 20 });
                 pf.Nomenclatures.Add(new Nomenclature(sf) { Ordre = 10, Libelle = sf.Libelle, Quantite = 10 });
 
-                await bh.Save();
+                 bh.Save().Wait();
 
                 pf.Libelle = "Other Libelle PF";
                 bh.Save().Wait();
@@ -187,11 +182,11 @@ namespace Webcorp.erp.tests
                 ch.Save().Wait();
 
 
-            }
+           /* }
             catch (Exception ex)
             {
-
-            }
+                if (Debugger.IsAttached) Debugger.Break();
+            }*/
         }
 
         [TestMethod,ExpectedException(typeof(InvalidOperationException))]
@@ -204,15 +199,14 @@ namespace Webcorp.erp.tests
 
 
           
-            var sst = await bh.Create(ArticleType.SousTraitance);
-            sst.Code = "ArticleST";
+            var sst = await bh.Create("ArticleST",ArticleType.SousTraitance);
             sst.Libelle = "Peinture";
             var result=await sst.Save();
-            Assert.IsTrue(result.Result);
+            Assert.IsTrue(result==1);
 
             var cde = await ch.Create(CommandeType.Client);
             var result0= await ch.Save();
-            Assert.IsTrue(result.Result);
+            Assert.IsTrue(result==1);
 
             var ligne = new LigneCommande(cde) { ArticleInner = sst, QuantiteCommandee = 5, Prixunitaire = new unite.Currency(5) };
             cde.Lignes.Add(ligne);
@@ -230,15 +224,14 @@ namespace Webcorp.erp.tests
 
 
 
-            var sst = await bh.Create(ArticleType.ProduitFini);
-            sst.Code = "ArticleST";
+            var sst = await bh.Create("ArticleST",ArticleType.ProduitFini);
             sst.Libelle = "Peinture";
             var result = await sst.Save();
-            Assert.IsTrue(result.Result);
+            Assert.IsTrue(result==1);
 
             var cde = await ch.Create(CommandeType.Fournisseur);
             var result0 = await ch.Save();
-            Assert.IsTrue(result.Result);
+            Assert.IsTrue(result==1);
 
             var ligne = new LigneCommande(cde) { ArticleInner = sst, QuantiteCommandee = 5, Prixunitaire = new unite.Currency(5) };
             cde.Lignes.Add(ligne);
@@ -256,17 +249,15 @@ namespace Webcorp.erp.tests
 
 
 
-            var sst = await bh.Create(ArticleType.SousTraitance);
-            sst.Code = "ArticleST";
+            var sst = await bh.Create("ArticleST",ArticleType.SousTraitance);
             sst.Libelle = "Peinture";
             var result = await sst.Save();
-            Assert.IsTrue(result.Result);
+            Assert.IsTrue(result==1);
 
-            var mp = await bh.Create(ArticleType.MatièrePremiere);
-            mp.Code = "ArticleST";
+            var mp = await bh.Create("ArticleST",ArticleType.MatièrePremiere);
             mp.Libelle = "Peinture";
             var result0 = await sst.Save();
-            Assert.IsTrue(result0.Result);
+            Assert.IsTrue(result0==1);
 
             var cde = await ch.Create(CommandeType.Fournisseur);
             //var result1 = await ch.Save();

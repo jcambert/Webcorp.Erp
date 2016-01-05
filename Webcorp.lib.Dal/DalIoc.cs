@@ -12,11 +12,11 @@ namespace Webcorp.Dal
         public override void Load()
         {
 
-            Bind<IDbContext>().To<DbContext>();
+            Bind<IDbContext>().To<DbContext>().InSingletonScope();
             Bind(typeof(IRepository<>)).To(typeof(Repository<>));
             Bind(typeof(IRepository<,>)).To(typeof(Repository<,>));
 
-            Bind(typeof(IDbSet<>)).To(typeof(DbSet<>));
+            Bind(typeof(IDbSet<>)).To(typeof(DbSet<>)).InSingletonScope();
         }
     }
 }
