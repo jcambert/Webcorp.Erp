@@ -113,6 +113,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DebugLogger.cs" />
+    <Compile Include="TestArticles.cs" />
     <Compile Include="TestBusiness.cs" />
     <Compile Include="TestCalculPrestations.cs" />
     <Compile Include="TestCommandes.cs" />

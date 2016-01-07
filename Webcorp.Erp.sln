@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp", "Webcorp.erp\Webcorp.erp.csproj", "{D6B905CB-4420-4C33-9D9B-2BB56803CA0E}"
 EndProject
@@ -64,6 +64,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.oned.tests", "Webcorp.oned.tests\Webcorp.oned.tests.csproj", "{5298E7E1-148F-4CD6-8687-01CF9647265E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp.onedcut", "Webcorp.erp.onedcut\Webcorp.erp.onedcut.csproj", "{9B4057DD-9F8B-4926-8B15-74A6A745658E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{84303FD3-CDE7-4DBB-8228-5633754AE432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OneDCut", "OneDCut", "{D13FDC06-CF0D-43EF-BAF4-D680D14B6EDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.OneDCut", "Webcorp.OneDCut\Webcorp.OneDCut.csproj", "{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +181,10 @@ Global
 		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B4057DD-9F8B-4926-8B15-74A6A745658E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,5 +216,7 @@ Global
 		{BB268C6A-E4EF-49F2-B2B9-3FFAB17263DE} = {AA804EA0-6804-4236-BD77-97DEBC07BF2D}
 		{5298E7E1-148F-4CD6-8687-01CF9647265E} = {C6F9B8EB-F00C-4C82-8511-A18C1923A505}
 		{9B4057DD-9F8B-4926-8B15-74A6A745658E} = {2713B670-468A-4443-9DD2-FD311909E07A}
+		{D13FDC06-CF0D-43EF-BAF4-D680D14B6EDA} = {84303FD3-CDE7-4DBB-8228-5633754AE432}
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2} = {D13FDC06-CF0D-43EF-BAF4-D680D14B6EDA}
 	EndGlobalSection
 EndGlobal

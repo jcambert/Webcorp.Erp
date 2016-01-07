@@ -55,7 +55,7 @@ namespace Webcorp.lib.onedcut
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Stock Index:" + StockIndex);
+            sb.AppendLine("Stock Index:" + (StockIndex+1));
             sb.AppendLine("Stock Length:" + StockLength);
             sb.AppendLine("Cutting Length:" + _cutLength);
             sb.AppendLine("Cutting details");

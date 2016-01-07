@@ -1,0 +1,11 @@
+﻿/* TEAM */
+Your title: Ambert Jean-Christophe
+Site: jc.ambert@free.fr . http://jc.ambert.free.fr
+Location: Delle 90100, France.
+
+
+/* SITE */
+Last update: 2016
+Standards: ASP.Net MVC, HTML5, CSS3,..
+Components: Modernizr, jQuery, etc.
+Software: Visual Studio

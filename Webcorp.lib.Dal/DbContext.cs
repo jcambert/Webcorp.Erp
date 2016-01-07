@@ -142,7 +142,16 @@ namespace Webcorp.Dal
         public int DeleteAll<TEntity>() where TEntity : IEntity
         {
             var entries = Set<TEntity>().Entries;
-            entries.Values.ForEach(v => v.MarkDeleted = true);
+            entries.Values.ForEach(v => {
+                if (v.State == EntityState.Added)
+                {
+                    v.MarkDeleted = true;
+                }
+                else
+                {
+                    v.State = EntityState.Deleted;
+                }
+            });
             return entries.Count;
         }
     }

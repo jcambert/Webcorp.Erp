@@ -120,11 +120,14 @@ namespace Webcorp.oned.tests
             var kernel = new StandardKernel(new OneDCutModule());
 
             kernel.Bind<IPopulation>().To<InitialBeamPopulation>().InSingletonScope();
+
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
             ISolver solver = kernel.Get<ISolver>();
             Assert.IsNotNull(solver);
             solver.Beams = kernel.Get<IPopulation>().Beams;
             solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
-
+            solver.Beam = kernel.Get<IPopulation>().Beam;
             solver.OnSolved += Solver_OnSolved;
             await solver.SolveAsync();
         }
@@ -136,6 +139,24 @@ namespace Webcorp.oned.tests
             var kernel = new StandardKernel(new OneDCutModule());
 
             kernel.Bind<IPopulation>().To<InitialBeamBigPopulation>().InSingletonScope();
+            kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
+            kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
+            ISolver solver = kernel.Get<ISolver>();
+            Assert.IsNotNull(solver);
+            solver.Beams = kernel.Get<IPopulation>().Beams;
+            solver.Stocks = kernel.Get<IPopulation>().CuttingStock;
+            solver.Beam = kernel.Get<IPopulation>().Beam;
+
+            solver.OnSolved += Solver_OnSolved;
+            solver.Solve();
+        }
+
+        [TestMethod]
+        public void TestCuttingBeamRealCase()
+        {
+            var kernel = new StandardKernel(new OneDCutModule());
+
+            kernel.Bind<IPopulation>().To<InitialBeamRealPopulation>().InSingletonScope();
             kernel.Bind(typeof(IEntityProvider<,>)).To(typeof(EntityProvider<,>)).InSingletonScope();
             kernel.Bind(typeof(IEntityProviderInitializable<Article, string>)).To(typeof(BeamInitializer));
             ISolver solver = kernel.Get<ISolver>();
@@ -175,7 +196,7 @@ namespace Webcorp.oned.tests
         {
 
             Debug.WriteLine("**** Cutting plan ****");
-            foreach (var cut in cutplan.OrderBy(i => i.StockIndex))
+            foreach (var cut in cutplan.Where(c=>c.CutLength>0).OrderBy(i => i.StockIndex))
             {
                 Debug.WriteLine(cut);
             }
@@ -314,5 +335,42 @@ namespace Webcorp.oned.tests
             stocks = new Stocks(cuttingStockLength, cuttingStockCount);
         }
     }
+
+
+    public class InitialBeamRealPopulation : IPopulation, IInitializable
+    {
+        Stocks stocks;
+        Beams beams = new Beams();
+        public InitialBeamRealPopulation()
+        {
+
+        }
+
+
+        public ReactiveList<BeamToCut> Beams => beams;
+
+        public Stocks CuttingStock => stocks;
+
+        [Inject]
+        public IKernel Kernel { get; set; }
+
+        Article _beam;
+        public Article Beam => _beam;
+
+
+        public void Initialize()
+        {
+            var mpp = Kernel.Get<IEntityProvider<Article, string>>();
+            _beam = mpp.Find("IPE 80");
+            _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
+
+            beams.Add(new BeamToCut(5,4024, _beam));
+           // beams.Add(new BeamToCut(4,1896, _beam));
+            //beams.Add(new BeamToCut(2, 4456, _beam));
+            
+            stocks = new Stocks(6000,100);
+        }
+    }
+
 
 }

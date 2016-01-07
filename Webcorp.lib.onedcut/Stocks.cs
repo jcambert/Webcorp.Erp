@@ -38,6 +38,14 @@ namespace Webcorp.lib.onedcut
                 Add(new BeamStock() { Length = item });
             }
         }
+
+        public Stocks(int length,int qty)
+        {
+            for (int i = 0; i < qty; i++)
+            {
+                Add(new BeamStock() { Length = length });
+            }
+        }
         public int Length
         {
             get
