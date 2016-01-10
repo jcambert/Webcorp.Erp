@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>@ViewBag.Title</title>
+    <title>OneD Cut</title>
     <!-- Bootstrap core CSS -->
     <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
     @Styles.Render("~/bundles/css")
     <link href="@Url.Content("~/css/dashboard.css")" rel="stylesheet">
-    
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    
+
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -30,22 +30,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">@ViewBag.Title</a>
+                <a class="navbar-brand" href="@Url.Action("Index","home")">OneD Cut</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
+                    <!--<li><a href="#">Dashboard</a></li>-->
+                    <li><a href="@Url.Action("index","settings")">Settings</a></li>
+                    <!--<li><a href="#">Profile</a></li>-->
+                    <!--<li><a href="#">Help</a></li>-->
                 </ul>
-                <form class="navbar-form navbar-right">
+                <!--<form class="navbar-form navbar-right">
                     <input type="text" class="form-control" placeholder="Search...">
-                </form>
+                </form>-->
             </div>
         </div>
     </div>
-        
+
     <div class="container-fluid">
         <div class="row">
             <!--<div class="col-sm-3 col-md-2 sidebar">
@@ -72,7 +72,11 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+    @Scripts.Render("~/bundles/jquery")
     <script src="@Url.Content("~/js/bootstrap.js")"></script>
+    <!--<script src="https://rawgit.com/maciej-gurban/responsive-bootstrap-toolkit/master/dist/bootstrap-toolkit.min.js"></script>-->
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

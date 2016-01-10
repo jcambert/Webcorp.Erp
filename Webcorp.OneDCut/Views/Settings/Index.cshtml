@@ -1,0 +1,83 @@
+﻿@model Webcorp.OneDCut.Models.SettingsModel
+
+@{
+    ViewBag.Title = "Paramètres";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal ">
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.CrossoverProbability, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.CrossoverProbability, new { htmlAttributes = new { @class = "spindouble" } })
+                @Html.ValidationMessageFor(model => model.CrossoverProbability)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ElitePercentage, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.ElitePercentage, new { htmlAttributes = new { @class = "spinint" } })
+                @Html.ValidationMessageFor(model => model.ElitePercentage)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.InitialPopulationCount, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.InitialPopulationCount, new { htmlAttributes = new { @class = "spinint" } })
+                @Html.ValidationMessageFor(model => model.InitialPopulationCount)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxEvaluation, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.MaxEvaluation, new { htmlAttributes = new { @class = "spinint" } })
+                @Html.ValidationMessageFor(model => model.MaxEvaluation)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MutationProbability, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.MutationProbability, new { htmlAttributes = new { @class = "spindouble" } })
+                @Html.ValidationMessageFor(model => model.MutationProbability)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-3 col-lg-4 col-xs-12">
+                <input type="submit" value="@ViewBag.SaveButton" class="btn btn-default" />
+                @Html.ActionLink("Annuler","Index", "home", null,new { @class = "btn btn-default" }) 
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $(".spinint").TouchSpin({
+                step: 1,
+            });
+            $(".spindouble").TouchSpin({
+                step: 0.001,
+                decimals:3
+            });
+            $(document).bootbreak();
+            $(document).on("breakpoint", function (event,breakpoint) {
+                $('.bootstrap-touchspin-down').show();
+                $('.bootstrap-touchspin-up').show();
+                if (breakpoint == "xs") {
+                    $('.bootstrap-touchspin-down').hide();
+                    $('.bootstrap-touchspin-up').hide();
+                }
+            });
+
+        });
+    </script>
+}

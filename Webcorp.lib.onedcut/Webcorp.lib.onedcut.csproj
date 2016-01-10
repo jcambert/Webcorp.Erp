@@ -66,6 +66,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -87,6 +88,7 @@
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -120,6 +122,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Webcorp.common\Webcorp.common.csproj">
+      <Project>{e90c7b7a-9afd-4b96-8ff1-e6cbc104df1e}</Project>
+      <Name>Webcorp.common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Webcorp.lib.model\Webcorp.lib.model.csproj">
       <Project>{ea60f455-f9f6-4317-8e5f-0001af90f9f8}</Project>
       <Name>Webcorp.lib.model</Name>

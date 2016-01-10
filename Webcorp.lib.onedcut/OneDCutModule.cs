@@ -11,7 +11,7 @@ namespace Webcorp.lib.onedcut
     {
         public override void Load()
         {
-            Bind<ISolverParameter>().To<StandardSolverParameter>();
+            Bind<ISolverParameter>().To<StandardSolverParameter>().InSingletonScope();
             Bind<ISolver>().To<Solver>();
         }
     }

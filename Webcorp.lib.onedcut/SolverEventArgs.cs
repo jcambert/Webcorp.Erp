@@ -16,6 +16,7 @@ namespace Webcorp.lib.onedcut
             _totalCuttingMass = new Mass(0);
             _totalCuttingCost = new Currency(0);
             _totalWasteCost = new Currency(0);
+            TotalToCut = 0;
             beams.ToList().ForEach(item => TotalToCut += item.TotalLength);
             foreach (var gene in Fittest.Genes)
             {

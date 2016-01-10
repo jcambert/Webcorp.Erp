@@ -21,7 +21,7 @@ namespace Webcorp.lib.onedcut
         private Crossover crossoverOperator;
         private SwapMutate mutateOperator;
         private int cuttingWidth;
-        private bool hasChanged,beamsChanged;
+        private bool hasChanged, beamsChanged;
         private ReactiveList<BeamToCut> beams;
         private ReactiveList<BeamStock> stocks;
         private Article beam;
@@ -29,10 +29,13 @@ namespace Webcorp.lib.onedcut
         private FitnessFunction _fitnessfunction;
         public Solver()
         {
-            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true;beamsChanged=( _.PropertyName == "Beams" ||_.PropertyName=="Stocks" || _.PropertyName == "Beam"); }));
-            
-            
+            ShouldDispose(this.Changed.Subscribe(_ => { hasChanged = true; beamsChanged = (_.PropertyName == "Beams" || _.PropertyName == "Stocks" || _.PropertyName == "Beam"); }));
 
+        }
+
+        public void SaveParameters()
+        {
+            SolverParameter.Save();
         }
 
         public int ElitePercentage { get { return eliteOperator.Percentage; } set { eliteOperator.Percentage = value; this.RaisePropertyChanged(); } }
@@ -50,13 +53,17 @@ namespace Webcorp.lib.onedcut
         public Article Beam { get { return beam; } set { this.RaiseAndSetIfChanged(ref beam, value); } }
 
 
+        int _initialPopulationCount;
+        public int InitialPopulationCount { get { return _initialPopulationCount; } set { this.RaiseAndSetIfChanged(ref _initialPopulationCount, value); } }
 
+        int _maxEvaluation;
+        public int MaxEvaluation { get { return _maxEvaluation; } set { this.RaiseAndSetIfChanged(ref _maxEvaluation, value); } }
         [Inject]
         public ISolverParameter SolverParameter { get; set; }
 
         public FitnessFunction FitnessFunction { get { return _fitnessfunction; } set { this.RaiseAndSetIfChanged(ref _fitnessfunction, value); } }
 
-        
+
 
         protected double CalculateFitness(Chromosome solution)
         {
@@ -72,10 +79,10 @@ namespace Webcorp.lib.onedcut
 
         public void Solve()
         {
-        
+
             if (beamsChanged)
             {
-                initialPopulation = CreateInitialePopulation(SolverParameter.InitialPopulationCount);
+                initialPopulation = CreateInitialePopulation(InitialPopulationCount);
                 beamsChanged = false;
             }
             if (hasChanged) internalInit();
@@ -88,17 +95,17 @@ namespace Webcorp.lib.onedcut
 
             if (beamsChanged)
             {
-                initialPopulation = await CreateInitialePopulationAsync(SolverParameter.InitialPopulationCount);
+                initialPopulation = await CreateInitialePopulationAsync(InitialPopulationCount);
                 beamsChanged = false;
             }
-            if(hasChanged) internalInit();
+            if (hasChanged) internalInit();
             _ga.RunAsync(SolverParameter.MaxEvaluation);
         }
 
         public void Initialize()
         {
-
-
+            _maxEvaluation = SolverParameter.MaxEvaluation;
+            _initialPopulationCount = SolverParameter.InitialPopulationCount;
             eliteOperator = new Elite(SolverParameter.ElitePercentage);
             crossoverOperator = new Crossover(SolverParameter.CrossoverProbability) { CrossoverType = CrossoverType.DoublePointOrdered };
             mutateOperator = new SwapMutate(SolverParameter.MutationProbability);
@@ -112,7 +119,7 @@ namespace Webcorp.lib.onedcut
             if (hasChanged)
                 Debug.WriteLine("a property has changed. We recreate a genetic algorithm");
 #endif
-                if (_ga != null)
+            if (_ga != null)
             {
                 _ga.OnRunComplete -= Ga_OnRunComplete;
                 _ga = null;
@@ -130,9 +137,9 @@ namespace Webcorp.lib.onedcut
 #if DEBUG
             Debug.WriteLine("Run Complete ...");
 #endif
-            var args = new SolverEventArgs(e.Population, e.Generation, e.Evaluations,Beams);
-            
-            OnSolved(this,args);
+            var args = new SolverEventArgs(e.Population, e.Generation, e.Evaluations, Beams);
+
+            OnSolved(this, args);
         }
 
         public bool IsRunning => _ga.IsRunning;
@@ -144,8 +151,8 @@ namespace Webcorp.lib.onedcut
 
         private async Task<Population> CreateInitialePopulationAsync(int totPop)
         {
-            return await new TaskFactory<Population>().StartNew(()=> { return CreateInitialePopulation(totPop); });
-         }
+            return await new TaskFactory<Population>().StartNew(() => { return CreateInitialePopulation(totPop); });
+        }
 
         private Population CreateInitialePopulation(int totPop)
         {
@@ -177,7 +184,7 @@ namespace Webcorp.lib.onedcut
             for (int i = 0; i < cuttingStock.Length; i++)
             {
                 var stock = cuttingStock[i];
-                var cutplan = new CutPlan(i, stock.Length,beam);
+                var cutplan = new CutPlan(i, stock.Length, beam);
 
                 for (int j = 0; j < beams.Count; j++)
                 {
@@ -190,7 +197,7 @@ namespace Webcorp.lib.onedcut
 
                 chromosome.Genes.Add(new Gene(cutplan));
 #if DEBUG
-               //Debug.WriteLine("Creating gene");
+                //Debug.WriteLine("Creating gene");
                 //Debug.WriteLine(cutplan);
 #endif
             }

@@ -2,10 +2,12 @@
 {
     public interface ISolverParameter
     {
-        int ElitePercentage { get; }
-        double CrossoverProbability { get; }
-        double MutationProbability { get; }
-        int MaxEvaluation { get; }
-        int InitialPopulationCount { get; }
+        int ElitePercentage { get; set; }
+        double CrossoverProbability { get; set; }
+        double MutationProbability { get; set; }
+        int MaxEvaluation { get; set; }
+        int InitialPopulationCount { get; set; }
+
+        void Save();
     }
 }

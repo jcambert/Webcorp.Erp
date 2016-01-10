@@ -31,8 +31,12 @@ namespace Webcorp.lib.onedcut
 
         double MutationProbability { get; set; }
 
-      
-       
-    
-}
+        int InitialPopulationCount { get; set; }
+
+        int MaxEvaluation { get; set; }
+
+        void SaveParameters();
+        
+
+    }
 }

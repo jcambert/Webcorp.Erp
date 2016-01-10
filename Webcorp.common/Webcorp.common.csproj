@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="CollectionNameAttribute.cs" />
+    <Compile Include="ConfigurationManagerExtensions.cs" />
     <Compile Include="Cypher.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="IShouldDisposable.cs" />

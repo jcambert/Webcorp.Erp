@@ -1,58 +1,14 @@
-﻿@Model
+﻿@model Webcorp.OneDCut.Models.CutModel
+
 <section class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">Calcul de plan de coupe</h1>
     <article class="row">
         <div class="col-md-12">
-
+            <a href="@Url.Action("calculate","home")" class="btn btn-danger @if (!Model.CanCalculate) { Write("disabled"); } "><span class="glyphicon glyphicon-tasks"></span></a>
+            <a href="@Url.Action("clear","home")" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
     </article>
 
-
-
-    <article class="row">
-        <div class="col-md-6">
-            Stock
-
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr><th>Longueur</th><th>Quantite</th><th> <a href="@Url.Action("stockcreate","home")" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-plus"></span></a></th></tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Stocks)
-                    {
-                        <tr>
-                            <td>@item.Length</td>
-                            <td>@item.Quantity</td>
-                            <td>
-                                <a href="@Url.Action("delete","home")" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                                <a href="@Url.Action("stockDetail","home",new { index = item.Id })" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-edit"></span></a>
-                                @using (Html.BeginForm("stockDelete", "Admin"))
-                                {
-                                    @Html.Hidden("id", item.id)
-                                    
-                                    <input type="submit" class="btn btn-default btn-xs" value="Delete" ><span class="glyphicon glyphicon-trash"></span></input>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-            A couper
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr><th>Longueur</th><th>Quantite</th><th><a href="@Url.Action("tocutcreate","home")" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-plus"></span></a></th></tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.ToCut)
-                    {
-                        <tr><td>@item.Length</td><td>@item.Quantity</td><td><a href="@Url.Action("delete","home")" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a><a href="@Url.Action("ToCutDetail","home",new { index = item.Id })" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-edit"></span></a></td></tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </article>
     <article class="row">
         <div class="col-md-12">
             @if (TempData["message"] != null)
@@ -66,19 +22,110 @@
         </div>
     </article>
 
-</section>
-<section class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <article class="row">
-        <div class="col-md-12">
-            Resultat
+
+        <div class="col-md-6">
+            <h4>A couper</h4>
             <table class="table table-bordered table-hover">
                 <thead>
-                    <tr><th>Longueur</th><th>Quantite</th><th>&nbsp</th></tr>
+                    <tr><th>Longueur</th><th>Quantite</th><th><a href="@Url.Action("tocutcreate","home")" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-plus"></span></a></th></tr>
                 </thead>
+                <tbody>
+                    @foreach (var item in Model.ToCut)
+                    {
+                        <tr>
+                            <td>@item.Length</td>
+                            <td>@item.Quantity</td>
+                            <td>
+                                @using (Html.BeginForm("toCutDelete", "home"))
+                                {
+                                    <a href="@Url.Action("toCutEdit","home",new { index = item.Id })" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-edit"></span></a>
+                                    @Html.Hidden("id", (object)item.Id)
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
+
+        <div class="col-md-6">
+            <h4>Stock</h4>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr><th>Longueur</th><th>Quantite</th><th> <a href="@Url.Action("stockcreate","home")" class="btn btn-danger"><span class="glyphicon glyphicon-plus"></span></a></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Stocks)
+                    {
+                        <tr>
+                            <td>@item.Length</td>
+                            <td>@item.Quantity</td>
+
+                            <td>
+                                @using (Html.BeginForm("stockDelete", "home"))
+                                {
+                                    <a href="@Url.Action("stockEdit","home",new { index = item.Id })" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-edit"></span></a>
+                                    @Html.Hidden("id", (object)item.Id)
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     </article>
 </section>
+@if (Model.Solve != null)
+{
+    <section class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <article class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Resultat</h3></div>
+                <div class="panel-body">
+                    <article class="row">
+                        <div class="col-lg-2 col-md-1">Longueur total  a couper <span class="label label-primary">@Model.Solve.TotalToCut</span></div>
+                        <div class="col-lg-2 col-md-1">Longueur total coupee <span class="label label-@if (Model.Solve.IsStockSuffisant) { Write("success"); } else { Write("danger"); } ">@Model.Solve.TotalCut</span></div>
+                        <div class="col-lg-2 col-md-1">Longueur total de chute <span class="label label-primary">@Model.Solve.TotalWaste</span></div>
+                        <div class="col-lg-2 col-md-1">Pourcentage de chute <span class="label label-primary">@Html.FormatValue(Model.Solve.WastePercentage, "{0:P2}")</span></div>
+                    </article>
+                    <article class="row">
+
+                        @foreach (var item in Model.Solve.CutPlan.Where(c => c.CutLength > 0).OrderBy(i => i.StockIndex))
+                        {
+                            
+                            <div class="col-md-3 col-lg-2 col-sm-4" >
+                                <h4>Dans <span class="badge"> @item.StockLength</span></h4>
+                                <h5>Reste: @item.Waste</h5>
+                                <table class="table table-bordered table-hover table-nonfluid">
+                                    <thead>
+                                        <tr><th>@Html.DisplayNameFor(x=>x.Stocks[0].Quantity)</th><th>@Html.DisplayNameFor(x => x.Stocks[0].Length)</th></tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        @foreach (var beam in item.Beams)
+                                        {
+                                            <tr><td>@beam.Quantity</td><td>@beam.Length</td></tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+
+                    </article>
+                </div>
+            </div>
+        </article>
+
+    </section>
+}
 <!--
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">Dashboard</h1>
