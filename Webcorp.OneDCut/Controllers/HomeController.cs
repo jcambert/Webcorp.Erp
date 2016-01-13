@@ -10,6 +10,7 @@ using Webcorp.lib.onedcut;
 using Ninject;
 using Webcorp.Model;
 using Webcorp.unite;
+using RazorPDF;
 
 namespace Webcorp.OneDCut.Controllers
 {
@@ -62,7 +63,10 @@ namespace Webcorp.OneDCut.Controllers
             return View(CutModel);
         }
 
-
+        public PdfResult Print()
+        {
+            return new PdfResult(CutModel,"Index");
+        }
         public ActionResult StockDetail(string index)
         {
             return View("StockDetail", CutModel.Stocks.Where(x => x.Id == index).FirstOrDefault());

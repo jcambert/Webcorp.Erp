@@ -5,6 +5,7 @@
     <article class="row">
         <div class="col-md-12">
             <a href="@Url.Action("calculate","home")" class="btn btn-danger @if (!Model.CanCalculate) { Write("disabled"); } "><span class="glyphicon glyphicon-tasks"></span></a>
+            <a href="@Url.Action("print","home")" class="btn btn-danger @if (Model.Solve==null) { Write("disabled"); } "><span class="glyphicon glyphicon-print"></span></a>
             <a href="@Url.Action("clear","home")" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
     </article>
