@@ -73,7 +73,7 @@ namespace Webcorp.lib.onedcut
                 totWaste += (gene.ObjectValue as CutPlan).Waste;
                 totStock += (gene.ObjectValue as CutPlan).StockLength;
             }
-            return (totWaste / totStock);
+            return (totWaste / totStock)*100;
         }
 
 
