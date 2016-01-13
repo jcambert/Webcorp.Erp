@@ -36,7 +36,10 @@ namespace Webcorp.lib.onedcut
         int MaxEvaluation { get; set; }
 
         void SaveParameters();
-        
+
+        int CuttingWidth { get; set; }
+
+        int MiniLength { get; set; }
 
     }
 }

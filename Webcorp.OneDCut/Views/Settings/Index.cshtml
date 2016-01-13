@@ -47,12 +47,30 @@
                 @Html.ValidationMessageFor(model => model.MutationProbability)
             </div>
         </div>
+        <hr/>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CuttingWidth, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.CuttingWidth, new { htmlAttributes = new { @class = "spinint" } })
+                @Html.ValidationMessageFor(model => model.CuttingWidth)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MiniLength, htmlAttributes: new { @class = "control-label col-md-3 col-lg-2 col-xs-4" })
+            <div class="col-md-3 col-lg-2 col-xs-4">
+                @Html.EditorFor(model => model.MiniLength, new { htmlAttributes = new { @class = "spinint" } })
+                @Html.ValidationMessageFor(model => model.MiniLength)
+            </div>
+        </div>
+        <hr/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-3 col-lg-4 col-xs-12">
                 <input type="submit" value="@ViewBag.SaveButton" class="btn btn-default" />
                 @Html.ActionLink("Annuler","Index", "home", null,new { @class = "btn btn-default" }) 
             </div>
         </div>
+       
+
     </div>
 }
 

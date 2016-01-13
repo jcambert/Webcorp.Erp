@@ -2,6 +2,7 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,11 @@ namespace Webcorp.lib.onedcut
             {
                 var cutplan = (gene.ObjectValue as CutPlan);
                 CutPlan.Add(cutplan);
-                _totalWaste += cutplan.Waste == cutplan.StockLength ? 0 : cutplan.Waste;
-                _totalStock += cutplan.Waste == cutplan.StockLength ? 0 : cutplan.StockLength;
+                if (Debugger.IsAttached  && cutplan.CutLength==2450) Debugger.Break();
+                _totalWaste += cutplan.IsRealWaste?cutplan.Waste:0 /*(cutplan.Waste == cutplan.StockLength && cutplan.IsRealWaste) ? 0 : cutplan.Waste*/;
+                _totalStock += (cutplan.Waste == cutplan.StockLength && cutplan.IsRealWaste) ? 0 : cutplan.StockLength;
                 _totalCut += cutplan.CutLength;
-                _totalUncut += cutplan.Waste == cutplan.StockLength ? cutplan.StockLength : 0;
+                _totalUncut += (cutplan.Waste == cutplan.StockLength && cutplan.IsRealWaste) ? cutplan.StockLength : 0;
                 _totalCuttingMass += cutplan.TotalCutMass;
                 _totalCuttingCost += cutplan.TotalCutCost;
                 _totalWasteCost += cutplan.TotalWasteCost;

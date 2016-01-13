@@ -205,7 +205,7 @@ namespace Webcorp.OneDCut.Controllers
             CutModel.Solve = null;
             var _beam = new Article() { Code = "IPE 80", Libelle = "IPE 80", MassLinear = MassLinear.Parse("6 kg/m"), AreaLinear = AreaLinear.Parse("0.328 m2/m"), AreaMass = AreaMass.Parse("54.64 m2/t") };
             _beam.MassCurrency = unite.MassCurrency.Parse("600 euro/tonne");
-
+           
             Solver.Beams = CutModel.ToBeamToCut(_beam);
             Solver.Stocks = CutModel.ToBeamStock();
             Solver.Beam = _beam;
@@ -246,6 +246,7 @@ namespace Webcorp.OneDCut.Controllers
             var result = new List<Stock>();
             result.Add(new Stock() {  Length = 4024, Quantity = 2 });
             result.Add(new Stock() {  Length = 1048, Quantity = 5 });
+            result.Add(new Stock() { Length = 100, Quantity = 20 });
             cutModel.ToCut = result;
         }
 

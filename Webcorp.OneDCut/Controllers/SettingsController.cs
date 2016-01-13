@@ -29,6 +29,8 @@ namespace Webcorp.OneDCut.Controllers
             param.InitialPopulationCount = settings.InitialPopulationCount;
             param.MaxEvaluation = settings.MaxEvaluation;
             param.MutationProbability = settings.MutationProbability;
+            param.CuttingWidth = settings.CuttingWidth;
+            param.MiniLength = settings.MiniLength;
            // param.Save();
             //return RedirectToAction("index","home");
             return View("index",settings);

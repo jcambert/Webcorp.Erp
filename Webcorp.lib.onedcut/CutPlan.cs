@@ -13,37 +13,51 @@ namespace Webcorp.lib.onedcut
     public class CutPlan:CustomReactiveObject
     {
         private List<CutBeam> _beams = new List<CutBeam>();
-        private int _cutLength;
+        private int _cutLength,_cuttingWidth, _miniLength;
         private Article _beam;
-        public CutPlan(int stockIndex,int stockLength, Article beam)
+        public CutPlan(int stockIndex,int stockLength,int cuttingWidth,int miniLength, Article beam)
         {
             this.StockIndex = stockIndex;
             this.StockLength = stockLength;
+            this._cuttingWidth = cuttingWidth;
+            this._miniLength = miniLength;
             this._beam = beam;
+            
         }
-
+        public int CutLengthWithCuttingLength => _cutLength + CutCount * _cuttingWidth;
+        public int CutCount => Beams.Count;
         public int StockIndex { get; private set; }
         public int StockLength { get; private set; }
         public int CutLength => _cutLength;
-        public int Waste => StockLength - _cutLength;
+        public int Waste => StockLength - CutLengthWithCuttingLength;
+        public bool IsWaste => _cutLength > 0;
+        public bool IsRealWaste
+        {
+            get
+            {
+             //   if (Debugger.IsAttached && Waste == 2450) Debugger.Break();
+                return Waste < _miniLength /*&& IsWaste*/;
+            }
+        }
+
         public List<CutBeam> Beams=> _beams;
 
         public MassLinear MassLinear => _beam.MassLinear;
 
-        public Mass TotalCutMass => MassLinear * _cutLength;
+        public Mass TotalCutMass => MassLinear * CutLengthWithCuttingLength;
 
-        public Currency TotalCutCost => _beam.CostLinear* _cutLength;
+        public Currency TotalCutCost => _beam.CostLinear* CutLengthWithCuttingLength;
 
-        public Currency TotalWasteCost => IsWaste? _beam.CostLinear * Waste:new Currency(0);
+        public Currency TotalWasteCost => (IsWaste && IsRealWaste )? _beam.CostLinear * Waste:new Currency(0);
 
-        public bool IsWaste => _cutLength > 0;
+       
 
         public bool IsUncut => !IsWaste;
 
         public bool AddCut(int index, int qty, int length)
         {
             if (qty == 0) return false;
-            if (qty * length + _cutLength <= StockLength)
+            if (qty * length + _cutLength +_cuttingWidth*(CutCount+ qty) <= StockLength)
             {
                 _cutLength += (qty * length);
                 _beams.Add(new CutBeam() { Quantity = qty, Length = length });

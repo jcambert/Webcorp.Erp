@@ -37,11 +37,12 @@ namespace Webcorp.lib.onedcut
         public int ElitePercentage
         {
             get { return _elite; }
-            set { this.RaiseAndSetIfChanged(ref _elite, value);Config.SetValue(_elite); }
+            set { this.RaiseAndSetIfChanged(ref _elite, value); Config.SetValue(_elite); }
         }
 
         int _popCount;
-        public int InitialPopulationCount {
+        public int InitialPopulationCount
+        {
             get { return _popCount; }
             set { this.RaiseAndSetIfChanged(ref _popCount, value); Config.SetValue(_popCount); }
         }
@@ -50,19 +51,33 @@ namespace Webcorp.lib.onedcut
         public int MaxEvaluation
         {
             get { return _max; }
-            set { this.RaiseAndSetIfChanged(ref _max, value);Config.SetValue(_max); }
+            set { this.RaiseAndSetIfChanged(ref _max, value); Config.SetValue(_max); }
         }
 
         double _mutation;
         public double MutationProbability
         {
             get { return _mutation; }
-            set { this.RaiseAndSetIfChanged(ref _mutation, value);Config.SetValue(_mutation); }
+            set { this.RaiseAndSetIfChanged(ref _mutation, value); Config.SetValue(_mutation); }
+        }
+
+        int _cuttinWidth;
+        public int CuttingWidth
+        {
+            get { return _cuttinWidth; }
+            set { this.RaiseAndSetIfChanged(ref _cuttinWidth, value); Config.SetValue(_cuttinWidth); }
+        }
+
+        int _miniLength;
+        public int MiniLength
+        {
+            get { return _miniLength; }
+            set { this.RaiseAndSetIfChanged(ref _miniLength, value); Config.SetValue(_miniLength); }
         }
 
         public void Save()
         {
-            
+
             Config.Save(ConfigurationSaveMode.Modified);
         }
         public void Dispose()

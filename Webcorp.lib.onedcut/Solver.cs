@@ -20,7 +20,7 @@ namespace Webcorp.lib.onedcut
         private Elite eliteOperator;
         private Crossover crossoverOperator;
         private SwapMutate mutateOperator;
-        private int cuttingWidth;
+        private int cuttingWidth,miniLength;
         private bool hasChanged, beamsChanged;
         private ReactiveList<BeamToCut> beams;
         private ReactiveList<BeamStock> stocks;
@@ -45,6 +45,8 @@ namespace Webcorp.lib.onedcut
         public double MutationProbability { get { return mutateOperator.MutationProbability; } set { mutateOperator.MutationProbability = value; this.RaisePropertyChanged(); } }
 
         public int CuttingWidth { get { return cuttingWidth; } set { this.RaiseAndSetIfChanged(ref cuttingWidth, value); } }
+
+        public int MiniLength { get { return miniLength; } set { this.RaiseAndSetIfChanged(ref miniLength, value); } }
 
         public ReactiveList<BeamToCut> Beams { get { return beams; } set { this.RaiseAndSetIfChanged(ref beams, value); } }
 
@@ -73,7 +75,7 @@ namespace Webcorp.lib.onedcut
                 totWaste += (gene.ObjectValue as CutPlan).Waste;
                 totStock += (gene.ObjectValue as CutPlan).StockLength;
             }
-            return (totWaste / totStock)*100;
+            return (totWaste / totStock)*100+1/totWaste;
         }
 
 
@@ -109,6 +111,8 @@ namespace Webcorp.lib.onedcut
             eliteOperator = new Elite(SolverParameter.ElitePercentage);
             crossoverOperator = new Crossover(SolverParameter.CrossoverProbability) { CrossoverType = CrossoverType.DoublePointOrdered };
             mutateOperator = new SwapMutate(SolverParameter.MutationProbability);
+            CuttingWidth = SolverParameter.CuttingWidth;
+            MiniLength = SolverParameter.MiniLength;
             internalInit();
 
         }
@@ -184,12 +188,12 @@ namespace Webcorp.lib.onedcut
             for (int i = 0; i < cuttingStock.Length; i++)
             {
                 var stock = cuttingStock[i];
-                var cutplan = new CutPlan(i, stock.Length, beam);
+                var cutplan = new CutPlan(i, stock.Length, CuttingWidth,MiniLength, beam);
 
                 for (int j = 0; j < beams.Count; j++)
                 {
                     var item = beams[j];
-                    int v = (int)System.Math.Floor((1.0 * stock.Length) / (item.Length + 2 * CuttingWidth));
+                    int v = (int)System.Math.Floor((1.0 * /*stock.Length*/cutplan.Waste) / (item.Length +  CuttingWidth));
                     v = System.Math.Min(v, item.Need);
                     if (cutplan.AddCut(j, v, item.Length))
                         item.Need -= v;

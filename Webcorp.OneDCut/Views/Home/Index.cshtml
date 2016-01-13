@@ -101,7 +101,7 @@
                             
                             <div class="col-md-3 col-lg-2 col-sm-4" >
                                 <h4>Dans <span class="badge"> @item.StockLength</span></h4>
-                                <h5>Reste: @item.Waste</h5>
+                                <h5>Reste: @item.Waste <span class="glyphicon glyphicon-@if (item.IsRealWaste) { Write("trash"); } else { Write("hdd"); }" aria-hidden="true"></span></h5>
                                 <table class="table table-bordered table-hover table-nonfluid">
                                     <thead>
                                         <tr><th>@Html.DisplayNameFor(x=>x.Stocks[0].Quantity)</th><th>@Html.DisplayNameFor(x => x.Stocks[0].Length)</th></tr>
@@ -111,7 +111,7 @@
 
                                         @foreach (var beam in item.Beams)
                                         {
-                                            <tr><td>@beam.Quantity</td><td>@beam.Length</td></tr>
+                                            <tr><td>@beam.Quantity</td><td>@beam.Length </td></tr>
                                         }
 
                                     </tbody>
