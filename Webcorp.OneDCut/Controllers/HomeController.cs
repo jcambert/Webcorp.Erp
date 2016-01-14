@@ -10,7 +10,8 @@ using Webcorp.lib.onedcut;
 using Ninject;
 using Webcorp.Model;
 using Webcorp.unite;
-using RazorPDF;
+using MvcRazorToPdf;
+using iTextSharp.text;
 
 namespace Webcorp.OneDCut.Controllers
 {
@@ -63,9 +64,12 @@ namespace Webcorp.OneDCut.Controllers
             return View(CutModel);
         }
 
-        public PdfResult Print()
+        public ActionResult Print()
         {
-            return new PdfResult(CutModel,"Index");
+            return new PdfActionResult(CutModel,(writer,document)=> {
+                document.SetPageSize(new Rectangle(500f, 500f, 90));
+                document.NewPage();
+            });
         }
         public ActionResult StockDetail(string index)
         {
