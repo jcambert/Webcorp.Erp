@@ -61,10 +61,6 @@
       <HintPath>..\packages\iTextSharp.5.5.8\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="itextsharp.xmlworker, Version=5.5.8.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itextsharp.xmlworker.5.5.8\lib\itextsharp.xmlworker.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="JavaScriptEngineSwitcher.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.Core.1.5.0-alpha1\lib\net40\JavaScriptEngineSwitcher.Core.dll</HintPath>
       <Private>True</Private>
@@ -76,10 +72,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MsieJavaScriptEngine, Version=1.7.0.0, Culture=neutral, PublicKeyToken=a3a2846a37ac0d3e, processorArchitecture=MSIL">
       <HintPath>..\packages\MsieJavaScriptEngine.1.7.0-alpha1\lib\net40\MsieJavaScriptEngine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MvcRazorToPdf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvcRazorToPdf.1.0.2\lib\40\MvcRazorToPdf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -422,6 +414,10 @@
     <ProjectReference Include="..\Webcorp.lib.onedcut\Webcorp.lib.onedcut.csproj">
       <Project>{bb268c6a-e4ef-49f2-b2b9-3ffab17263de}</Project>
       <Name>Webcorp.lib.onedcut</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcorp.lib.razorPdf\Webcorp.lib.razorPdf.csproj">
+      <Project>{2013018f-b600-43ee-abe6-916c9c94cc03}</Project>
+      <Name>Webcorp.lib.razorPdf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Webcorp.model\Webcorp.model.csproj">
       <Project>{2cc26d73-283e-4849-8cf9-2727dc88223c}</Project>

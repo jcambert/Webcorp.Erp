@@ -25,7 +25,15 @@ namespace Webcorp.lib.onedcut
             
         }
         public int CutLengthWithCuttingLength => _cutLength + CutCount * _cuttingWidth;
-        public int CutCount => Beams.Count;
+        public int CutCount
+        {
+            get
+            {
+                int result = 0;
+                Beams.ForEach(x => result += x.Quantity);
+                return result;
+            }
+        }
         public int StockIndex { get; private set; }
         public int StockLength { get; private set; }
         public int CutLength => _cutLength;
