@@ -245,7 +245,8 @@ namespace Webcorp.unite
             Mass value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Mass(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -270,7 +271,8 @@ namespace Webcorp.unite
             Mass value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Mass(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -298,7 +300,8 @@ namespace Webcorp.unite
             Mass value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Mass(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;

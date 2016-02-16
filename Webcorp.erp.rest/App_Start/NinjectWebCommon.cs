@@ -10,7 +10,10 @@ namespace Webcorp.erp.rest.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-
+    using Business;
+    using Dal;
+    using Ioc;
+    using System.Web.Http;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -40,6 +43,7 @@ namespace Webcorp.erp.rest.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectResolver(kernel);
             try
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
@@ -53,6 +57,7 @@ namespace Webcorp.erp.rest.App_Start
                 kernel.Dispose();
                 throw;
             }
+           
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace Webcorp.erp.rest.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Load(new ErpRestModule());
+            kernel.Load(new ErpRestModule(), new BusinessIoc(), new DalIoc());
         }        
     }
 }

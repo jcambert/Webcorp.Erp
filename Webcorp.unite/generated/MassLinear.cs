@@ -155,7 +155,8 @@ namespace Webcorp.unite
             MassLinear value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  MassLinear(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -180,7 +181,8 @@ namespace Webcorp.unite
             MassLinear value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  MassLinear(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -208,7 +210,8 @@ namespace Webcorp.unite
             MassLinear value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  MassLinear(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;

@@ -11,7 +11,7 @@
 	foreach (var line in lines1) {
   		  if (string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("//")) {
 		      continue;
-		  } 
+		  }
 
 		  var values=line.Split(',');
 		  var name = values[0];

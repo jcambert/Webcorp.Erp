@@ -153,7 +153,8 @@ namespace Webcorp.unite
             Currency value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Currency(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -178,7 +179,8 @@ namespace Webcorp.unite
             Currency value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Currency(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -206,7 +208,8 @@ namespace Webcorp.unite
             Currency value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Currency(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;

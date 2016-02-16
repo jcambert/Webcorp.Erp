@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using BundleTransformer.Core.Orderers;
+using BundleTransformer.Core.Transformers;
+using System.Web;
 using System.Web.Optimization;
 
 namespace Webcorp.erp.rest
@@ -8,6 +10,12 @@ namespace Webcorp.erp.rest
         // Pour plus d’informations sur le regroupement, rendez-vous sur http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+#if DEBUG
+            BundleTable.EnableOptimizations = false;
+#else
+            BundleTable.EnableOptimizations = true;
+#endif
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -20,9 +28,23 @@ namespace Webcorp.erp.rest
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+
+            #region Less Css Transformation
+            var cssTransformer = new StyleTransformer();
+            var jsTransformer = new ScriptTransformer();
+            var nullOrderer = new NullOrderer();
+
+            var css = new StyleBundle("~/Content/css")
+            .Include("~/Content/site.less");
+           // .Include("~/Content/jquery.bootstrap-touchspin.css");
+            css.Transforms.Add(cssTransformer);
+            css.Orderer = nullOrderer;
+            bundles.Add(css);
+            #endregion
+
+           /* bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css"));*/
         }
     }
 }

@@ -80,7 +80,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.lib.razorPdf", "Web
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "erp", "erp", "{337F7C1F-65EE-41C4-BDCE-14F20B239AC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp.rest", "Webcorp.erp.rest\Webcorp.erp.rest.csproj", "{54CE5FE3-8D63-4D6E-A896-A268ED979C0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webcorp.erp.ui", "Webcorp.erp.rest\Webcorp.erp.ui.csproj", "{54CE5FE3-8D63-4D6E-A896-A268ED979C0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,5 +16,7 @@ namespace Webcorp.Model
         T Find(params string[] keys);
 
         List<TKey> Keys { get; }
+
+        List<T> Entities { get; }
     }
 }

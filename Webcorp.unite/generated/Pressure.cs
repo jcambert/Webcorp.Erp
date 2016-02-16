@@ -305,7 +305,8 @@ namespace Webcorp.unite
             Pressure value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Pressure(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -330,7 +331,8 @@ namespace Webcorp.unite
             Pressure value;
             if (!unitProvider.TryParse(input, provider, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Pressure(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
@@ -358,7 +360,8 @@ namespace Webcorp.unite
             Pressure value;
             if (!unitProvider.TryParse(input, unitProvider.Culture, out value))
             {
-                throw new FormatException("Invalid format.");
+				return new  Pressure(0);
+                //throw new FormatException("Invalid format.");
             }
 
             return value;
