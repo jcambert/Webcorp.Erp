@@ -10,7 +10,7 @@ namespace Webcorp.unite
 
     public interface IUnit:IComparable,IFormattable
     {
-        double Value { get; }
+        double Value { get; set; }
 
         double ConvertTo(IUnit unit);
 
@@ -19,6 +19,8 @@ namespace Webcorp.unite
         IUnit Add(IUnit x);
 
         List<string> RegisteredSymbols { get; }
+
+        bool VariableValue { get; }
     }
 
     public interface IUnit<T> : IUnit, IEquatable<T>, IComparable<T>
@@ -35,8 +37,10 @@ namespace Webcorp.unite
     {
         public abstract List<string> RegisteredSymbols {get; }
 
-        public abstract double Value { get; }
-       
+        public abstract double Value { get; set; }
+
+        public abstract bool VariableValue { get; }
+
         public abstract IUnit Add(IUnit x);
 
         public abstract int CompareTo(T other);

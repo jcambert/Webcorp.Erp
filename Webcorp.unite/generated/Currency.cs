@@ -19,21 +19,26 @@ namespace Webcorp.unite
     using System;
 	using System.ComponentModel;
     using System.Globalization;
-    using System.Runtime.Serialization;
-    using System.Xml.Serialization;
 	using System.Collections.Generic;
+	using System.Runtime.Serialization;
+#if REACTIVE_CORE
+	using ReactiveCore;
+#endif
+#if MONGO
 	using MongoDB.Bson.Serialization.Attributes;
 	using MongoDB.Bson.Serialization.Serializers;
     using MongoDB.Bson.Serialization;
+#endif
 
     /// <summary>
     /// Represents the currency quantity.
     /// </summary>
-    [DataContract]
-#if !PCL
+    
+#if !CORE
     [Serializable]
-    [TypeConverter(typeof(UnitTypeConverter<Currency>))]
 #endif
+	[DataContract]
+	[TypeConverter(typeof(UnitTypeConverter<Currency>))]
     public partial class Currency : Unit<Currency>
     {
         /// <summary>
@@ -47,7 +52,7 @@ namespace Webcorp.unite
         /// The backing field for the <see cref="FrancSuisse" /> property.
         /// </summary>
 		[Unit("chf")]
-		public static Currency FrancSuisse = new Currency(0.91677212602022986044161280019245);
+		public static Currency FrancSuisse = new Currency(0.91677);
 
 		private readonly List<string> registeredSymbols;
 
@@ -113,20 +118,33 @@ namespace Webcorp.unite
 
             set
             {
+			#if REACTIVE_CORE
+				this.RaiseAndSetIfChanged(ref this.value, Parse(value, CultureInfo.InvariantCulture).value);
+			#else
                 this.value = Parse(value, CultureInfo.InvariantCulture).value;
+			#endif
             }
         }
 
         /// <summary>
-        /// Gets the value of the currency in the base unit.
+        /// Gets or sets the value of the currency in the base unit.
         /// </summary>
         public override double Value
         {
-            get
-            {
+            get{
                 return this.value;
             }
+
+			set{
+				this.value = value;
+			}
+
         }
+
+		 /// <summary>
+        /// Gets if currency is variable or not
+        /// </summary>
+		public override bool VariableValue { get {return true; } }
 
         /// <summary>
         /// Converts a string representation of a quantity in a specific culture-specific format with a specific unit provider.
@@ -684,7 +702,7 @@ namespace Webcorp.unite
             return unitProvider.Format(format, formatProvider, this);
         }
     }
-
+#if MONGO
 	public class CurrencySerializer:SerializerBase<Currency>{
 		public override Currency Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
@@ -696,4 +714,10 @@ namespace Webcorp.unite
             return base.Deserialize(context, args);
         } 
 	}
+#endif
+	public enum CurrencyUnit{
+		Euro,
+		FrancSuisse
+	}
+
 }

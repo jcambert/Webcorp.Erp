@@ -7,9 +7,10 @@
 // http://en.wikipedia.org/wiki/Phenomenon
 // http://en.wikipedia.org/wiki/Unit_prefix
 
-// Currency (special case)
+// Currency (special case because coef may be changed)
 Currency,Euro,euro eur,1
-Currency,FrancSuisse,chf,0.91677212602022986044161280019245
+Currency,FrancSuisse,chf,0.91677
+
 
 //MassCurrency
 MassCurrency,EuroKilogramme,euro/kg,1
@@ -351,9 +352,10 @@ TypographicLength,Inch,in,0.0254
 
 TypographicResolution,DotsPerInch,dpi,1 / 0.0254
 
-
 // TimeSquared - to allow "m/(s*s)""
 TimeSquared,SecondSquared,s^2,1
+
+
 
 // VelocitySquared - to allow "(m/s)^2"
 VelocitySquared,MetreSquaredPerSecondSquared,m^2/s^2,1

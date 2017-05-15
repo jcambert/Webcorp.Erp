@@ -19,21 +19,26 @@ namespace Webcorp.unite
     using System;
 	using System.ComponentModel;
     using System.Globalization;
-    using System.Runtime.Serialization;
-    using System.Xml.Serialization;
 	using System.Collections.Generic;
+	using System.Runtime.Serialization;
+#if REACTIVE_CORE
+	using ReactiveCore;
+#endif
+#if MONGO
 	using MongoDB.Bson.Serialization.Attributes;
 	using MongoDB.Bson.Serialization.Serializers;
     using MongoDB.Bson.Serialization;
+#endif
 
     /// <summary>
     /// Represents the dynamic viscosity quantity.
     /// </summary>
-    [DataContract]
-#if !PCL
+    
+#if !CORE
     [Serializable]
-    [TypeConverter(typeof(UnitTypeConverter<DynamicViscosity>))]
 #endif
+	[DataContract]
+	[TypeConverter(typeof(UnitTypeConverter<DynamicViscosity>))]
     public partial class DynamicViscosity : Unit<DynamicViscosity>
     {
         /// <summary>
@@ -130,20 +135,33 @@ namespace Webcorp.unite
 
             set
             {
+			#if REACTIVE_CORE
+				this.RaiseAndSetIfChanged(ref this.value, Parse(value, CultureInfo.InvariantCulture).value);
+			#else
                 this.value = Parse(value, CultureInfo.InvariantCulture).value;
+			#endif
             }
         }
 
         /// <summary>
-        /// Gets the value of the dynamic viscosity in the base unit.
+        /// Gets or sets the value of the dynamic viscosity in the base unit.
         /// </summary>
         public override double Value
         {
-            get
-            {
+            get{
                 return this.value;
             }
+
+			set{
+				this.value = value;
+			}
+
         }
+
+		 /// <summary>
+        /// Gets if dynamic viscosity is variable or not
+        /// </summary>
+		public override bool VariableValue { get {return false; } }
 
         /// <summary>
         /// Converts a string representation of a quantity in a specific culture-specific format with a specific unit provider.
@@ -701,7 +719,7 @@ namespace Webcorp.unite
             return unitProvider.Format(format, formatProvider, this);
         }
     }
-
+#if MONGO
 	public class DynamicViscositySerializer:SerializerBase<DynamicViscosity>{
 		public override DynamicViscosity Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
@@ -713,4 +731,10 @@ namespace Webcorp.unite
             return base.Deserialize(context, args);
         } 
 	}
+#endif
+	public enum DynamicViscosityUnit{
+		PascalSecond,
+		NewtonSecond
+	}
+
 }

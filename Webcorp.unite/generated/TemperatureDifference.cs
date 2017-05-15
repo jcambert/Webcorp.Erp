@@ -19,21 +19,26 @@ namespace Webcorp.unite
     using System;
 	using System.ComponentModel;
     using System.Globalization;
-    using System.Runtime.Serialization;
-    using System.Xml.Serialization;
 	using System.Collections.Generic;
+	using System.Runtime.Serialization;
+#if REACTIVE_CORE
+	using ReactiveCore;
+#endif
+#if MONGO
 	using MongoDB.Bson.Serialization.Attributes;
 	using MongoDB.Bson.Serialization.Serializers;
     using MongoDB.Bson.Serialization;
+#endif
 
     /// <summary>
     /// Represents the temperature difference quantity.
     /// </summary>
-    [DataContract]
-#if !PCL
+    
+#if !CORE
     [Serializable]
-    [TypeConverter(typeof(UnitTypeConverter<TemperatureDifference>))]
 #endif
+	[DataContract]
+	[TypeConverter(typeof(UnitTypeConverter<TemperatureDifference>))]
     public partial class TemperatureDifference : Unit<TemperatureDifference>
     {
         /// <summary>
@@ -145,20 +150,33 @@ namespace Webcorp.unite
 
             set
             {
+			#if REACTIVE_CORE
+				this.RaiseAndSetIfChanged(ref this.value, Parse(value, CultureInfo.InvariantCulture).value);
+			#else
                 this.value = Parse(value, CultureInfo.InvariantCulture).value;
+			#endif
             }
         }
 
         /// <summary>
-        /// Gets the value of the temperature difference in the base unit.
+        /// Gets or sets the value of the temperature difference in the base unit.
         /// </summary>
         public override double Value
         {
-            get
-            {
+            get{
                 return this.value;
             }
+
+			set{
+				this.value = value;
+			}
+
         }
+
+		 /// <summary>
+        /// Gets if temperature difference is variable or not
+        /// </summary>
+		public override bool VariableValue { get {return false; } }
 
         /// <summary>
         /// Converts a string representation of a quantity in a specific culture-specific format with a specific unit provider.
@@ -716,7 +734,7 @@ namespace Webcorp.unite
             return unitProvider.Format(format, formatProvider, this);
         }
     }
-
+#if MONGO
 	public class TemperatureDifferenceSerializer:SerializerBase<TemperatureDifference>{
 		public override TemperatureDifference Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
@@ -728,4 +746,11 @@ namespace Webcorp.unite
             return base.Deserialize(context, args);
         } 
 	}
+#endif
+	public enum TemperatureDifferenceUnit{
+		Kelvin,
+		DegreeCelsius,
+		DegreeFahrenheit
+	}
+
 }

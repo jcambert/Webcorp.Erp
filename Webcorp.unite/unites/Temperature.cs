@@ -38,7 +38,7 @@ namespace Webcorp.unite
         public Temperature(double value)
         {
             this.value = value;
-            registeredSymbols = new List<string>() {"°C","C","degc","°F","F","degF" };
+            registeredSymbols = new List<string>() { "°C", "C", "degc", "°F", "F", "degF" };
         }
 
         public Temperature(string value, IUnitProvider unitProvider = null)
@@ -93,13 +93,16 @@ namespace Webcorp.unite
         /// <value> The value. </value>
         public double Value
         {
-            get
-            {
-                return this.value;
-            }
+            get { return this.value; }
+            set {  throw new NotSupportedException("Temperature Doesn't support base value changing"); }
         }
 
         public List<string> RegisteredSymbols => registeredSymbols;
+
+
+
+        public bool VariableValue => false;
+
 
         /// <summary>
         /// Parses the specified string.
